@@ -71,7 +71,7 @@ public sealed record HarnessOptions
     public ISandbox Sandbox { get; init; } = Harness.CreateDefaultSandbox();
     /// <summary>Local session settings, enabled by default.</summary>
     public SessionOptions Session { get; init; } = new();
-    /// <summary>Core options pass through. Explicit model, prompt, auxiliary model and session store take precedence; tools are additive.</summary>
+    /// <summary>Core options pass through. Explicit model, string or typed prompt (including empty content), auxiliary model and session store take precedence; tools are additive.</summary>
     public AgentOptions? AgentOptions { get; init; }
 }
 

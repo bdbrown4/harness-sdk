@@ -211,6 +211,9 @@
     <Compile Include="../Strands.Agents.Tests/Mcp/McpNegotiatedTaskTests.cs" Link="Mcp/McpNegotiatedTaskTests.cs" />
     <Compile Include="../Strands.Bedrock.Tests/BedrockTimingMetadataTests.cs" Link="Bedrock/BedrockTimingMetadataTests.cs" />
     <Compile Include="../Strands.Agents.Tests/AgentToolOptionsTests.cs" Link="AgentToolOptionsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/LegacyAgentToolCancellationTests.cs" Link="LegacyAgentToolCancellationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentInitializationCancellationTests.cs" Link="AgentInitializationCancellationTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessSystemPromptTests.cs" Link="Harness/HarnessSystemPromptTests.cs" />
     <Compile Include="../Strands.Agents.Tests/AgentDelegationTests.cs" Link="AgentDelegationTests.cs" />
     <Compile Include="../Strands.Agents.Tests/AgentToolInterruptTests.cs" Link="AgentToolInterruptTests.cs" />
     <Compile Include="../Strands.Agents.Tests/AgentScopedToolsTests.cs" Link="AgentScopedToolsTests.cs" />

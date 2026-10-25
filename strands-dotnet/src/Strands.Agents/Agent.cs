@@ -195,7 +195,11 @@ public sealed partial class Agent : IAsyncDisposable
         MutateApplicationTools(tools, ApplicationToolMutation.Add);
     }
 
-    /// <summary>Restores the session and initializes plugins once; subsequent calls share the same success or failure.</summary>
+    /// <summary>Restores the session and initializes plugins once; subsequent calls share the same success, failure, or admitted cancellation.</summary>
+    /// <remarks>
+    /// A token canceled before admission does not start or cache an initialization attempt. After admission, cancellation is terminal for this instance; dispose it and create a fresh agent to retry.
+    /// Rollback attempts SDK-owned cleanup but does not undo accepted restored state or application callback effects.
+    /// </remarks>
     public Task InitializeAsync(CancellationToken cancellationToken = default) =>
         InitializeAsync(cancellationToken, preserveCheckpointHistory: false);
 
@@ -648,7 +652,7 @@ public sealed partial class Agent : IAsyncDisposable
         }
     }
 
-    /// <summary>Exposes this agent's configuration as a tool. Every call creates a fresh conversation without a session. A derived name replaces unsupported characters with underscores and is limited to 64 characters; explicit names are validated unchanged.</summary>
+    /// <summary>Exposes this agent's configuration as a tool. Every call creates a fresh conversation without a session. A cancelled child fails the tool call. A derived name replaces unsupported characters with underscores and is limited to 64 characters; explicit names are validated unchanged.</summary>
     public ITool AsTool(string? name = null, string? description = null)
     {
         var schema = JsonSerializer.SerializeToElement(new
@@ -663,7 +667,10 @@ public sealed partial class Agent : IAsyncDisposable
         {
             var child = CreateChild();
             await using var childScope = child.ConfigureAwait(false);
-            return (await child.InvokeAsync(input.GetProperty("task").GetString()!, new() { InvocationState = context.InvocationState }, ct).ConfigureAwait(false)).ToString();
+            var result = await child.InvokeAsync(input.GetProperty("task").GetString()!, new() { InvocationState = context.InvocationState }, ct).ConfigureAwait(false);
+            ct.ThrowIfCancellationRequested();
+            if (result.StopReason == StopReasons.Cancelled) throw new OperationCanceledException($"Agent '{toolName}' cancelled.", ct);
+            return result.ToString();
         });
     }
 

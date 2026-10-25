@@ -85,6 +85,14 @@ Owned shell and Monty binary process paths use the [byte-safe process adapter](.
 
 Both pipes drain concurrently and excess captured bytes are marked/discarded. Modern assets use platform process-tree termination and bounded drain cleanup, with limits for inaccessible or already-orphaned descendants. Legacy Windows uses a kill-on-close Job Object and a bounded handshake that keeps user command code opaque until attachment succeeds. Unsupported legacy platforms and failed job assignment do not release the command. This is host execution with process permissions, without isolation or approval. File-only custom sandboxes do not gain host command authority; explicitly selected unsupported capabilities fail clearly.
 
+## Web access
+
+The curl `web_fetch` transport's 5 MiB body bound also requires room for its encoded output within the selected sandbox's capture policy. A caller-supplied `new LocalFileSandbox()` retains its 1 MiB hard capture cap. Use `new LocalFileSandbox(shellOptions: new() { MaxOutputBytes = 8 * 1024 * 1024 })` to allow the full 5 MiB curl body envelope. Harness-created default sandboxes use that 8 MiB policy. Truncated capture fails explicitly; the tool never raises a caller's hard limit.
+
+For repeated Exa searches, reuse an application-owned `HttpClient` through `ExaWebSearchConfig.HttpClient`. Each query still owns and disposes its MCP session. The supplied HTTP client remains caller-owned and must stay alive until its calls finish.
+
+Direct web fetching and Exa use harness-process networking; local curl uses host networking. Private and link-local addresses remain reachable when that network permits them. Applications must select their network and sandbox policies accordingly; URL validation and quoting do not provide network isolation.
+
 ## Feature scope and release status
 
 Parity means equivalent application capabilities through supported native .NET APIs. The harness combines provider resolution, context/memory, skills, sessions, MCP, web/filesystem/shell tools, genuine Monty execution, delegation, background tasks, interventions and tracing. Cedar policy binding is optional and uses an explicit factory. The [feature contract](../strands-dotnet/docs/PARITY.md#scope-and-current-acceptance) records the source pin and native limits.

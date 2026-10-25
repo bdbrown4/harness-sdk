@@ -103,7 +103,7 @@ public static class Harness
             agent = new Agent(core with
             {
                 AuxModel = core.AuxModel ?? options.AuxModel,
-                SystemPrompt = core.SystemPrompt ?? HarnessPrompt.Build(options.Instructions),
+                SystemPrompt = core.SystemPrompt ?? (core.SystemPromptContent is null ? HarnessPrompt.Build(options.Instructions) : null),
                 Tools = tools,
                 ToolProviders = providers,
                 SessionStore = sessionStore,
