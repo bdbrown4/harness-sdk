@@ -1,0 +1,16 @@
+# Ubuntu 20.04 establishes a glibc 2.31 build baseline for the linux-x64 asset.
+FROM ubuntu:20.04@sha256:c664f8f86ed5a386b0a340d981b8f81714e21a8b9c73f658c4bea56aa179d54a
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y ca-certificates curl build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV RUSTUP_HOME=/opt/rustup CARGO_HOME=/opt/cargo PATH=/opt/cargo/bin:$PATH
+RUN curl --fail --silent --show-error --location \
+      https://static.rust-lang.org/rustup/archive/1.29.0/x86_64-unknown-linux-gnu/rustup-init \
+      --output /tmp/rustup-init \
+    && echo '4acc9acc76d5079515b46346a485974457b5a79893cfb01112423c89aeb5aa10  /tmp/rustup-init' | sha256sum --check \
+    && chmod +x /tmp/rustup-init \
+    && /tmp/rustup-init -y --no-modify-path --profile minimal --default-toolchain 1.97.0 --component rustfmt \
+    && rm /tmp/rustup-init \
+    && chmod -R a+rX /opt/rustup /opt/cargo

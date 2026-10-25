@@ -1,0 +1,22 @@
+{
+  "Capability": "Standalone insertion-ordered ToolRegistry CRUDL and explicit direct name resolution",
+  "UpstreamCommit": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "NativeBaseline": "Exact d7c3c24 source archive; no moving main overlay",
+  "Contracts": 26,
+  "ObservedRuntimeRedDistinctContracts": 9,
+  "FirstGreenConformance": 17,
+  "Owned": [
+    "strands-dotnet/src/Strands.Agents/ToolRegistry.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/ToolRegistry/ToolRegistryTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/ToolRegistry/ToolRegistrySafetyTests.cs",
+    "strands-dotnet/docs/TOOL_REGISTRY.md",
+    "strands-dotnet/docs/TOOL_REGISTRY_SCOPE.json"
+  ],
+  "CompatibilityProjectAdditionOnly": "<Compile Include=\"../Strands.Agents.Tests/ToolRegistry/**/*.cs\" Link=\"ToolRegistry/%(RecursiveDir)%(Filename)%(Extension)\" />",
+  "Defaults": { "NameConflictPolicy": "RejectNormalized", "Resolve": "Exact", "GetAndTryGet": "Exact" },
+  "ExplicitPolicies": ["ExactOnly registration conflicts", "UnderscoreAlias Python direct resolution", "TypeScriptDirect alias followed by insertion-order case fallback"],
+  "NativeDifferences": ["Atomic batch publication rather than sequential upstream mutation", "Native argument and KeyNotFoundException failures", "ToolSpec nonblank description requirement retained", "Serialized registry operations; borrowed tool implementations retain their own concurrency contract"],
+  "NotIncluded": ["Agent-bound facade and admission/filter/pending-tool integration", "Any change to model-issued lookup", "Provider acquisition or refresh leases", "Module/directory discovery or hot reload", "Tool disposal or resource ownership"],
+  "FullParity": false,
+  "ReleaseReady": false
+}

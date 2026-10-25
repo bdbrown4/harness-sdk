@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Strands.Agents/Strands.Agents.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,66 @@
+using System.ComponentModel;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using Amazon;
+using Amazon.Runtime;
+using Strands.Agents.Bedrock;
+
+internal static class Program
+{
+    private static async Task<int> Main(string[] args)
+    {
+        if (args.Length != 1 || !int.TryParse(args[0], out var expected) || expected != IntPtr.Size || expected is not (4 or 8))
+            throw new InvalidOperationException("Unexpected native consumer process architecture.");
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) throw new PlatformNotSupportedException("This consumer verifies Windows Framework packages.");
+        if (typeof(BedrockNovaSonicModel).Assembly.GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName != ".NETStandard,Version=v2.0")
+            throw new InvalidOperationException("Framework must select the normal packaged .NET Standard 2.0 asset.");
+        var credentials = new UnusedCredentials();
+        await using (var model = new BedrockNovaSonicModel(credentials, RegionEndpoint.USEast1,
+            new BedrockNovaSonicModelOptions { ModelId = "amazon.nova-2-sonic-v1:0" }))
+        {
+            if (model.Metadata.ModelId != "amazon.nova-2-sonic-v1:0" || model.GetConfig().ModelId != model.Metadata.ModelId ||
+                model.Audio.Input.SampleRate != 16000 || model.Audio.Output.SampleRate != 24000)
+                throw new InvalidOperationException("Disconnected public Nova metadata/configuration was not preserved.");
+        }
+        if (credentials.Reads != 0) throw new InvalidOperationException("Disconnected construction/disposal must not obtain credentials or start a request.");
+        var directory = Path.GetDirectoryName(typeof(BedrockNovaSonicModel).Assembly.Location)!;
+        foreach (var rid in new[] { "win-x64", "win-x86" })
+            if (!File.Exists(Path.Combine(directory, "runtimes", rid, "native", "strands-nova-crt.dll")))
+                throw new InvalidOperationException("Both packaged native architectures must be present.");
+        var path = Path.GetFullPath(Path.Combine(directory, "runtimes", expected == 4 ? "win-x86" : "win-x64", "native", "strands-nova-crt.dll"));
+        var module = LoadLibraryEx(path, IntPtr.Zero, 0x100 | 0x1000);
+        if (module == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error(), "Cannot load the exact packaged native Nova DLL.");
+        try
+        {
+            var address = GetProcAddress(module, "strands_crt_abi_version");
+            if (address == IntPtr.Zero) throw new EntryPointNotFoundException("strands_crt_abi_version");
+            var version = Marshal.GetDelegateForFunctionPointer<Abi>(address);
+            if (version() != 2) throw new InvalidOperationException("The packaged Nova transport ABI must be version 2.");
+            GC.KeepAlive(version);
+        }
+        finally { FreeLibrary(module); }
+        Console.WriteLine($"Nova runtime: {RuntimeInformation.FrameworkDescription}; architecture={RuntimeInformation.ProcessArchitecture}");
+        Console.WriteLine($"Nova package: pointer={expected}; asset=netstandard2.0; abi=2; network=false");
+        Console.WriteLine("PASS framework48-nova-native-abi-smoke");
+        return 0;
+    }
+
+    private sealed class UnusedCredentials : AWSCredentials
+    {
+        internal int Reads;
+        public override ImmutableCredentials GetCredentials()
+        {
+            Reads++;
+            throw new InvalidOperationException("A disconnected package smoke must not resolve credentials.");
+        }
+    }
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate int Abi();
+    [DllImport("kernel32", EntryPoint = "LoadLibraryExW", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern IntPtr LoadLibraryEx(string path, IntPtr reserved, uint flags);
+    [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true)]
+    private static extern IntPtr GetProcAddress(IntPtr module, string name);
+    [DllImport("kernel32")][return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool FreeLibrary(IntPtr module);
+}

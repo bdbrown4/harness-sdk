@@ -1,0 +1,12 @@
+<Project>
+  <Target Name="CopyHarnessModuleFixture" AfterTargets="Build" Condition="'$(TargetFramework)' != ''">
+    <MSBuild Projects="$(MSBuildThisFileDirectory)Strands.Harness.ModuleFixture/Strands.Harness.ModuleFixture.csproj" Targets="GetTargetPath" Properties="TargetFramework=netstandard2.0;Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="_HarnessModuleFixture" />
+    </MSBuild>
+    <Copy SourceFiles="@(_HarnessModuleFixture)" DestinationFolder="$(OutDir)ModuleFixture" SkipUnchangedFiles="true" />
+    <MSBuild Projects="$(MSBuildThisFileDirectory)Strands.Harness.ModuleConflictFixture/Strands.Harness.ModuleConflictFixture.csproj" Targets="GetTargetPath" Properties="TargetFramework=netstandard2.0;Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="_HarnessModuleConflictFixture" />
+    </MSBuild>
+    <Copy SourceFiles="@(_HarnessModuleConflictFixture)" DestinationFolder="$(OutDir)ModuleConflictFixture" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

@@ -1,0 +1,84 @@
+{
+  "Scope": "Invocation activity usage: TS/Python lifetime default and Python latest-invocation environment alternative",
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "ParentCaptures": [
+    "usage-presence9-captured",
+    "identity-writer5-captured"
+  ],
+  "Contracts": 6,
+  "RuntimeRedToGreen": 3,
+  "FirstGreenConformance": 3,
+  "PassingExecutions": 920,
+  "NewPassingExecutions": 36,
+  "TrxFiles": 6,
+  "Failed": 0,
+  "Skipped": 0,
+  "Runs": [
+    {
+      "Path": "work/telemetry-results/invocation-usage6-final/net48-x64/18126_DESKTOP-47NGAFF_2026-10-21_01_41_32_net48.trx",
+      "Total": 154,
+      "Passed": 154,
+      "NewCases": 6,
+      "Sha256": "A2B8B7D04C6759C95294AE3A3772CFA548F0782421AAAE16524ECD22BE8716C2"
+    },
+    {
+      "Path": "work/telemetry-results/invocation-usage6-final/net48-x86/18126_DESKTOP-47NGAFF_2026-10-21_01_41_43_net48.trx",
+      "Total": 154,
+      "Passed": 154,
+      "NewCases": 6,
+      "Sha256": "150545517376648690947EF3FDF75F30F67398404ECB4B10E6FEB0DCA9DEFB01"
+    },
+    {
+      "Path": "work/telemetry-results/invocation-usage6-final/Strands.Agents.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_01_40_50_net10.0.trx",
+      "Total": 153,
+      "Passed": 153,
+      "NewCases": 6,
+      "Sha256": "06151684AAE09F5627EAA4CAE9F61D3A0C231ACD98A9ADF8FD8D93F1547D3191"
+    },
+    {
+      "Path": "work/telemetry-results/invocation-usage6-final/Strands.Agents.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_01_40_37_net8.0.trx",
+      "Total": 153,
+      "Passed": 153,
+      "NewCases": 6,
+      "Sha256": "BA0341C14563061F7E63D0CF118A64609B6AB1B9CA8D828C31B60947BE4E78FC"
+    },
+    {
+      "Path": "work/telemetry-results/invocation-usage6-final/Strands.Compatibility.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_01_41_20_net10.0.trx",
+      "Total": 153,
+      "Passed": 153,
+      "NewCases": 6,
+      "Sha256": "521821F72255A3980975D73E681E81DD17CDCE65975E7D3C6423F1122DB4050D"
+    },
+    {
+      "Path": "work/telemetry-results/invocation-usage6-final/Strands.Compatibility.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_01_41_08_net8.0.trx",
+      "Total": 153,
+      "Passed": 153,
+      "NewCases": 6,
+      "Sha256": "5C9E2772EA4E57ACADD270701825871969327ACC2FA993006A244823679AD61D"
+    }
+  ],
+  "RuntimeRed": "work/telemetry-results/invocation-usage6-red",
+  "SourceEvidence": [
+    "strands-ts/src/agent/agent.ts:1977",
+    "strands-py/src/strands/telemetry/tracer.py:129",
+    "strands-py/src/strands/telemetry/tracer.py:849"
+  ],
+  "Policy": "OTEL_SEMCONV_STABILITY_OPT_IN token gen_ai_use_latest_invocation_tokens captured with other conventions at tracer construction; otherwise accumulated lifetime model usage including evicted history",
+  "PublicApi": "No new public option or signature; internal policy access reuses existing environment convention contract",
+  "Formatting": "All four owned CSharp files positively selected then scoped verify clean",
+  "Compatibility": "Actual installed Framework release534296, x64/x86 pointer-size validator passed; not clean4.8-only",
+  "PeerReview": "Independent bounded read-only review PASS; no confirmed P1/P2. Checked lifetime default against pinned TS/Python, exact opt-in token, constructor snapshot, history eviction, failed later calls and six contract cases.",
+  "SourceFiles": [
+    "strands-dotnet/src/Strands.Agents/Agent.Telemetry.cs",
+    "strands-dotnet/src/Strands.Agents/Telemetry/TraceConventions.cs",
+    "strands-dotnet/src/Strands.Agents/Telemetry/Tracer.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/InvocationUsageTelemetryTests.cs",
+    "strands-dotnet/docs/AGENT_TELEMETRY.md",
+    "strands-dotnet/docs/TELEMETRY.md"
+  ],
+  "Remaining": [
+    "Combined integration/package/crossOS gate",
+    "TS hook-resume run boundaries and other telemetry families",
+    "Current macOS/clean4.8-only proof"
+  ]
+}

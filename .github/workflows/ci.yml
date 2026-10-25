@@ -24,6 +24,9 @@ jobs:
       mcp: ${{ steps.filter.outputs.mcp }}
       harness-py: ${{ steps.filter.outputs.harness-py }}
       harness-ts: ${{ steps.filter.outputs.harness-ts }}
+      dotnet: ${{ steps.filter.outputs.dotnet }}
+      dotnet-cedar: ${{ steps.filter.outputs.dotnet-cedar }}
+      dotnet-monty: ${{ steps.filter.outputs.dotnet-monty }}
       strands-cli: ${{ steps.filter.outputs.strands-cli }}
       pr-metrics: ${{ steps.filter.outputs.pr-metrics }}
     steps:
@@ -59,6 +62,55 @@ jobs:
             harness-ts:
               - 'harness-ts/**/!(*.md)'
               - '.github/workflows/harness-ts-*'
+              - '.github/workflows/ci.yml'
+            dotnet:
+              - 'strands-dotnet/**/!(*.md)'
+              - 'harness-dotnet/**/!(*.md)'
+              # These files are NuGet package inputs, including the package READMEs.
+              - 'strands-dotnet/README.md'
+              - 'strands-dotnet/src/Strands.Agents.Bedrock/README.md'
+              - 'strands-dotnet/src/Strands.Agents.Bidi/README.md'
+              - 'strands-dotnet/src/Strands.Agents.SageMaker/README.md'
+              - 'strands-dotnet/src/Strands.Agents.OpenTelemetry/README.md'
+              - 'strands-dotnet/src/Strands.Agents.GoogleAuth/README.md'
+              - 'strands-dotnet/src/Strands.Agents.S3/README.md'
+              - 'strands-dotnet/src/Strands.Agents.BedrockKnowledgeBase/README.md'
+              - 'strands-dotnet/src/Strands.Agents.Sqlite/README.md'
+              - 'strands-dotnet/src/Strands.Agents.Bidi.Audio/README.md'
+              - 'harness-dotnet/README.md'
+              - 'LICENSE.APACHE'
+              - 'NOTICE'
+              - '.github/workflows/dotnet-*'
+              - '.github/workflows/ci.yml'
+            dotnet-cedar:
+              - 'strands-dotnet/README.md'
+              - 'strands-dotnet/.editorconfig'
+              - 'strands-dotnet/src/Strands.Agents.Cedar/**'
+              - 'strands-dotnet/tests/Strands.Cedar.Tests/**'
+              - 'strands-dotnet/src/Strands.Agents/**/!(*.md)'
+              - 'strands-dotnet/Strands.Cedar.slnx'
+              - 'strands-dotnet/Directory.Build.*'
+              - 'strands-dotnet/global.json'
+              - 'strands-dotnet/CompilerCompatibility.cs'
+              - 'strands-dotnet/scripts/Test-CedarFramework48.ps1'
+              - 'LICENSE.APACHE'
+              - 'NOTICE'
+              - '.github/workflows/dotnet-cedar.yml'
+              - '.github/workflows/ci.yml'
+            dotnet-monty:
+              - 'strands-dotnet/README.md'
+              - 'strands-dotnet/.editorconfig'
+              - 'strands-dotnet/src/Strands.Agents.Monty/**'
+              - 'strands-dotnet/tests/Strands.Monty.Tests/**'
+              - 'strands-dotnet/src/Strands.Agents/**/!(*.md)'
+              - 'strands-dotnet/Strands.Monty.slnx'
+              - 'strands-dotnet/Directory.Build.*'
+              - 'strands-dotnet/global.json'
+              - 'strands-dotnet/CompilerCompatibility.cs'
+              - 'strands-dotnet/scripts/Test-MontyFramework48.ps1'
+              - 'LICENSE.APACHE'
+              - 'NOTICE'
+              - '.github/workflows/dotnet-monty.yml'
               - '.github/workflows/ci.yml'
             strands-cli:
               - 'strands-cli/**/!(*.md)'
@@ -156,6 +208,59 @@ jobs:
     with:
       ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
+  dotnet:
+    name: .NET
+    needs: [detect-changes, dotnet-monty, dotnet-portaudio, dotnet-nova]
+    if: needs.detect-changes.outputs.dotnet == 'true'
+    uses: ./.github/workflows/dotnet-test-lint.yml
+    permissions:
+      contents: read
+    with:
+      ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      native-assets-ready: true
+      portaudio-assets-ready: true
+      nova-assets-ready: true
+
+  dotnet-portaudio:
+    name: .NET PortAudio Windows assets
+    needs: detect-changes
+    if: needs.detect-changes.outputs.dotnet == 'true'
+    uses: ./.github/workflows/dotnet-portaudio.yml
+    permissions:
+      contents: read
+    with:
+      ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+  dotnet-nova:
+    name: .NET Nova Windows transport
+    needs: detect-changes
+    if: needs.detect-changes.outputs.dotnet == 'true'
+    uses: ./.github/workflows/dotnet-nova.yml
+    permissions:
+      contents: read
+    with:
+      ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+  dotnet-cedar:
+    name: .NET Cedar native runtimes
+    needs: detect-changes
+    if: needs.detect-changes.outputs.dotnet == 'true' || needs.detect-changes.outputs.dotnet-cedar == 'true'
+    uses: ./.github/workflows/dotnet-cedar.yml
+    permissions:
+      contents: read
+    with:
+      ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+  dotnet-monty:
+    name: .NET Monty native runtimes
+    needs: detect-changes
+    if: needs.detect-changes.outputs.dotnet == 'true' || needs.detect-changes.outputs.dotnet-monty == 'true'
+    uses: ./.github/workflows/dotnet-monty.yml
+    permissions:
+      contents: read
+    with:
+      ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
   pr-metrics:
     name: PR Metrics Scripts
     needs: detect-changes
@@ -179,14 +284,28 @@ jobs:
       - name: Check formatting
         run: npx --yes prettier@3 --check '.github/scripts/pr-metrics/*.mjs'
 
+  dotnet-framework48:
+    name: .NET Framework 4.8
+    needs: [detect-changes, dotnet-monty, dotnet-cedar, dotnet-portaudio, dotnet-nova]
+    if: needs.detect-changes.outputs.dotnet == 'true'
+    uses: ./.github/workflows/dotnet-framework48.yml
+    permissions:
+      contents: read
+    with:
+      ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      native-assets-ready: true
+      portaudio-assets-ready: true
+      nova-assets-ready: true
+      cedar-assets-ready: true
+
   ci-gate:
     name: CI Gate
     if: always()
-    needs: [detect-changes, dependency-review, python, typescript, docs, mcp, harness-python, harness-typescript, cli, pr-metrics]
+    needs: [detect-changes, dependency-review, python, typescript, docs, mcp, harness-python, harness-typescript, dotnet, dotnet-framework48, dotnet-cedar, dotnet-monty, dotnet-portaudio, dotnet-nova, cli, pr-metrics]
     runs-on: strands-agents_ubuntu-latest_4-core
     permissions: {}
     steps:
       - uses: re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe # release/v1
         with:
-          allowed-skips: dependency-review, python, typescript, docs, mcp, harness-python, harness-typescript, cli, pr-metrics
+          allowed-skips: dependency-review, python, typescript, docs, mcp, harness-python, harness-typescript, dotnet, dotnet-framework48, dotnet-cedar, dotnet-monty, dotnet-portaudio, dotnet-nova, cli, pr-metrics
           jobs: ${{ toJSON(needs) }}

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/Strands.Agents/Strands.Agents.csproj" />
+  <Project Path="src/Strands.Agents.Monty/Strands.Agents.Monty.csproj" />
+  <Project Path="tests/Strands.Monty.Tests/Strands.Monty.Tests.csproj" />
+</Solution>

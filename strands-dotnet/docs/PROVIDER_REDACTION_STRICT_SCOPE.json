@@ -1,0 +1,128 @@
+{
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "Scope": "Provider redaction40 and strict tools15; local component proof, full combined frozen source gate remains pending",
+  "OwnedFiles": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Models.cs",
+      "Sha256": "130CA0F820AFC483FD5F8B6D420E8366DFD8235C4C70309434D5802710D2EFE7"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/ModelStreamAccumulator.cs",
+      "Sha256": "C7EE1B17F55DE26EAADF8F35F7B532BDEA4372B8A1DA172D01B0A87D0EF52740"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Agent.Middleware.cs",
+      "Sha256": "B3630DCB893EF8013DE5FAB7438E18434DB1BBDD2D9673646EB49A78DBC36F4E"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Agent.Redaction.cs",
+      "Sha256": "CE1B9BDF33F9D530E0E71AD3B70BE46B4B58DF30D6C4D7E682530F1007426261"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockModel.cs",
+      "Sha256": "BF3FAD5354BA6CFA4258A54748CAA5E8B388E05256BC7813011B3096489A15AF"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockModelOptions.cs",
+      "Sha256": "F117347240DD1E9DB96A3F678A2247B01EFFCF9D1C7A241F6481E90BFC873D62"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockStreamParser.cs",
+      "Sha256": "7436C0A6A6CDD379C07BC86DEFA8AC02401240B085ED6370075FA7B3410CCC3E"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockNonStreaming.cs",
+      "Sha256": "9C7871AF99E6208BABAD17EA50777ACAB484EDD05B166AB6774EDA4F9019AE2F"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockRequestMapper.cs",
+      "Sha256": "18CDA1DE2647D711C0BF31DA23F726E9F434716A1EA34A101846C625E5EF0B24"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockStrictSchema.cs",
+      "Sha256": "A7D45C14EF40860757A7AD14F6618113C7FA4474133F3FAA48567F59596F62DF"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/ModelRedactionTests.cs",
+      "Sha256": "8351A7E906E5868A2DD9F6285BD1E275944B887B53C16E28FCC7BB5A2E8C4FA0"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Bedrock.Tests/BedrockGuardrailTests.cs",
+      "Sha256": "C6B0D180C1683DB312CB7604775D99CEE575904A2099D88D956734803503E77A"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Bedrock.Tests/BedrockStrictSchemaTests.cs",
+      "Sha256": "BE7E5DD3F21A772BAB35DB11266E2C282557AF9416AC5F08B70BF8BECA7E2C1E"
+    },
+    {
+      "Path": "strands-dotnet/docs/GUARDRAIL_REDACTION.md",
+      "Sha256": "94575947602853BB287F3C71220213DB6ACC4A0DD9FB0E4C4C1D518A041B07E7"
+    },
+    {
+      "Path": "strands-dotnet/docs/BEDROCK_STRICT_TOOLS.md",
+      "Sha256": "2CF948B89A5BEB79C904AB9991956CFD8ABB6ADFB7F539A543BD5215A026CA3C"
+    }
+  ],
+  "SharedIntegrationDiagnostics": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Agent.cs",
+      "Sha256": "E72BED893117D98FED4679C37E62034F361277507B633A1629E0BD8D45B92DF5"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/AgentOptions.cs",
+      "Sha256": "CEE33DF98EE5123EED43A23497B1EF405A1490C9CD229F7FD58A8D320894A4EE"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Middleware/MiddlewareContexts.cs",
+      "Sha256": "3D8F9AA6E37D0CAEA1F5E334CD366FA3CABB7C308F878E29A392A147D0F83CE2"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj",
+      "Sha256": "34326347D0196880C25323A3B0C5FB03E583A3F077058880A43DF106E0CC181A"
+    }
+  ],
+  "Cases": [
+    {
+      "Path": "work/provider-parity-final55/core-net8.0/18126_DESKTOP-47NGAFF_2026-10-20_21_15_36_net8.0.trx",
+      "Cases": 20,
+      "Sha256": "02CB741A0EFA0AC0146C9DC10A4D1811E63F8A10B6986402F0A8931BDB548E5D"
+    },
+    {
+      "Path": "work/provider-parity-final55/core-net10.0/18126_DESKTOP-47NGAFF_2026-10-20_21_15_55_net10.0.trx",
+      "Cases": 20,
+      "Sha256": "100FFCB84E6D05C6759306E47A72C6F9965208B6282632E1513FB3F00FF9953C"
+    },
+    {
+      "Path": "work/provider-parity-final55/provider-net8.0/18126_DESKTOP-47NGAFF_2026-10-20_21_15_45_net8.0.trx",
+      "Cases": 183,
+      "Sha256": "565376610A5AECFE53001EBCFE1A6E391992FBC5E80B59B5938A32A4E3F5784D"
+    },
+    {
+      "Path": "work/provider-parity-final55/provider-net10.0/18126_DESKTOP-47NGAFF_2026-10-20_21_16_01_net10.0.trx",
+      "Cases": 183,
+      "Sha256": "61C7154F914406CF534ACA4B97C68EB8750AFD055EDF9F6D859C3DDA278A6422"
+    },
+    {
+      "Path": "work/provider-parity-final55/net48-x64/18126_DESKTOP-47NGAFF_2026-10-20_21_16_19_net48.trx",
+      "Cases": 56,
+      "Sha256": "8AC07FBAC841CAADBC8341967103B6424D4692BC29E9CB41EC2D044736A4BEEA"
+    },
+    {
+      "Path": "work/provider-parity-final55/net48-x86/18126_DESKTOP-47NGAFF_2026-10-20_21_16_34_net48.trx",
+      "Cases": 56,
+      "Sha256": "392EAE903934FB11D178CDD705679BC062770D37BC046ED7142407782F49672B"
+    }
+  ],
+  "Executions": 518.0,
+  "NewCases": 55,
+  "ActualRedThenGreen": 22,
+  "ImmediateGreenConformance": 33,
+  "PeerReviews": "SDKworker read-only PASS redaction/default+inline and strict schemas",
+  "PackageProof": "Bedrock all3managedassets+NuGetAPIvalidation; nofreshconsumerclaim",
+  "Pending": [
+    "Root core formatting in combinedfreeze",
+    "Combined integration and same-source Linux/macOS",
+    "CleanFramework4.8",
+    "Freshliveproviderchecks"
+  ]
+}

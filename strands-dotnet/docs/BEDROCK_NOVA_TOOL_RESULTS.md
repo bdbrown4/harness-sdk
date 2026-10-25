@@ -1,0 +1,13 @@
+# Nova tool-result JSON projection
+
+`BedrockModelOptions.ConvertNovaToolResultJsonToText` is an explicit opt-in. It defaults to `false`, preserving existing native and pinned TypeScript JSON result blocks. Pinned Python automatically converts them for matching models; the native default is a compatibility choice, not the Python default.
+
+When enabled, the raw model identifier must contain the exact, case-sensitive substring `amazon.nova`. Regional prefixes and ARNs containing that substring match. Uppercase `AMAZON.NOVA`, an opaque identifier without the substring, and other model families do not match. There is no trimming, case normalization, or curated model-version list.
+
+For a selected request, each `JsonBlock` in a tool result becomes a text content block. The separate native `StructuredContent` channel follows the same rule at its existing appended position. Other text, media, correlation IDs, status policy, tool configuration, and empty-content text fallback retain their existing behavior. JSON-looking ordinary text is not parsed. This does not add support for top-level conversation JSON or unsupported result content.
+
+The text is the accepted native `JsonElement.GetRawText()` value. This preserves its property ordering, duplicate properties, numeric lexemes, whitespace and Unicode spelling without a floating-point roundtrip. It is JSON-as-text with native representation authority, **not byte equivalence to Python's `json.dumps` encoder**. Python's default separator spaces, ASCII escaping, number formatting and foreign-object coercions can differ. For example, a native minified input stays minified; a JSON string value retains its JSON quotes. This option does not implement a general Python serializer.
+
+The shared request mapper applies the projection to ConverseStream, Converse and enabled native CountTokens. The local token estimate remains on its existing path. Each request captures one immutable options publication; later `UpdateConfig` calls affect future requests. Existing B01 history-tool fallback, B02/B05 request-acquisition recovery, reasoning replay selection, cache/guard policies and borrowed AWS-client ownership remain independent. This option does not introduce retries after response acquisition, automatic service capability discovery, or live Nova validation.
+
+The behavior is based on Python `bedrock.py` at pinned commit `3bd98e618320f0f286acbfb2252f72388030421b`, lines71–74,1038–1044,1184–1190, with tests5991–6123. Pinned TypeScript `bedrock.ts`1346–1385 preserves JSON for all model IDs. The provider's comment about Nova hallucinations is its stated motivation; loopback wire tests do not establish a live service symptom or guarantee a model response.

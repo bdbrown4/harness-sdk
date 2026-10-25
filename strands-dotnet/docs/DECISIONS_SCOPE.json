@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Closed-question DecisionModel and one-call LLMDecisionModel, typed answers and shared model-metadata usage presence prerequisite.",
+  "status": "implemented_subset",
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Decisions/DecisionContracts.cs",
+      "sha256": "af21aa73c8f2c2a84c5893f53df2c462300d45e55b6a8ff3006cdc5262962d09"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Decisions/DecisionModel.cs",
+      "sha256": "bfe3e65e5af30118e04da51f3b98ef8794d15cd54c76813d6749bcd0deb0c918"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Decisions/LLMDecisionModel.cs",
+      "sha256": "5bc813fffef913cf57c5297428e3facfacec19958ce28373976d311467ee6e67"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Models.cs",
+      "sha256": "664ee00c0bad577f8424946c46d912d92aab8080926d35369d08054607886df0"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/ModelStreamAccumulator.cs",
+      "sha256": "f97ee228ba3b4525dc895c9fa1d7abd918ec8d90ef86bc576ebfa96c7db216a6"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/Decisions/DecisionModelTests.cs",
+      "sha256": "2478f1c6d8b0f2af44345079193b0b29d916b1eb7bc601712434cdb2ce46f2f3"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "strands-dotnet/docs/DECISIONS.md",
+      "sha256": "0d0fec57808455c95fdfecb852b368f5d21401170301b39fdd34f33dea3597f8"
+    }
+  ],
+  "sharedIntegrationRequirements": [
+    {
+      "path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj",
+      "requirement": "Link ../Strands.Agents.Tests/Decisions/**/*.cs into portable tests.",
+      "owner": "Root; do not replace the mutable shared project from this manifest."
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Models.cs",
+      "requirement": "Additive ModelMetadataEvent.UsageReported init=true only; other contents belong to previous reviewed increments."
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/ModelStreamAccumulator.cs",
+      "requirement": "Track accepted usage presence and reject contradictory nonzero unreported usage atomically; other contents belong to previous reviewed increments."
+    }
+  ],
+  "sourceReferences": [
+    "strands-ts/src/decisions/types.ts",
+    "strands-ts/src/decisions/decision-model.ts",
+    "strands-ts/src/decisions/llm-decision-model.ts",
+    "strands-ts/src/decisions/__tests__/llm-decision-model.test.ts"
+  ],
+  "sourceFamily": "TypeScript public family; no equivalent generic public decision-model family in pinned Python.",
+  "acceptance": [
+    "One forced strands_structured_output call; no hidden Agent, retry, tool-body execution or borrowed model disposal.",
+    "Boolean, string choice and Uncertain sentinel conversion plus underlying-value JSON serialization.",
+    "Pre-provider question validation and synchronous detached question/message/content copies.",
+    "Closed advertised schema, source-compatible unknown-field stripping and typed schema/protocol failures.",
+    "Caller-token retention and original provider failure with secondary iterator-cleanup errors.",
+    "Decision tracing, provider/local timing, optional usage, explicit reported zero and atomic metadata-only accounting."
+  ],
+  "evidence": {
+    "runnableRedScenarios": 11,
+    "observedFailingTestExecutionsBeforeFix": 11,
+    "additionalConformanceCases": 9,
+    "immediateGreenConformanceCases": 8,
+    "expectationOnlyCorrections": "One conformance assertion expected StructuredOutputException for top-level null tool input; corrected to the existing common ModelException protocol contract without production changes.",
+    "focusedCases": 20,
+    "focusedExecutions": 100,
+    "modernCoreRegressionCasesEach": 1910,
+    "regressionExclusions": [
+      "McpTaskContractTests",
+      "McpTaskClientTests",
+      "McpTaskLifetimeTests",
+      "McpLegacyTaskTests",
+      "McpLegacyTaskLifetimeTests",
+      "LlamaApi*"
+    ],
+    "exclusionReason": "These named classes and LlamaApi family belonged to independent active increments. Existing automatic telemetry, metric profiles, timing, Goals, Injection, middleware and the corrected usage-presence regression classes remain included.",
+    "localFrameworkRelease": 534296,
+    "localFrameworkRuntime": ".NET Framework 4.8.1; net48 target, not clean 4.8 runtime proof",
+    "cleanFramework48Proof": "Pending combined frozen checkpoint gate",
+    "peerReview": "Repo standards worker bounded read-only PASS; no confirmed P1/P2",
+    "formatter": "Project-cwd-relative includes positively calibrated by a harmless indentation perturbation in one owned source and one test. Apply changed one selected file each; final verify changed 0/730 source and 0/322 test files without workspace warnings.",
+    "formatterLogs": [
+      "work/decisions-format-source-apply.log",
+      "work/decisions-format-source-verify.log",
+      "work/decisions-format-tests-apply.log",
+      "work/decisions-format-tests-verify.log"
+    ],
+    "tests": [
+      {
+        "name": "core-net8",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/decisions-final/core-net8/18126_DESKTOP-47NGAFF_2026-10-21_00_50_36_net8.0.trx",
+        "sha256": "8ff96092540d48901b7b2dc204047799e0e4b67b95138c2e15466c693517531f"
+      },
+      {
+        "name": "core-net10",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/decisions-final/core-net10/18126_DESKTOP-47NGAFF_2026-10-21_00_50_48_net10.0.trx",
+        "sha256": "39e57cefea9f56fc2d956b5cb98607f056f20d17dc486efce3102da9d617d105"
+      },
+      {
+        "name": "portable-net48",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/decisions-final/portable-net48/18126_DESKTOP-47NGAFF_2026-10-21_00_51_05_net48.trx",
+        "sha256": "2c3cb535bb715aa34f746cd6c539971c51629f8afe16b2635670005e4369b9c9"
+      },
+      {
+        "name": "portable-net8",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/decisions-final/portable-net8/18126_DESKTOP-47NGAFF_2026-10-21_00_51_20_net8.0.trx",
+        "sha256": "1050ac86c76fe8174fd9e915db244e4db20a4f51b6d224e353b7cc2b12f0bc16"
+      },
+      {
+        "name": "portable-net10",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/decisions-final/portable-net10/18126_DESKTOP-47NGAFF_2026-10-21_00_51_34_net10.0.trx",
+        "sha256": "c995ca52273566aef1f9e4c2012fd94db7e221b784bb7e99fa18447183236818"
+      },
+      {
+        "name": "regression-green-net8.0",
+        "passed": 1910,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/decisions-final/regression-green-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_00_56_09_net8.0.trx",
+        "sha256": "0a5845847f0bf2d3e85811e902b25caaac10cad5e8091adba27ab445abed399a"
+      },
+      {
+        "name": "regression-green-net10.0",
+        "passed": 1910,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/decisions-final/regression-green-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_00_57_16_net10.0.trx",
+        "sha256": "179485cf3bd0f33ee26a6462d3e072fd2f6d0ff00ba7a489f3239b74a24b421b"
+      }
+    ],
+    "redEvidence": [
+      {
+        "log": "work/decisions-cleanup-red.log",
+        "sha256": "d88b0a65260cddb8583f0e774b8f4223ffa25c6843c80b3bdf781a66fdf43a01"
+      },
+      {
+        "log": "work/decisions-detach-red.log",
+        "sha256": "e61f1b9eff3265b9ec0d8d316739dad4393849ad8efa66835ac941a13bba4106"
+      },
+      {
+        "log": "work/decisions-empty-red.log",
+        "sha256": "721f9bbccc1518b37e12ce2e287e31bcf5e59b016ea166f81c0ac3a0207c9e6c"
+      },
+      {
+        "log": "work/decisions-first-red.log",
+        "sha256": "4742269043259dd627f235ddb3873e43967835ba3797611d012ad9c2050b6540"
+      },
+      {
+        "log": "work/decisions-metadata-atomic-red.log",
+        "sha256": "5e8c539e1a8eccdbbc15b8d15388a96ae5ae72628720a22d266e364f00a5e3c0"
+      },
+      {
+        "log": "work/decisions-reported-zero-red.log",
+        "sha256": "509bfd9652e6bb9fb63823614e153a9fbf9e0f17da01517118b3f8837245562a"
+      },
+      {
+        "log": "work/decisions-schema-red.log",
+        "sha256": "a1e13d83b5aba4632684cf777a8340c2c781c3c6b49f1dbf9206c76bf7f98a5b"
+      },
+      {
+        "log": "work/decisions-timing-only-red.log",
+        "sha256": "85c2ff4e281eaff04fc9371046698c6fdd6032ebf8810b4a033ea1ff34da12e0"
+      },
+      {
+        "log": "work/decisions-tracing-red.log",
+        "sha256": "3c96190233ab26bce48c93ff2fa464415c82f81fbb732831cb2da82cba4c1835"
+      },
+      {
+        "log": "work/decisions-uncertainty-red.log",
+        "sha256": "d927735bb0d4ee7c4ddb8b9f3facdd11b13e80848b4474b6c145ac16d555635a"
+      },
+      {
+        "log": "work/decisions-validation-red.log",
+        "sha256": "310716cf7306d64b0ee2d995e6804b1063bde203deb25569b9730d5a1672ca85"
+      }
+    ],
+    "integrationRegression": {
+      "intermediateTrx": "work/decisions-final/regression-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_00_52_06_net8.0.trx",
+      "failure": "Concurrent Root usage-presence propagation initially rejected existing authoritative Usage replacements in output middleware. Root fixed setter presence semantics with separate runnable regressions; final broad runs include the original middleware case."
+    }
+  },
+  "nativeDifferences": [
+    "Explicit borrowed IModel is required; core does not force an optional Bedrock package dependency for a zero-config model.",
+    "Distinct text/content/history methods replace the TypeScript input union and make empty typed content versus empty history explicit.",
+    "Typed DecisionAnswer replaces a language-specific union; MinConfidence is validated but deliberately not enforced by the LLM implementation.",
+    "Invalid native model protocol is a ModelException; schema-invalid answer objects use StructuredOutputException."
+  ],
+  "limitations": [
+    "ModelMetadataEvent defaults preserve existing providers. Provider adapters must separately mark absent wire usage; this scope does not claim all adapters already do so.",
+    "Automatic Agent/middleware telemetry usage-presence propagation is an independent Root increment, not captured in these runtime files.",
+    "Mandatory untrusted-input instructions are prompt guidance, not a security boundary.",
+    "No live provider calls or clean Framework 4.8 runtime gate were performed for this increment."
+  ]
+}

@@ -1,0 +1,15 @@
+[package]
+name = "strands-cedar-engine"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+publish = false
+
+[lib]
+name = "strands_cedar_engine"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+cedar-policy = "=4.12.0"
+serde_json = "1.0"
+strands-cedar-abi = { path = "../abi" }

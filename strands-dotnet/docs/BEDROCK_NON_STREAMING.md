@@ -1,0 +1,13 @@
+# Native Bedrock Converse
+
+`BedrockModelOptions.Streaming` defaults to `true`. Setting it to `false` calls the official AWS client's `ConverseAsync` endpoint, then projects that completed response into the ordinary `IModel.StreamAsync` event contract. Consumers receive these normalized events after the native response arrives; this setting does not provide incremental network output. An ordinary `Agent` still executes real tools and subsequent model turns through the same provider.
+
+The transport reuses the request mapper and stream parser for text, tools, signed/opaque reasoning, citations, inline images, stop reasons and usage validation. Tool input uses the AWS Document JSON converter, preserving signed 64-bit integers. Content variants, roles, block counts, binary bounds and tool/stop consistency are checked. Unsupported output variants produce typed protocol errors. Native request options are copied to `ConverseRequest`; the streaming-only guardrail processing mode is omitted.
+
+Caller cancellation retains the original token. Request deadlines produce a typed model failure with a timeout cause, and model disposal cancels an entered native call. The model retains caller-owned AWS clients. Owned response media streams close after completion, failure or early enumeration disposal, including media that the consumer has not read. Cleanup errors are translated without replacing an earlier protocol/cancellation failure. Configuration changes affect subsequent requests, preserving the settings captured by an entered call.
+
+Seventeen scenarios pass both modern targets and actual installed Framework x64/x86. Five initial scenarios failed at runtime before implementation. A later cleanup-translation defect also produced a runnable failure before its fix; eleven scenarios were passing conformance/regression evidence. The suite includes actual `Agent` tool execution with the native Converse transport, request deadlines, concurrent disposal, early cleanup, exact large JSON integers, citations, malformed unions and media bounds. Independent review found no additional actionable defects in this bounded increment. The full provider suite passes 148 cases per modern target, and all three managed package assets pass API validation. macOS, clean Framework4.8 and live-provider execution remain separate gates.
+
+Automatic guardrail redaction and richer provider response metadata are not completed by this transport increment. The previous immutable checkpoint `fab9392` predates it.
+
+References: [pinned Python conversion](../../strands-py/src/strands/models/bedrock.py), [pinned TypeScript provider](../../strands-ts/src/models/bedrock.ts), [AWS Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).

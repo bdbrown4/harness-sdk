@@ -1,0 +1,16 @@
+[package]
+name = "strands-cedar-schema"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+publish = false
+
+[lib]
+name = "strands_cedar_schema"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+cedar-policy-mcp-schema-generator = "=0.6.1"
+mcp-tools-sdk = "=0.4.0"
+serde_json = "1.0"
+strands-cedar-abi = { path = "../abi" }

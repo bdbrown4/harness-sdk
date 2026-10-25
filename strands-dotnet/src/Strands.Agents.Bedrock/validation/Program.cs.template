@@ -1,0 +1,94 @@
+using System.Text.Json;
+using Amazon;
+using Amazon.BedrockRuntime;
+using Amazon.BedrockRuntime.Model;
+using Amazon.Runtime;
+using Strands.Agents;
+using Strands.Agents.Bedrock;
+using Native = Amazon.BedrockRuntime.Model;
+
+if (args.Length == 1 && int.Parse(args[0], System.Globalization.CultureInfo.InvariantCulture) != IntPtr.Size)
+    throw new InvalidOperationException("The consumer process has the wrong pointer size.");
+
+using var client = new ScriptedBedrockClient();
+using var model = new BedrockModel(client, new() { ModelId = "anthropic.claude-package-fixture", Streaming = false, MaxTokens = 64 });
+var effects = 0;
+var lookup = new FunctionTool(new("lookup", "Look up a deterministic item", JsonSerializer.SerializeToElement(new
+{
+    type = "object",
+    properties = new { id = new { type = "integer" } },
+    required = new[] { "id" }
+})), (input, _, token) =>
+{
+    token.ThrowIfCancellationRequested();
+    effects++;
+    return new ValueTask<string>("item:" + input.GetProperty("id").GetInt32());
+});
+var state = new Dictionary<string, object?> { ["caller"] = "retained" };
+await using (var agent = new Agent(new() { Model = model, Tools = [lookup], SystemPrompt = "Package consumer" }))
+{
+    var result = await agent.InvokeAsync("Look up item seven", new() { InvocationState = state });
+    Require(result.StopReason == StopReasons.EndTurn && result.Message?.Text == "complete", "Agent completion differs.");
+    Require(result.Turns == 2 && effects == 1 && client.Requests.Count == 2, "The model/tool cycle did not execute exactly once.");
+    Require(client.Requests[0].ModelId == model.ModelId && client.Requests[0].InferenceConfig.MaxTokens == 64, "Bedrock settings were not projected.");
+    Require(client.Requests[0].System.Single().Text == "Package consumer", "System input differs.");
+    Require(client.Requests[0].ToolConfig.Tools.Single().ToolSpec.Name == "lookup", "The native tool declaration is missing.");
+    var reply = client.Requests[1].Messages.Last().Content.Single().ToolResult;
+    Require(reply.ToolUseId == "package-call" && reply.Content.Single().Text == "item:7", "The correlated native tool response differs.");
+    Require(result.Usage.InputTokens == 6 && result.Usage.OutputTokens == 4, "Usage was not accumulated across both calls.");
+}
+Require(state.Count == 1 && Equals(state["caller"], "retained"), "The SDK changed user-owned invocation state.");
+Require(!client.Disposed, "Agent disposal released a borrowed AWS client.");
+using (var cancellation = new CancellationTokenSource())
+{
+    cancellation.Cancel();
+    try
+    {
+        await foreach (var _ in model.StreamAsync(new([Strands.Agents.Message.User("must not call AWS")]), cancellation.Token)) { }
+        throw new InvalidOperationException("Pre-canceled model input was accepted.");
+    }
+    catch (OperationCanceledException error) when (error.CancellationToken == cancellation.Token) { }
+}
+Require(client.Requests.Count == 2, "Pre-cancellation reached the AWS transport.");
+model.Dispose();
+Require(!client.Disposed, "Model disposal released a borrowed AWS client.");
+Console.WriteLine("Bedrock package: agent=complete; tool=item:7; calls=2; borrowed=true; cancellation=ok; pointer=" + IntPtr.Size);
+
+static void Require(bool condition, string message)
+{
+    if (!condition) throw new InvalidOperationException(message);
+}
+
+// Virtual SDK calls keep this consumer deterministic and require no network or credentials.
+sealed class ScriptedBedrockClient() : AmazonBedrockRuntimeClient(new AnonymousAWSCredentials(), RegionEndpoint.USEast1)
+{
+    internal List<ConverseRequest> Requests { get; } = [];
+    internal bool Disposed { get; private set; }
+
+    public override Task<ConverseResponse> ConverseAsync(ConverseRequest request, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        Requests.Add(request);
+        List<Native.ContentBlock> content = Requests.Count switch
+        {
+            1 => [new() { ToolUse = new() { ToolUseId = "package-call", Name = "lookup", Input = JsonSerializer.Deserialize<Amazon.Runtime.Documents.Document>("{\"id\":7}") } }],
+            2 => [new() { Text = "complete" }],
+            _ => throw new InvalidOperationException("An unexpected AWS request would repeat an accepted effect.")
+        };
+        return Task.FromResult(new ConverseResponse
+        {
+            Output = new() { Message = new() { Role = ConversationRole.Assistant, Content = content } },
+            StopReason = Requests.Count == 1 ? "tool_use" : "end_turn",
+            Usage = new() { InputTokens = 3, OutputTokens = 2, TotalTokens = 5 }
+        });
+    }
+
+    public override Task<ConverseStreamResponse> ConverseStreamAsync(ConverseStreamRequest request, CancellationToken cancellationToken = default)
+        => throw new InvalidOperationException("The configured non-streaming transport was not selected.");
+
+    protected override void Dispose(bool disposing)
+    {
+        Disposed = true;
+        base.Dispose(disposing);
+    }
+}

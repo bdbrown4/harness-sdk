@@ -1,0 +1,141 @@
+{
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "Scope": "Additive provider timing metadata, authoritative middleware plumbing and Bedrock native latency; automatic Agent integration excluded",
+  "Contracts": 15,
+  "ObservedRuntimeRedToGreen": 13,
+  "ImmediatelyGreenConformance": 2,
+  "Executions": 576,
+  "NewTimingExecutions": 90,
+  "Failed": 0,
+  "Skipped": 0,
+  "LocalFrameworkRelease": 534296,
+  "LocalFrameworkIsClean48": false,
+  "Formatting": "Positive exact project-relative coverage and clean verification for seven owned C# files",
+  "Review": "Independent peer review pending",
+  "CompatibilityCompileLinks": [
+    "<Compile Include=\"../Strands.Bedrock.Tests/BedrockTimingMetadataTests.cs\" Link=\"Bedrock/BedrockTimingMetadataTests.cs\" />"
+  ],
+  "RedEvidence": [
+    "telemetry-results/model-performance-runtime-red8 (8failed)",
+    "telemetry-results/model-performance-middleware-red1 (1failed; final case renamed to omit Real prefix; scripted IModel fixture)",
+    "telemetry-results/bedrock-timing-runtime-red4 (4failed/2passed)"
+  ],
+  "CompileOnlyNotCounted": "Initial model-performance test used wrong Message constructor; no executed assertions",
+  "Files": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Models.cs",
+      "Sha256": "C0F842EDDADDBD399032058099B2AD8A0D054D0FF07688F9245A3E9A8C6E5665"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/ModelStreamAccumulator.cs",
+      "Sha256": "70CAE3C48DC19E670C8636AE2162F2F37F0AB578DF10431C96EC9688E31035E0"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Agent.Middleware.cs",
+      "Sha256": "9B2BDF69BCCDC1E92B99EE2EA73FBBF6D9DA5D05AA00DA5FF2399BF6AEB040C4"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Middleware/MiddlewareContexts.cs",
+      "Sha256": "BA167921CC504CB6481984C04B4BA7C7A7A6E86B522348FAA146057B79C25B27"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockStreamParser.cs",
+      "Sha256": "50BEBADB030013821B3967CE33DD29055AC82346E9E26B5F7166A83DF19BE6A8"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/ModelPerformanceMetadataTests.cs",
+      "Sha256": "F1E5766A704A392E8FDDCB422FF3DD7D7BBE8B26A66C6C7D2738D821B94ECE2D"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Bedrock.Tests/BedrockTimingMetadataTests.cs",
+      "Sha256": "E80F4901DA330081D7C89F1FC1FFFDE26E6EFA22B4DF0DE97EB86F56D5E65DCB"
+    },
+    {
+      "Path": "strands-dotnet/docs/MODEL_TIMING.md",
+      "Sha256": "0E04BA6547B44FD55C206EF2ADE9ACD231BA32585A30F8AC20199EEED63E7E92"
+    },
+    {
+      "Path": "strands-dotnet/docs/TELEMETRY.md",
+      "Sha256": "CDA2489A40950188351DA0A23E0E0376EF2653BDF42F185C65A98D39D7D11D15"
+    }
+  ],
+  "FinalRuns": [
+    {
+      "Path": "net48-x64\\18126_DESKTOP-47NGAFF_2026-10-20_23_50_24_net48.trx",
+      "Total": 16,
+      "TimingCases": 15,
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "Sha256": "45120556395644153A3646D942138CED2756501329B36043FC57D6B68A384263"
+    },
+    {
+      "Path": "net48-x86\\18126_DESKTOP-47NGAFF_2026-10-20_23_50_34_net48.trx",
+      "Total": 16,
+      "TimingCases": 15,
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "Sha256": "5B42347F79B2955591D3E13688C708438C4E5D81650F04C637E8796654F8D900"
+    },
+    {
+      "Path": "Strands.Agents.Tests-net10.0\\18126_DESKTOP-47NGAFF_2026-10-20_23_49_52_net10.0.trx",
+      "Total": 67,
+      "TimingCases": 9,
+      "Passed": 67,
+      "Failed": 0,
+      "Skipped": 0,
+      "Sha256": "9A4DDEBB819A0A902ACB3DB429F3EDF5DAAD4F13125CC290F8CB7577B2F2BD28"
+    },
+    {
+      "Path": "Strands.Agents.Tests-net8.0\\18126_DESKTOP-47NGAFF_2026-10-20_23_49_22_net8.0.trx",
+      "Total": 67,
+      "TimingCases": 9,
+      "Passed": 67,
+      "Failed": 0,
+      "Skipped": 0,
+      "Sha256": "A8F7B977C200A003FB267A6F35BFD45EF2533A7298FA984AEC7C7E9FB28AC1DE"
+    },
+    {
+      "Path": "Strands.Bedrock.Tests-net10.0\\18126_DESKTOP-47NGAFF_2026-10-20_23_49_58_net10.0.trx",
+      "Total": 189,
+      "TimingCases": 6,
+      "Passed": 189,
+      "Failed": 0,
+      "Skipped": 0,
+      "Sha256": "102AEBFF56B84B4AB8D96BFD1F2D3728D0AE22158C30FEDA03DA4A19B45678B7"
+    },
+    {
+      "Path": "Strands.Bedrock.Tests-net8.0\\18126_DESKTOP-47NGAFF_2026-10-20_23_49_28_net8.0.trx",
+      "Total": 189,
+      "TimingCases": 6,
+      "Passed": 189,
+      "Failed": 0,
+      "Skipped": 0,
+      "Sha256": "AD2C090C92F17F1D5BD80ED55E40923FA4969482FE21080B16C21564D8EFA24C"
+    },
+    {
+      "Path": "Strands.Compatibility.Tests-net10.0\\18126_DESKTOP-47NGAFF_2026-10-20_23_50_13_net10.0.trx",
+      "Total": 16,
+      "TimingCases": 15,
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "Sha256": "88521416E8129F96F25AF5C46361E8BA017B243CBA167F2F01080E12776477DF"
+    },
+    {
+      "Path": "Strands.Compatibility.Tests-net8.0\\18126_DESKTOP-47NGAFF_2026-10-20_23_49_42_net8.0.trx",
+      "Total": 16,
+      "TimingCases": 15,
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "Sha256": "F7BE923694AF2D2EA822C198650094B3844B5CF5EA173858B8870133C8125128"
+    }
+  ],
+  "PendingGates": [
+    "Combined immutable source plus package/API consumers",
+    "Linux/macOS and clean Framework4.8-only execution",
+    "Automatic Agent tracing/metrics integration"
+  ]
+}

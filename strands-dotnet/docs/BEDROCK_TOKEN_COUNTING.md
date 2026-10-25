@@ -1,0 +1,11 @@
+# Bedrock native token counting
+
+`BedrockModel` implements `IModelTokenCounter`. The default `UseNativeTokenCount = false` retains the SDK's local heuristic and performs no AWS request. Enabling the option invokes the official AWS `CountTokens` API with the same mapped Converse messages, system instructions, tools, cache points, media and additional model request fields as generation. No generation call is used to estimate tokens.
+
+`TokenCountFailurePolicy = Fallback` follows the pinned Python `BedrockModel.count_tokens` behavior at repository commit `3bd98e618320f0f286acbfb2252f72388030421b`: unsupported formatting or native counting failures fall back to the local estimate. Permission-denied and explicitly unsupported-model failures suppress subsequent native counting attempts for that model. Native caches are instance-owned, avoiding the Python implementation's process-global credential/model coupling. Other failures remain retryable on the next explicit counting call.
+
+`TokenCountFailurePolicy = Throw` is a native extension for callers requiring a provider count. It bypasses an earlier fallback cache and preserves a typed native failure/cause. Missing or negative service counts cannot become successful strict counts. Neither policy retries a counting call implicitly.
+
+Caller cancellation, model disposal and the configured request deadline take precedence over fallback, including cancellation accepted during formatting, after a valid service response or from a diagnostic callback. Each request owns its mapped media streams; caller-supplied AWS clients remain borrowed. Configuration updates affect future counts while active calls retain their captured settings. Diagnostic-listener failures attach to the original error under `Strands.DiagnosticErrors` and cannot replace a promised estimate.
+
+The 21 focused contracts include native request shape, strict/fallback differences, cache scope, validation, media cleanup, cancellation, deadlines, disposal and diagnostic reentrancy. Initial native capability failures and independent review findings were reproduced as runtime red/green cases; additional adverse cases are regression evidence. Controlled AWS clients exercise the real SDK request types. Live CountTokens authorization, model availability and billing accuracy remain unverified.

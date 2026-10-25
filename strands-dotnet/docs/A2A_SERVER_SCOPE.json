@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Native per-context agent executor, bounded in-memory A2A JSON-RPC/SSE task hosting, and native paused-batch abort transition",
+  "status": "implemented_subset",
+  "clientScope": {
+    "path": "strands-dotnet/docs/A2A_SCOPE.json",
+    "sha256": "58e65c05cba4630793d4d64d5aab8d9fe1b1600d326a14ea8fec85d22b250f8a"
+  },
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AContentNegotiation.cs",
+      "sha256": "03697edbe71a37751bf67919e9fb5392bf301b72614de8ebac28b37669171c4a"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AContextPool.cs",
+      "sha256": "ab7784e6e0a473af9cca0cbf0804b2ad604e581a74e5f339a2e53e93d1b84802"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AEventBuffer.cs",
+      "sha256": "8a6c3a2d72757f29d1dda5de1c6a4ad9678c0d119b590ed14ee6388465e40b40"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExecutor.cs",
+      "sha256": "65699eb1ecaaa42f425f0d78dd9ebd72ad82770de57801fdb849bc3493069bf0"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExecutor.Interrupts.cs",
+      "sha256": "1eb2ef946cf24952095aaa9c0117f528de152576fec002efdc0e558afb253afc"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExecutorOptions.cs",
+      "sha256": "663bbf1fd56496fa1d8c1119d98f439a197d47c31e571a3e31b44b846606f039"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AHostedTask.cs",
+      "sha256": "43c268a8e0ab48b6c0377f4e2e6ec0bcc9358a1ce3e89aa3c1f0f4752d11e1d1"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ARequestContext.cs",
+      "sha256": "296f390b71825c68b3844ada981ad332b651965e8c53942b18dbbda6321e8ecd"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServer.cs",
+      "sha256": "59e227dd9cceb4e00cbfce824915945de83d93196b8e541d665ab5e0faebd9a8"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServerOptions.cs",
+      "sha256": "398ebf4d250faf092ef9a884a033780848cf34e4bf55d3f94d0c9e4bf77ddd1c"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ASseContent.cs",
+      "sha256": "50e3851189ce99a856af234b15692880c96956c8b85528a169db3f975b644d11"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Agent.AbortInterrupts.cs",
+      "sha256": "7afe457fbcc98c5cbfa33b8a65e3cffebf4eb5c3b0493ebe3fb0301319587fe4"
+    }
+  ],
+  "sharedSeams": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Agent.cs",
+      "sha256": "bb5de4724b3f09452387ba7402c4e19cd7b19991ffa13774e14b8dc5e1887598"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Agent.DirectTools.cs",
+      "sha256": "5c8a161f7fb21624326ef46a660d14f64c4187cd34732f1c8a7be3e8956e96c8"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AContextPoolTests.cs",
+      "sha256": "aae1cb358d2221cc49202829cf7118ff797925b1c917ccaa8e84908c7f101f4b"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AExecutorInterruptTests.cs",
+      "sha256": "3823b74e55ffe0684af430a86c6bf30cfc8359aafb7c6237a311b50b46bc557d"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AExecutorTests.cs",
+      "sha256": "d87b85165e9c1bbb884f353b5f1a4229d188572a3ada04cf32eaf27389f90c77"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerBoundsTests.cs",
+      "sha256": "85a1deb67440101ead02994f8ba1cd27201fc7119fea7a6adb20c6abc76fb97a"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerInterruptTests.cs",
+      "sha256": "4abaa3f76f7b387c85dbb1f4d83db631e7e100078e53836f43bc5a4cba344cf3"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerLifetimeTests.cs",
+      "sha256": "7c6f9ac1696041ecb824b749d60b603b6ca06cfcec8e895803f4332289a53668"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerProjectionTests.cs",
+      "sha256": "e9002ed044a08d6a4190d9a477f878a732e7fa8421698399e4955735b03a8f91"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerProtocolTests.cs",
+      "sha256": "b6737bf789cfca8c5e7e5c51534ac60235a6f22f651385f2f4afee39a611700d"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerTcpFixture.cs",
+      "sha256": "23ea20123340bbf53f3aa3c85772112ae930a6ea097a263942029c27d57bef6e"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerTests.cs",
+      "sha256": "21628f3cf576a5ef83848eed8a96de540b376e459dab959e0e5b0da0ba2265fc"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerWireTests.cs",
+      "sha256": "dbe8550d6377fe42f73f59200f94ab0f7b33fe18907887c827596058bd4bcded"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/AbortInterruptTests.cs",
+      "sha256": "72667b6af86e550adb809f335f521990dda8cbb43b46d9780c7f0f78ab4c1a30"
+    }
+  ],
+  "verification": {
+    "core": {
+      "net10": 1383,
+      "net8": 1383
+    },
+    "a2aAndAbortCases": 138,
+    "newExecutorServerAbortCases": 62,
+    "clientCases": 76,
+    "compatibility": {
+      "net8": 138,
+      "net48": 138,
+      "net10": 138
+    },
+    "nativeHttpCases": 3,
+    "warnings": 0,
+    "skipped": 0,
+    "localFrameworkRuntime": "4.8.1, net48 target",
+    "cleanFramework48CloudForThisSource": "pending",
+    "formats": [
+      "whitespace verify: 0 of 25 selected files",
+      "source analyzer verify: 0 of 547 project files, absolute includes",
+      "test analyzer verify: 0 of 236 project files, absolute includes"
+    ],
+    "testProcess": "Behavioral increments and concrete defects have runnable RED then GREEN. Additional immediately green cases are regression evidence. An initially failing continuous-TextOnly Task expectation was disproved by pinned source; corrected conformance assertions are not a production fix.",
+    "review": "Root reviewed native abort and shared session helper; independent worker reviewed server protocol, MIME negotiation, disposal and paused cancellation. No remaining actionable finding within those reviewed regions."
+  },
+  "contracts": [
+    "independent factory-created agents and explicit ownership",
+    "bounded per-context serialization and LRU eviction excluding active or paused contexts",
+    "metadata-only discovery without representative-agent allocation",
+    "synchronous and nonblocking message/send; live message/stream",
+    "tasks/get, cooperative active and paused tasks/cancel, and active tasks/resubscribe",
+    "atomic initial snapshot and stream cursor; bounded replay and listeners",
+    "native human questions and original-task structured answer correlation",
+    "accepted sibling effects retained without replay during native abort",
+    "durable projection before in-memory abort commit; failed-save retry and primary cleanup preservation",
+    "MIME negotiation before admission and artifact enforcement",
+    "real native HttpClientHandler over TCP-loopback without URLACL/admin",
+    "original TypeScript Task-part versus stream-chunk text semantics"
+  ],
+  "remaining": [
+    "pluggable persistent task stores and restart reattachment",
+    "complete configurable cards/skills and authenticated extended-card hosting",
+    "standalone/framework HTTP host adapters",
+    "endpoint-restricted vended A2A client tools",
+    "remote graph-node durable interrupt and snapshot integration",
+    "gRPC, REST/HTTP+JSON and push-delivery lifecycle",
+    "full upstream symbol/member/extension conformance"
+  ],
+  "primarySources": [
+    "https://a2a-protocol.org/v0.3.0/specification/",
+    "https://github.com/a2aproject/a2a-js/blob/v0.3.10/src/server/result_manager.ts"
+  ],
+  "design": "MULTIAGENT_A2A_SERVER.md"
+}

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <PackageId>Strands.Agents.Bidi.Audio</PackageId>
+    <Description>Optional microphone, speaker and managed voice processing helpers for Strands bidirectional agents.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <PortAudioNativeAssetsPath Condition="'$(PortAudioNativeAssetsPath)' == ''">$(MSBuildThisFileDirectory)../../artifacts/portaudio-native</PortAudioNativeAssetsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Strands.Bidi.Audio.Tests" />
+    <Compile Include="../../CompilerTypeForwarders.cs" Link="CompilerTypeForwarders.cs" />
+    <ProjectReference Include="../Strands.Agents.Bidi/Strands.Agents.Bidi.csproj" />
+    <PackageReference Include="org.k2fsa.portaudio.runtime.linux-x64" Version="1.0.6" />
+    <PackageReference Include="org.k2fsa.portaudio.runtime.linux-aarch64" Version="1.0.6" />
+    <PackageReference Include="org.k2fsa.portaudio.runtime.osx-x64" Version="1.0.6" />
+    <PackageReference Include="org.k2fsa.portaudio.runtime.osx-arm64" Version="1.0.6" />
+    <PackageReference Include="NWaves" Version="0.9.6" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../NOTICE" Pack="true" PackagePath="/" />
+    <None Include="../../../LICENSE.APACHE" Pack="true" PackagePath="/" />
+    <None Include="buildTransitive/Strands.Agents.Bidi.Audio.targets" Pack="true" PackagePath="buildTransitive/" />
+    <None Include="$(PortAudioNativeAssetsPath)/runtimes/win-x86/native/portaudio.dll" Link="runtimes/win-x86/native/portaudio.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Pack="true" PackagePath="runtimes/win-x86/native/" Condition="Exists('$(PortAudioNativeAssetsPath)/runtimes/win-x86/native/portaudio.dll')" />
+    <None Include="$(PortAudioNativeAssetsPath)/runtimes/win-x64/native/portaudio.dll" Link="runtimes/win-x64/native/portaudio.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Pack="true" PackagePath="runtimes/win-x64/native/" Condition="Exists('$(PortAudioNativeAssetsPath)/runtimes/win-x64/native/portaudio.dll')" />
+    <None Include="native/PortAudio.LICENSE.txt" Pack="true" PackagePath="native-licenses/" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+  <Target Name="VerifyPortAudioWindowsPackageAssets" BeforeTargets="GenerateNuspec">
+    <Error Condition="!Exists('$(PortAudioNativeAssetsPath)/runtimes/win-x64/native/portaudio.dll')" Text="Missing genuine static-CRT PortAudio win-x64 asset. Run the pinned Windows build for x64 before packing." />
+    <Error Condition="!Exists('$(PortAudioNativeAssetsPath)/runtimes/win-x86/native/portaudio.dll')" Text="Missing genuine static-CRT PortAudio win-x86 asset. Run the pinned Windows build for x86 before packing; native runtime dependencies supply the Unix RIDs." />
+  </Target>
+</Project>

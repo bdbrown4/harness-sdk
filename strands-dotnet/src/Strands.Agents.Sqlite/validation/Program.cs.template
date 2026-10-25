@@ -1,0 +1,206 @@
+using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.Data.Sqlite;
+using Strands.Agents.Memory;
+using Strands.Agents.Storage;
+
+internal static class Program
+{
+    private static async Task Main(string[] args)
+    {
+        if (args.Length != 3) throw new ArgumentException("Expected writer/read mode, storage root, and requested pointer.");
+        var mode = args[0];
+        var root = args[1];
+        var requestedPointer = int.Parse(args[2], CultureInfo.InvariantCulture);
+        if (requestedPointer != 0 && IntPtr.Size != requestedPointer) throw new InvalidOperationException("Requested process architecture was not used.");
+
+        var strategy = new Bm25SearchStrategy();
+        var storage = new LocalFileStorage(root, strategy);
+        var memory = new FileMemoryStore(new FileMemoryStoreOptions { Name = "facts", Storage = storage, UseStorageSearch = true });
+        byte[] opaque = { 239, 187, 191, 0, 255, 31, 62, 10 };
+        string nativePath;
+        string nativeHash;
+        string sqliteVersion;
+        double higherScore;
+        double lowerScore;
+        try
+        {
+            if (mode == "write")
+            {
+                await storage.WriteAsync("opaque.bin", opaque);
+                await storage.WriteAsync("memory/foreign/authentication.md", Bytes("authentication OAuth tokens"));
+                if (await memory.AddAsync("# Authentication\nOAuth authentication tokens retained across processes") != "authentication.md")
+                    throw new InvalidOperationException("Unexpected topic key.");
+                await memory.AddAsync("# Deployments\nNative deployment pipelines");
+                await storage.WriteAsync("rank-high.md", Bytes("rankingneedle"));
+                await storage.WriteAsync("rank-low.md", Bytes("rankingneedle " + string.Join(" ", Enumerable.Repeat("filler", 100))));
+                await strategy.CloseAsync();
+            }
+            else if (mode != "read") throw new ArgumentException("Unknown mode.");
+
+            var entries = await memory.SearchAsync("auth tok");
+            if (entries.Count != 1 || !entries[0].Content.Contains("retained across processes") ||
+                entries[0].Metadata is not JsonElement metadata || metadata.GetProperty("path").GetString() != "authentication.md")
+                throw new InvalidOperationException("Persisted namespaced prefix retrieval failed.");
+            if (!opaque.SequenceEqual(await storage.ReadAsync("opaque.bin") ?? throw new InvalidOperationException("Missing opaque bytes.")))
+                throw new InvalidOperationException("Opaque byte roundtrip failed.");
+            var direct = await strategy.SearchAsync(storage, "auth tok");
+            if (direct.Count != 2 || direct.Any(result => result.Data != null || result.Score <= 0 || result.Score > 1))
+                throw new InvalidOperationException("Native rank/Data contract failed.");
+            var ranking = await strategy.SearchAsync(storage, "rankingneedle");
+            if (ranking.Count != 2 || ranking[0].Key != "rank-high.md" || ranking[0].Score <= ranking[1].Score)
+                throw new InvalidOperationException("BM25 length ranking failed.");
+            higherScore = ranking[0].Score;
+            lowerScore = ranking[1].Score;
+
+            using var connection = new SqliteConnection("Data Source=:memory:;Pooling=False");
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = "CREATE VIRTUAL TABLE probe USING fts5(content); INSERT INTO probe VALUES ('native evidence'); SELECT count(*) FROM probe WHERE probe MATCH 'evidence'";
+            if (Convert.ToInt64(command.ExecuteScalar(), CultureInfo.InvariantCulture) != 1) throw new InvalidOperationException("Native FTS5 query failed.");
+            command.CommandText = "SELECT sqlite_compileoption_used('ENABLE_FTS5')";
+            if (Convert.ToInt64(command.ExecuteScalar(), CultureInfo.InvariantCulture) != 1) throw new InvalidOperationException("SQLite was not built with FTS5.");
+            sqliteVersion = connection.ServerVersion;
+            nativeHash = ReadNativeEvidence(out nativePath);
+        }
+        finally { await strategy.DisposeAsync(); }
+        if (await storage.ReadAsync("opaque.bin") == null) throw new InvalidOperationException("Borrowed storage was adopted.");
+        await VerifyQmdAsync(root, mode);
+        Console.WriteLine("STRANDS_SQLITE_CONSUMER_JSON:" + JsonSerializer.Serialize(new
+        {
+            Mode = mode,
+            PointerSize = IntPtr.Size,
+            Architecture = RuntimeInformation.ProcessArchitecture.ToString(),
+            Runtime = RuntimeInformation.FrameworkDescription,
+            SQLiteVersion = sqliteVersion,
+            Fts5 = true,
+            Persistence = true,
+            NamespacedMemory = true,
+            OpaqueBytes = true,
+            BorrowedStorage = true,
+            QmdRefresh = true,
+            QmdNamespace = true,
+            QmdPersistence = true,
+            HigherRankScore = higherScore,
+            LowerRankScore = lowerScore,
+            NativePath = nativePath,
+            NativeSHA256 = nativeHash,
+        }));
+    }
+
+    private static string ReadNativeEvidence(out string nativePath)
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            using var process = Process.GetCurrentProcess();
+            nativePath = process.Modules.Cast<ProcessModule>().Single(module =>
+                module.ModuleName.Equals("e_sqlite3.dll", StringComparison.OrdinalIgnoreCase) ||
+                module.ModuleName.StartsWith("libe_sqlite3.", StringComparison.Ordinal)).FileName;
+            return HashNativeFile(nativePath);
+        }
+
+        const string library = "libe_sqlite3.dylib";
+        const int rtldLazy = 0x1;
+        const int rtldNoLoad = 0x10;
+        const int rtldFirst = 0x100;
+        var rid = "osx-" + RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
+        var candidates = new[]
+        {
+            library,
+            Path.Combine(AppContext.BaseDirectory, library),
+            Path.Combine(AppContext.BaseDirectory, "runtimes", rid, "native", library),
+        };
+        var handle = IntPtr.Zero;
+        foreach (var candidate in candidates)
+        {
+            handle = Dlopen(candidate, rtldLazy | rtldNoLoad | rtldFirst);
+            if (handle != IntPtr.Zero) break;
+        }
+        if (handle == IntPtr.Zero) throw new InvalidOperationException("The SQLite image used by the FTS5 query was not already loaded.");
+
+        string nativeHash;
+        int closeResult;
+        try
+        {
+            var symbol = Dlsym(handle, "sqlite3_libversion");
+            if (symbol == IntPtr.Zero || Dladdr(symbol, out var info) == 0)
+                throw new InvalidOperationException("The loaded SQLite version symbol could not be mapped to its native image.");
+            nativePath = Marshal.PtrToStringAnsi(info.FileName) ?? throw new InvalidOperationException("The loaded SQLite image has no pathname.");
+            if (Path.GetFileName(nativePath) != library || !File.Exists(nativePath))
+                throw new InvalidOperationException("The loaded SQLite image is not the expected packaged native file.");
+            nativeHash = HashNativeFile(nativePath);
+        }
+        finally { closeResult = Dlclose(handle); }
+        if (closeResult != 0) throw new InvalidOperationException("The SQLite image witness handle could not be released.");
+        return nativeHash;
+    }
+
+    private static string HashNativeFile(string path)
+    {
+        using var hash = SHA256.Create();
+        return BitConverter.ToString(hash.ComputeHash(File.ReadAllBytes(path))).Replace("-", "");
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct DlInfo
+    {
+        public IntPtr FileName;
+        public IntPtr BaseAddress;
+        public IntPtr SymbolName;
+        public IntPtr SymbolAddress;
+    }
+
+    [DllImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dlopen", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, ExactSpelling = true)]
+    private static extern IntPtr Dlopen(string path, int mode);
+
+    [DllImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dlsym", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, ExactSpelling = true)]
+    private static extern IntPtr Dlsym(IntPtr handle, string symbol);
+
+    [DllImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dladdr", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    private static extern int Dladdr(IntPtr symbol, out DlInfo info);
+
+    [DllImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dlclose", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    private static extern int Dlclose(IntPtr handle);
+
+    private static async Task VerifyQmdAsync(string root, string mode)
+    {
+        var qmdRoot = Path.Combine(root, "qmd-files");
+        await using var strategy = new QmdSearchStrategy();
+        var storage = new LocalFileStorage(qmdRoot, strategy);
+        var selected = storage.Namespace("selected");
+        if (mode == "write")
+        {
+            for (var index = 0; index < 25; index++)
+                await storage.WriteAsync($"foreign-{index:00}.md", Bytes("# Qmdneedle\nqmdneedle"));
+            await selected.WriteAsync("inside.md", Bytes("qmdneedle " + string.Join(" ", Enumerable.Repeat("ordinary", 200))));
+        }
+        // Refresh the real independent root index, where twenty stronger foreign rows hide the selected row.
+        if ((await storage.SearchAsync("qmdneedle")).Count != 20)
+            throw new InvalidOperationException("QMD root top-twenty refresh failed.");
+        var expected = mode == "write" ? "qmdneedle" : "persistedqmdmarker";
+        var previous = await selected.SearchAsync(expected);
+        if (previous.Count != 1 || previous[0].Key != "inside.md" || previous[0].Data != null || previous[0].Score <= 0 || previous[0].Score > 0.5)
+            throw new InvalidOperationException("QMD selected namespace or fresh-process persisted index failed.");
+        var next = mode == "write" ? "persistedqmdmarker" : "readerqmdmarker";
+        await selected.WriteAsync("inside.md", Bytes(next + " refreshed body"));
+        if ((await selected.SearchAsync(expected)).Count != 0 || (await selected.SearchAsync(next)).Count != 1)
+            throw new InvalidOperationException("QMD externally committed bytes were not refreshed.");
+        await strategy.CloseAsync();
+        if ((await selected.SearchAsync(next)).Count != 1)
+            throw new InvalidOperationException("QMD close/reopen lost the selected index.");
+        // Whitespace retains indexed content, so the separate reader process must recover the prior row from SQLite.
+        await selected.WriteAsync("inside.md", Bytes(" \t\n"));
+        if ((await selected.SearchAsync(next)).Count != 1)
+            throw new InvalidOperationException("QMD whitespace update erased the retained index row.");
+    }
+
+    private static byte[] Bytes(string text) => Encoding.UTF8.GetBytes(text);
+}

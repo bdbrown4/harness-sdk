@@ -1,0 +1,96 @@
+{
+  "Scope": "Preserve absent versus explicitly reported model usage through ordinary Agent telemetry, middleware and after hooks",
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "ParentCaptures": [
+    "automatic-telemetry23-captured-v2",
+    "metric-profiles7-captured",
+    "decisions20-captured"
+  ],
+  "SharedParentFiles": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Models.cs",
+      "Sha256": "664EE00C0BAD577F8424946C46D912D92AAB8080926D35369D08054607886DF0"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/ModelStreamAccumulator.cs",
+      "Sha256": "F97EE228BA3B4525DC895C9FA1D7ABD918EC8D90EF86BC576EBFA96C7DB216A6"
+    }
+  ],
+  "Contracts": 9,
+  "RuntimeRedToGreen": 6,
+  "FirstGreenConformance": 3,
+  "PassingExecutions": 794.0,
+  "NewPassingExecutions": 54,
+  "TrxFiles": 6,
+  "Failed": 0,
+  "Skipped": 0,
+  "Runs": [
+    {
+      "Path": "work/telemetry-results/usage-presence9-final/net48-x64/18126_DESKTOP-47NGAFF_2026-10-21_01_04_59_net48.trx",
+      "Total": 130,
+      "Passed": 130,
+      "NewCases": 9,
+      "Sha256": "96AF97383C5D64D0A76C9F911B3B0CA12C0538DF69674F2F4248DBA6FEF8E11F"
+    },
+    {
+      "Path": "work/telemetry-results/usage-presence9-final/net48-x86/18126_DESKTOP-47NGAFF_2026-10-21_01_05_07_net48.trx",
+      "Total": 130,
+      "Passed": 130,
+      "NewCases": 9,
+      "Sha256": "DC08904E9E52224783638C34089FA9266CDB7F0DE3AFD2FB5DFFBB966549B19B"
+    },
+    {
+      "Path": "work/telemetry-results/usage-presence9-final/Strands.Agents.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_01_01_11_net10.0.trx",
+      "Total": 138,
+      "Passed": 138,
+      "NewCases": 9,
+      "Sha256": "A82C9EE11F8083A691573FCF269BEB463741185090D9944E1C80C37783BD6E82"
+    },
+    {
+      "Path": "work/telemetry-results/usage-presence9-final/Strands.Agents.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_01_00_58_net8.0.trx",
+      "Total": 138,
+      "Passed": 138,
+      "NewCases": 9,
+      "Sha256": "E7AC41AE27E4E9FD76AA178226575768BFD8EAC6EAD200DDE22EA9260A95205F"
+    },
+    {
+      "Path": "work/telemetry-results/usage-presence9-final/Strands.Compatibility.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_01_01_41_net10.0.trx",
+      "Total": 129,
+      "Passed": 129,
+      "NewCases": 9,
+      "Sha256": "532DB832249D63D113F759A255BAA8E393F4B7BDD74E78ED64C2A8B190385260"
+    },
+    {
+      "Path": "work/telemetry-results/usage-presence9-final/Strands.Compatibility.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_01_01_26_net8.0.trx",
+      "Total": 129,
+      "Passed": 129,
+      "NewCases": 9,
+      "Sha256": "FC4C8FD3E75FD6F74CD4CE47A321336547F20137791BD12236D8E0286550BF59"
+    }
+  ],
+  "RuntimeRed": [
+    "work/telemetry-results/usage-presence7-red",
+    "work/telemetry-results/usage-presence9-override-red"
+  ],
+  "ExistingRegression": "Existing middleware Usage override reproduced separately; not counted as a new case",
+  "CompileOnlyFailures": "Transient Llama test imports and incorrect --arch fixture output selection excluded from runtime-red counts; final Frame runs use validated TargetPlatform setting",
+  "Formatting": "Five owned CSharp files positively selected and verified, then two changed override files positively selected and verified; final test verify 0 of332",
+  "Build": "Both modern test targets and the netstandard2.0 asset used by actual Framework hosts compiled",
+  "Compatibility": "Actual installed Framework release534296, physical x64/x86 with pure pointer-size result validator; not clean4.8-only",
+  "PeerReview": "SDK peer bounded review PASS, no confirmed P1/P2; old ctor/accessor ABI retained",
+  "SourceFiles": [
+    "strands-dotnet/src/Strands.Agents/Agent.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.Middleware.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.Telemetry.cs",
+    "strands-dotnet/src/Strands.Agents/Middleware/MiddlewareContexts.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/ModelUsagePresenceTests.cs",
+    "strands-dotnet/docs/AGENT_TELEMETRY.md",
+    "strands-dotnet/docs/MODEL_USAGE_PRESENCE.md"
+  ],
+  "Remaining": [
+    "Combined full-source freeze/package/crossOS gates",
+    "Every provider wire-level absence-detection audit",
+    "Specialized telemetry and remaining run-boundary alternatives",
+    "Current macOS/clean4.8-only proof"
+  ]
+}

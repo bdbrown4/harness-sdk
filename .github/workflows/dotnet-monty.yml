@@ -1,0 +1,277 @@
+name: ".NET: Native Monty"
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
+      windows-runner:
+        type: string
+        default: strands-agents_windows-latest_4-core
+      linux-runner:
+        type: string
+        default: strands-agents_ubuntu-latest_4-core
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    name: Monty native (${{ matrix.rid }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: '${{ inputs.windows-runner }}', rid: win-x86, target: i686-pc-windows-msvc, architecture: X86 }
+          - { os: '${{ inputs.windows-runner }}', rid: win-x64, target: x86_64-pc-windows-msvc, architecture: X64 }
+          - { os: '${{ inputs.linux-runner }}', rid: linux-x64, target: x86_64-unknown-linux-gnu, architecture: X64 }
+          - { os: macos-15-intel, rid: osx-x64, target: x86_64-apple-darwin, architecture: X64 }
+          - { os: macos-latest, rid: osx-arm64, target: aarch64-apple-darwin, architecture: Arm64 }
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: strands-dotnet
+    env:
+      STRANDS_MONTY_EXPECTED_ARCHITECTURE: ${{ matrix.architecture }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Install pinned native toolchain
+        run: rustup toolchain install 1.97.0 --profile minimal --component rustfmt --target ${{ matrix.target }} --no-self-update
+      - name: Build and test the native worker
+        if: matrix.rid != 'linux-x64'
+        run: |
+          New-Item -ItemType Directory -Path artifacts/monty-logs -Force | Out-Null
+          & ./src/Strands.Agents.Monty/native/Build-Native.ps1 -RuntimeIdentifier '${{ matrix.rid }}' *> artifacts/monty-logs/native-${{ matrix.rid }}.log
+          if ($LASTEXITCODE -ne 0) { throw 'Native Monty build failed.' }
+          Get-Content artifacts/monty-logs/native-${{ matrix.rid }}.log
+      - name: Build the Linux worker on glibc 2.31
+        if: matrix.rid == 'linux-x64'
+        shell: bash
+        run: |
+          mkdir -p artifacts/monty-native artifacts/monty-build artifacts/monty-logs
+          docker build --file src/Strands.Agents.Monty/native/Dockerfile.linux --tag strands-monty-linux src/Strands.Agents.Monty/native 2>&1 | tee artifacts/monty-logs/linux-image.log
+          docker run --rm --user "$(id -u):$(id -g)" --env CARGO_HOME=/tmp/monty-cargo --volume "$GITHUB_WORKSPACE:/repo" --workdir /repo/strands-dotnet/src/Strands.Agents.Monty/native strands-monty-linux bash Build-Linux.sh /repo/strands-dotnet/artifacts/monty-native /repo/strands-dotnet/artifacts/monty-build 2>&1 | tee artifacts/monty-logs/native-linux-x64.log
+      - name: Export native dependency licenses and source provenance
+        if: matrix.rid == 'linux-x64'
+        run: ./src/Strands.Agents.Monty/native/Export-Licenses.ps1 -OutputDirectory artifacts/monty-native/licenses
+      - name: Record runtime versions
+        run: dotnet --info
+      - name: Managed tests on both modern runtimes
+        if: matrix.rid != 'win-x86'
+        run: |
+          foreach ($tfm in @('net8.0', 'net10.0')) {
+            dotnet test tests/Strands.Monty.Tests/Strands.Monty.Tests.csproj -c Release -f $tfm --logger 'console;verbosity=normal' --logger trx --results-directory "artifacts/monty-test-results/$tfm" --blame-hang-timeout 120s --blame-hang-dump-type mini
+            if ($LASTEXITCODE -ne 0) { throw "Monty managed tests failed for $tfm." }
+            ./src/Strands.Agents.Monty/native/Assert-TestResults.ps1 -ResultsDirectory "artifacts/monty-test-results/$tfm" -ExpectedArchitecture '${{ matrix.architecture }}'
+            $trx = Get-ChildItem -LiteralPath "artifacts/monty-test-results/$tfm" -Filter '*.trx' -File | Select-Object -First 1
+            ./src/Strands.Agents.Monty/native/Test-ResultGuard.ps1 -TrxPath $trx.FullName -ExpectedArchitecture '${{ matrix.architecture }}'
+          }
+      - name: Framework tests in the requested process architecture
+        if: runner.os == 'Windows'
+        run: |
+          dotnet test tests/Strands.Monty.Tests/Strands.Monty.Tests.csproj -c Release -f net48 --logger 'console;verbosity=normal' --logger trx --results-directory artifacts/monty-test-results/net48 --blame-hang-timeout 120s --blame-hang-dump-type mini -- RunConfiguration.TargetPlatform=${{ matrix.architecture }}
+          if ($LASTEXITCODE -ne 0) { throw 'Monty Framework tests failed.' }
+          ./src/Strands.Agents.Monty/native/Assert-TestResults.ps1 -ResultsDirectory artifacts/monty-test-results/net48 -ExpectedArchitecture '${{ matrix.architecture }}'
+          $trx = Get-ChildItem -LiteralPath artifacts/monty-test-results/net48 -Filter '*.trx' -File | Select-Object -First 1
+          ./src/Strands.Agents.Monty/native/Test-ResultGuard.ps1 -TrxPath $trx.FullName -ExpectedArchitecture '${{ matrix.architecture }}'
+      - name: Preserve executable modes in the native artifact carrier
+        run: |
+          $archive = 'artifacts/monty-native-${{ matrix.rid }}.tar'
+          tar -cf $archive -C artifacts/monty-native 'runtimes/${{ matrix.rid }}' licenses
+          if ($LASTEXITCODE -ne 0) { throw 'Monty native artifact creation failed.' }
+          Get-FileHash -LiteralPath $archive -Algorithm SHA256 | ConvertTo-Json | Set-Content 'artifacts/monty-logs/archive-${{ matrix.rid }}.json'
+      - name: Upload native RID asset and license provenance
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: monty-native-${{ matrix.rid }}
+          path: strands-dotnet/artifacts/monty-native-${{ matrix.rid }}.tar
+          retention-days: 7
+          if-no-files-found: error
+      - name: Retain logs, tests, and failure diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: monty-diagnostics-${{ matrix.rid }}
+          path: |
+            strands-dotnet/artifacts/monty-logs/
+            strands-dotnet/artifacts/monty-test-results/
+          retention-days: 7
+          if-no-files-found: warn
+
+  package:
+    name: Monty complete package
+    needs: native
+    runs-on: ${{ inputs.linux-runner }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: strands-dotnet
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: monty-native-*
+          path: strands-dotnet/artifacts/monty-native-archives
+          merge-multiple: true
+      - name: Expand the verified native Monty tar carriers
+        shell: pwsh
+        working-directory: strands-dotnet
+        run: ./src/Strands.Agents.Monty/native/Expand-NativeArtifacts.ps1 -ArchiveDirectory artifacts/monty-native-archives -DestinationDirectory artifacts/monty-native
+      - name: Build all managed package assets
+        run: dotnet build src/Strands.Agents.Monty/Strands.Agents.Monty.csproj -c Release
+      - name: Verify managed formatting
+        run: |
+          dotnet restore tests/Strands.Monty.Tests/Strands.Monty.Tests.csproj
+          if ($LASTEXITCODE -ne 0) { throw 'Monty test-project restore failed.' }
+          dotnet format src/Strands.Agents.Monty/Strands.Agents.Monty.csproj --no-restore --verify-no-changes --verbosity diagnostic
+          if ($LASTEXITCODE -ne 0) { throw 'Monty package formatting failed.' }
+          dotnet format tests/Strands.Monty.Tests/Strands.Monty.Tests.csproj --no-restore --verify-no-changes --verbosity diagnostic
+          if ($LASTEXITCODE -ne 0) { throw 'Monty test formatting failed.' }
+      - name: Pack and validate public APIs across target frameworks
+        run: |
+          dotnet pack src/Strands.Agents/Strands.Agents.csproj -c Release -o artifacts/monty-packages
+          if ($LASTEXITCODE -ne 0) { throw 'Core package validation failed.' }
+          dotnet pack src/Strands.Agents.Monty/Strands.Agents.Monty.csproj -c Release --no-build -o artifacts/monty-packages
+          if ($LASTEXITCODE -ne 0) { throw 'Monty package validation failed.' }
+      - uses: actions/upload-artifact@v7.0.1
+        with:
+          name: monty-validated-packages
+          path: strands-dotnet/artifacts/monty-packages/
+          retention-days: 7
+          if-no-files-found: error
+
+  consume:
+    name: Monty package consumer (${{ matrix.os }})
+    needs: package
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['${{ inputs.windows-runner }}', '${{ inputs.linux-runner }}', macos-15-intel, macos-latest]
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: strands-dotnet
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v8.0.1
+        with:
+          name: monty-validated-packages
+          path: strands-dotnet/artifacts/monty-packages
+      - name: Consume only published package assets with a fresh cache
+        run: |
+          New-Item -ItemType Directory -Path artifacts/monty-logs -Force | Out-Null
+          ./src/Strands.Agents.Monty/native/Test-Package.ps1 -PackageDirectory artifacts/monty-packages *> artifacts/monty-logs/package-consumer.log
+          if ($LASTEXITCODE -ne 0) { throw 'Independent Monty package consumption failed.' }
+          Get-Content artifacts/monty-logs/package-consumer.log
+      - name: Retain consumer diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: monty-consumer-${{ matrix.os }}
+          path: strands-dotnet/artifacts/monty-logs/
+          retention-days: 7
+          if-no-files-found: warn
+
+  framework48:
+    name: Monty clean Framework 4.8 (x86 and x64)
+    needs: package
+    runs-on: windows-2022
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: monty-native-*
+          path: strands-dotnet/artifacts/monty-native-archives
+          merge-multiple: true
+      - name: Expand the verified native Monty tar carriers
+        shell: pwsh
+        working-directory: strands-dotnet
+        run: ./src/Strands.Agents.Monty/native/Expand-NativeArtifacts.ps1 -ArchiveDirectory artifacts/monty-native-archives -DestinationDirectory artifacts/monty-native
+      - uses: actions/download-artifact@v8.0.1
+        with:
+          name: monty-validated-packages
+          path: strands-dotnet/artifacts/monty-packages
+      - name: Build Framework tests and independent package consumers
+        working-directory: strands-dotnet
+        run: |
+          dotnet build tests/Strands.Monty.Tests/Strands.Monty.Tests.csproj -c Release -f net48
+          if ($LASTEXITCODE -ne 0) { throw 'Monty Framework test build failed.' }
+          ./src/Strands.Agents.Monty/native/Test-Package.ps1 -PackageDirectory artifacts/monty-packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'monty-framework-consumer')
+      - name: Prepare clean Framework runtime
+        run: |
+          New-Item -ItemType Directory -Path artifacts/monty-framework48 -Force | Out-Null
+          git rev-parse HEAD | Set-Content artifacts/monty-framework48/commit.log
+          docker version | Tee-Object -FilePath artifacts/monty-framework48/docker-version.log
+          if ($LASTEXITCODE -ne 0) { throw 'Docker is unavailable.' }
+          nuget install Microsoft.TestPlatform -Version 17.14.1 -OutputDirectory (Join-Path $env:RUNNER_TEMP 'monty-test-platform') -NonInteractive -DirectDownload
+          if ($LASTEXITCODE -ne 0) { throw 'Monty VSTest preparation failed.' }
+          docker pull mcr.microsoft.com/windows/servercore:ltsc2022
+          if ($LASTEXITCODE -ne 0) { throw 'Clean Framework image pull failed.' }
+          docker image inspect mcr.microsoft.com/windows/servercore:ltsc2022 | Set-Content artifacts/monty-framework48/image.json
+      - name: Execute genuine Monty tests and package consumers on clean 4.8
+        run: |
+          foreach ($platform in @('x64', 'x86')) {
+            $consumer = if ($platform -eq 'x64') { 'C:\consumer\consumer\bin\Release\net48\Consumer.exe' } else { 'C:\consumer\framework-x86\Consumer.exe' }
+            docker run --rm --isolation=process `
+              --mount "type=bind,source=$env:GITHUB_WORKSPACE,target=C:\source,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\monty-test-platform,target=C:\test-platform,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\monty-framework-consumer,target=C:\consumer,readonly" `
+              --mount "type=bind,source=$env:GITHUB_WORKSPACE\artifacts\monty-framework48,target=C:\evidence" `
+              mcr.microsoft.com/windows/servercore:ltsc2022 powershell -NoProfile -ExecutionPolicy Bypass `
+              -File C:\source\strands-dotnet\scripts\Test-MontyFramework48.ps1 `
+              -TestAssembly C:\source\strands-dotnet\tests\Strands.Monty.Tests\bin\Release\net48\Strands.Monty.Tests.dll `
+              -VSTestConsole C:\test-platform\Microsoft.TestPlatform.17.14.1\tools\net462\Common7\IDE\Extensions\TestPlatform\vstest.console.exe `
+              -TestResultValidator C:\source\strands-dotnet\src\Strands.Agents.Monty\native\Assert-TestResults.ps1 `
+              -ConsumerExecutable $consumer -Platform $platform -ResultsDirectory "C:\evidence\$platform"
+            if ($LASTEXITCODE -ne 0) { throw "Monty clean Framework $platform verification failed." }
+          }
+      - name: Retain clean Framework runtime and test evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: monty-clean-framework48-evidence
+          path: artifacts/monty-framework48/
+          retention-days: 7
+          if-no-files-found: error

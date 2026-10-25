@@ -1,0 +1,118 @@
+{
+  "UnicodeVersion": "17.0.0",
+  "ReferenceProfile": "Explicit native Unicode17 profile, not a universal JavaScript/engine version claim",
+  "Inputs": [
+    {
+      "Path": "ReadMe.txt",
+      "URL": "https://www.unicode.org/Public/17.0.0/ucd/ReadMe.txt",
+      "SHA256": "9FE1A90BD32659D7953616283DC2BFFAA165518AAE9ACE026040C42C559BA606",
+      "Bytes": 740,
+      "Headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "W/\"2e4-63c70d1ac5600-gzip\"",
+        "Last-Modified": "Sat, 16 Aug 2025 00:45:12 GMT"
+      }
+    },
+    {
+      "Path": "UnicodeData.txt",
+      "URL": "https://www.unicode.org/Public/17.0.0/ucd/UnicodeData.txt",
+      "SHA256": "2E1EFC1DCB59C575EEDF5CCAE60F95229F706EE6D031835247D843C11D96470C",
+      "Bytes": 2198209,
+      "Headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "W/\"218ac1-63c70d19d13c0-gzip\"",
+        "Last-Modified": "Sat, 16 Aug 2025 00:45:11 GMT"
+      }
+    },
+    {
+      "Path": "SpecialCasing.txt",
+      "URL": "https://www.unicode.org/Public/17.0.0/ucd/SpecialCasing.txt",
+      "SHA256": "EFC25FAF19DE21B92C1194C111C932E03D2A5EAF18194E33F1156E96DE4C9588",
+      "Bytes": 17049,
+      "Headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "W/\"4299-63c70d19d13c0-gzip\"",
+        "Last-Modified": "Sat, 16 Aug 2025 00:45:11 GMT"
+      }
+    },
+    {
+      "Path": "DerivedCoreProperties.txt",
+      "URL": "https://www.unicode.org/Public/17.0.0/ucd/DerivedCoreProperties.txt",
+      "SHA256": "24C7FED1195C482FAAEFD5C1E7EB821C5EE1FB6DE07ECDBAA64B56A99DA22C08",
+      "Bytes": 1134783,
+      "Headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "W/\"1150bf-63c70d19d13c0-gzip\"",
+        "Last-Modified": "Sat, 16 Aug 2025 00:45:11 GMT"
+      }
+    },
+    {
+      "Path": "Scripts.txt",
+      "URL": "https://www.unicode.org/Public/17.0.0/ucd/Scripts.txt",
+      "SHA256": "9F5E50D3ABAEE7D6CE09480F325C706F485AE3240912527E651954D2D6B035BF",
+      "Bytes": 192460,
+      "Headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "W/\"2efcc-63c70d19d13c0-gzip\"",
+        "Last-Modified": "Sat, 16 Aug 2025 00:45:11 GMT"
+      }
+    },
+    {
+      "Path": "LICENSE.txt",
+      "URL": "https://www.unicode.org/license.txt",
+      "SHA256": "E7A93B009565CFCE55919A381437AC4DB883E9DA2126FA28B91D12732BC53D96",
+      "Bytes": 1995,
+      "Headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "ETag": "W/\"7cb-647a58e573329-gzip\"",
+        "Last-Modified": "Mon, 05 Jan 2026 15:17:23 GMT"
+      }
+    }
+  ],
+  "Tables": {
+    "LetterNumber": {
+      "Count": 147596,
+      "Ranges": 778,
+      "SHA256": "66D09F2D1E3E0D7FE0CA57A757C6D0A7CAF04617867454BE597CC96388B39982"
+    },
+    "CjkScript": {
+      "Count": 115792,
+      "Ranges": 52,
+      "SHA256": "4624F91E2E00CF6DC4C69BA3E5EAF8FA6BEC0FDC6C45435C9A6F220B13372FFD"
+    },
+    "Cased": {
+      "Count": 4632,
+      "Ranges": 158,
+      "SHA256": "65C63A17F07D1665FF4E0E62CC3E596ABFF6CE2CF4DCD772A33668622FD18136"
+    },
+    "CaseIgnorable": {
+      "Count": 2794,
+      "Ranges": 464,
+      "SHA256": "0A40B35CDEAA263241342F5022B3DCD553D0A42A62B56C0E963021CCF8A1A146"
+    },
+    "EcmaWhitespace": {
+      "Count": 25,
+      "Ranges": 10,
+      "SHA256": "3A7BE8353F01A0E1185EEF339CF3F2CD23D95FBE19182DF8FE8DDEA15F68333E"
+    },
+    "DefaultLower": {
+      "Count": 1488,
+      "SHA256": "9F0E8B92C01A4012E20D250F214AAEA914B97EBA637238213A523DDCC9173BAE"
+    }
+  },
+  "DefaultContextualCasing": "Final_Sigma only; locale-specific tr/az/lt tailoring excluded",
+  "PrimitivePayloadBytes": 14664,
+  "GeneratedData": {
+    "Path": "QmdUnicode17Data.g.cs",
+    "SHA256": "5E01CDB9373F839F7F3FD31C7D97392DB2E7C824E12E7337F37A5E0A6C4863BD"
+  },
+  "StopWords": {
+    "Count": 122,
+    "PinnedSourceSHA256": "FB74E62FD4FA18661010E73354D3937F1078278ED3082883614C9ABB4DB08B36",
+    "Path": "QmdStopWords.g.cs",
+    "SHA256": "47EA37976B72D966EE13E0763F006474F78500E421BDE80C6AE01007614920A7"
+  },
+  "DataGateManifestSHA256": "9B279D75DA7A16B40D400D32D8481FE7085B5960E73EC2BD1898E2A87DC79DCF",
+  "DataGateIndexSHA256": "E18E3489A9A07F52A29825B7C870E7C7C667F96C437F07A7979AAD597DE324B8",
+  "Maintenance": "Download exact listed normative inputs manually, then run python unicode-data/generate.py --inputs DIR --output QmdUnicode17Data.g.cs. Generation is offline, not part of build. Changing profile requires updating provenance and characterizations."
+}

@@ -1,0 +1,84 @@
+{
+  "Scope": "Explicit invocation history bound and TypeScript/Python context-size policies",
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "ParentCapture": "automatic-telemetry23-captured-v2",
+  "Contracts": 7,
+  "RuntimeRedToGreen": 4,
+  "FirstGreenConformance": 3,
+  "PassingExecutions": 674,
+  "NewPassingExecutions": 42,
+  "TrxFiles": 6,
+  "Failed": 0,
+  "Skipped": 0,
+  "Runs": [
+    {
+      "Path": "work/telemetry-results/metric-profiles7-final/net48-x64/18126_DESKTOP-47NGAFF_2026-10-21_00_48_15_net48.trx",
+      "Total": 113,
+      "Passed": 113,
+      "NewCases": 7,
+      "Sha256": "A22134423055A05C27955871F9AA6BBC8F7B6316B4314C56A66B2FB7C68E1317"
+    },
+    {
+      "Path": "work/telemetry-results/metric-profiles7-final/net48-x86/18126_DESKTOP-47NGAFF_2026-10-21_00_48_33_net48.trx",
+      "Total": 113,
+      "Passed": 113,
+      "NewCases": 7,
+      "Sha256": "6A2D3FB7210DD724D533763EDAECAF69AA049D404C45D337A1085D4CF5398975"
+    },
+    {
+      "Path": "work/telemetry-results/metric-profiles7-final/Strands.Agents.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_00_47_28_net10.0.trx",
+      "Total": 112,
+      "Passed": 112,
+      "NewCases": 7,
+      "Sha256": "2A134853650C2E33EFF2A8B0D7325D3651E99F02A19031B5421E024C57C422E2"
+    },
+    {
+      "Path": "work/telemetry-results/metric-profiles7-final/Strands.Agents.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_00_47_17_net8.0.trx",
+      "Total": 112,
+      "Passed": 112,
+      "NewCases": 7,
+      "Sha256": "2694F1AA93F9F971A8A0DDF36BE111011592410CA3C82518DAFC3D30732827E8"
+    },
+    {
+      "Path": "work/telemetry-results/metric-profiles7-final/Strands.Compatibility.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_00_47_58_net10.0.trx",
+      "Total": 112,
+      "Passed": 112,
+      "NewCases": 7,
+      "Sha256": "7F4BDA99C32EE3F8F04F56CE3E2FD4FABD34BDC322311C84BAF999C7D2BC4B64"
+    },
+    {
+      "Path": "work/telemetry-results/metric-profiles7-final/Strands.Compatibility.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_00_47_44_net8.0.trx",
+      "Total": 112,
+      "Passed": 112,
+      "NewCases": 7,
+      "Sha256": "26350222370F4D88C9D80BDE99C11E6A347450A6B8F2FC66CADD66604D18BB11"
+    }
+  ],
+  "RuntimeRed": "work/telemetry-results/metric-profiles5-red",
+  "Build": "All three managed assets compiled, zero warnings/errors",
+  "Formatting": "Positive7ownedCSharp files; final scoped verifies0of724 source and0of318 tests",
+  "SourceSemantics": [
+    "TypeScript retains most recent reported context estimate across boundaries; default history50",
+    "Python selects newest cycle of latest invocation; no cycles meansnull; new cycle startszero",
+    "Python reset_usage_metrics appends invocation history and retains lifetime usage/latency/tools/cycles",
+    "Null MaximumInvocationHistory selects unbounded retention; eviction retains lifetime totals"
+  ],
+  "Compatibility": "Old two-argument AgentMeter constructor preserved; actual installedFrameworkx64/x86, not clean4.8",
+  "PeerReview": "Pending read-only delta review",
+  "SourceFiles": [
+    "strands-dotnet/src/Strands.Agents/Agent.cs",
+    "strands-dotnet/src/Strands.Agents/AgentOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.Telemetry.cs",
+    "strands-dotnet/src/Strands.Agents/Telemetry/ContextSizePolicy.cs",
+    "strands-dotnet/src/Strands.Agents/Telemetry/Metrics/AgentMeter.cs",
+    "strands-dotnet/src/Strands.Agents/Telemetry/Metrics/AgentMetrics.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/Metrics/MetricProfileTests.cs",
+    "strands-dotnet/docs/AGENT_TELEMETRY.md",
+    "strands-dotnet/docs/TELEMETRY_METRICS.md"
+  ],
+  "Remaining": [
+    "Combined full-source freeze and package/crossOS gates",
+    "Current macOS/clean4.8-only proof",
+    "Other telemetry families/run-boundary alternatives"
+  ]
+}

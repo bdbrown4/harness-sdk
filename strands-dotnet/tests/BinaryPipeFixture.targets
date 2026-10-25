@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup><_BinaryPipeFixtureProject>$(MSBuildThisFileDirectory)Strands.BinaryPipe.ProcessFixture/Strands.BinaryPipe.ProcessFixture.csproj</_BinaryPipeFixtureProject></PropertyGroup>
+  <ItemGroup><ProjectReference Include="$(_BinaryPipeFixtureProject)" ReferenceOutputAssembly="false" /></ItemGroup>
+  <Target Name="CopyBinaryPipeFixture" AfterTargets="Build" Condition="'$(TargetFramework)' != ''">
+    <PropertyGroup>
+      <_BinaryPipeFixtureFramework Condition="'$(TargetFramework)' == 'net48'">net48</_BinaryPipeFixtureFramework>
+      <_BinaryPipeFixtureFramework Condition="'$(TargetFramework)' != 'net48'">$(TargetFramework)</_BinaryPipeFixtureFramework>
+    </PropertyGroup>
+    <MSBuild Projects="$(_BinaryPipeFixtureProject)" Targets="GetBinaryPipeFixtureFiles" Properties="TargetFramework=$(_BinaryPipeFixtureFramework);Configuration=$(Configuration)" Condition="'$(TargetFramework)' != 'net48'">
+      <Output TaskParameter="TargetOutputs" ItemName="_BinaryPipeFixtureFiles" />
+    </MSBuild>
+    <MSBuild Projects="$(_BinaryPipeFixtureProject)" Targets="GetBinaryPipeFixtureFiles" Properties="TargetFramework=net48;Configuration=$(Configuration);_BinaryPipeArchitecture=x64;PlatformTarget=x64;RuntimeIdentifier=win-x64;ArtifactsPivots=release_net48_x64" Condition="'$(TargetFramework)' == 'net48'">
+      <Output TaskParameter="TargetOutputs" ItemName="_BinaryPipeFixtureFiles" />
+    </MSBuild>
+    <MSBuild Projects="$(_BinaryPipeFixtureProject)" Targets="GetBinaryPipeFixtureFiles" Properties="TargetFramework=net48;Configuration=$(Configuration);_BinaryPipeArchitecture=x86;PlatformTarget=x86;RuntimeIdentifier=win-x86;ArtifactsPivots=release_net48_x86" Condition="'$(TargetFramework)' == 'net48'">
+      <Output TaskParameter="TargetOutputs" ItemName="_BinaryPipeFixtureFiles" />
+    </MSBuild>
+    <Copy SourceFiles="@(_BinaryPipeFixtureFiles)" DestinationFiles="@(_BinaryPipeFixtureFiles->'$(OutDir)%(BinaryPipeRelativePath)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(OutDir)$(TargetFileName).config;$(OutDir)$(TargetFileName).config" DestinationFiles="$(OutDir)Strands.BinaryPipe.ProcessFixture.x64.exe.config;$(OutDir)Strands.BinaryPipe.ProcessFixture.x86.exe.config" Condition="'$(TargetFramework)' == 'net48' and Exists('$(OutDir)$(TargetFileName).config')" />
+  </Target>
+</Project>

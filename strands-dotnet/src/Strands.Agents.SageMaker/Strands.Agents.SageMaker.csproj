@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <PackageId>Strands.Agents.SageMaker</PackageId>
+    <Description>Native AWS SageMaker Runtime model streaming for Strands Agents.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../CompilerTypeForwarders.cs" Link="CompilerTypeForwarders.cs" />
+    <InternalsVisibleTo Include="Strands.SageMaker.Tests" />
+    <InternalsVisibleTo Include="Strands.Compatibility.Tests" />
+    <ProjectReference Include="../Strands.Agents/Strands.Agents.csproj" />
+    <PackageReference Include="AWSSDK.SageMakerRuntime" Version="4.0.101.13" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../NOTICE" Pack="true" PackagePath="/" />
+    <None Include="../../../LICENSE.APACHE" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+</Project>

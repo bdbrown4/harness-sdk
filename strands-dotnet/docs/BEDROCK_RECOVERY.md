@@ -1,0 +1,17 @@
+# Bedrock request recovery
+
+This isolated B02 minimum adds `BedrockModelOptions.RecoverStaleThinkingBlocks`, which defaults to `false`. The pinned TypeScript and Python providers enable their stale-thinking repair automatically; the explicit opt-in preserves the existing native default.
+
+When enabled, the model retries one failed `Converse` or `ConverseStream` response acquisition only for an official `ValidationException` whose exact error code is `ValidationException` and whose message contains the case-sensitive text `bound to a different conversation`. The accepted request must contain an object-valued `thinking` configuration without any `block_binding` property. A caller-supplied property, including a null value, remains authoritative. Forced tool choices retain the existing removal of thinking.
+
+The retry adds `thinking.block_binding.prefix_mismatch_behavior = "drop_block"` and appends `thinking-binding-controls-2026-08-01` once to the JSON `anthropic_beta` array. Non-array beta values follow the TypeScript JSON rule and are treated as an empty list; Python's incidental coercion of arbitrary iterable values is outside this native contract.
+
+The model remembers the last exact model ID before attempting the retry, including when that retry fails. Later requests to that ID, and native token-count formatting when enabled, use the learned fields. Configuration updates do not mutate the caller's fields or reset that one remembered ID. Concurrent learning is last-write-wins. Turning the option off ignores the remembered value; constructing another model starts without learning.
+
+The request graph is mapped once. A retry changes only its private additional fields and reuses the mapped messages, tool configuration and owned media streams. The same operation token and request deadline cover both SDK calls. Caller cancellation, model disposal, native exception translation and borrowed-client ownership keep their existing contracts. A caller-owned AWS client's own retry configuration or an explicit outer `RetryModel` can produce additional wire attempts.
+
+An error while reading or parsing an acquired response stream is outside this recovery boundary, even before the first native model event is emitted. No partial output, tool call, or Agent history is replayed or synthesized.
+
+`RecoverToolResultTurns` separately opts in to the pinned Python adjacent-turn recovery and defaults to `false`. TypeScript does not implement this repair. An official validation error with the exact code and case-sensitive conversation/tool-result turn message permits one outer retry only when a nonempty user message containing only tool results immediately precedes a nonempty user message containing no tool result. The retry inserts the assistant text `Tool result received.` between them. It does not split a mixed message, remove cache points, mutate caller history, or re-enter the mapper.
+
+The turn retry transforms the original admitted mapped request. Each outer attempt runs the existing one-round thinking recovery, so the source composition can make at most four semantic SDK operations. The thinking slot is learned before its retry; the independent turn slot is learned only after its retry response is acquired. Later stream-read/parser failures do not undo acquisition. Future invocation and native token-count formatting apply remembered turns only for the last exact learned model ID. Both flags remain independent. This minimum has not yet established expanded cross-target/package acceptance.

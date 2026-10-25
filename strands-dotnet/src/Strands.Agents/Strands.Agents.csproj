@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <PackageId>Strands.Agents</PackageId>
+    <Description>Native .NET agent loop, streaming models, tools, hooks, and sessions for Strands Agents.</Description>
+    <PackageTags>strands;agents;ai;llm</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludePrivateSchemaBuildOutput</TargetsForTfmSpecificBuildOutput>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Strands.Agents.Monty" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+    <Compile Include="../../CompilerTypeForwarders.cs" Link="CompilerTypeForwarders.cs" />
+    <InternalsVisibleTo Include="Strands.Agents.Tests" />
+    <InternalsVisibleTo Include="Strands.Compatibility.Tests" />
+    <InternalsVisibleTo Include="Strands.Agents.SageMaker" />
+    <InternalsVisibleTo Include="Strands.Agents.Sqlite" />
+    <InternalsVisibleTo Include="Strands.Agents.BedrockKnowledgeBase" />
+    <InternalsVisibleTo Include="Strands.Agents.S3" />
+    <InternalsVisibleTo Include="Strands.Agents.Bedrock" />
+    <InternalsVisibleTo Include="Strands.Agents.Bidi" />
+    <InternalsVisibleTo Include="Strands.Harness" />
+    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
+    <ProjectReference Include="../Strands.Agents.Schema.Private/Strands.Agents.Schema.Private.csproj" PrivateAssets="all" />
+    <PackageReference Include="ModelContextProtocol.Core" Version="2.2.0" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.10" />
+    <PackageReference Include="System.Text.Json" Version="10.0.13" />
+    <PackageReference Include="YamlDotNet" Version="18.1.0" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../NOTICE" Pack="true" PackagePath="/" />
+    <None Include="../../../LICENSE.APACHE" Pack="true" PackagePath="/" />
+    <None Include="../Strands.Agents.Schema.Private/LICENSE.MIT" Pack="true" PackagePath="licenses/JsonSchema.Net8.0.5/" />
+    <None Include="../Strands.Agents.Schema.Private/UPSTREAM.md" Pack="true" PackagePath="licenses/JsonSchema.Net8.0.5/UPSTREAM.md" />
+    <None Include="licenses/Unicode/LICENSE.txt" Pack="true" PackagePath="licenses/Unicode/" />
+    <None Include="licenses/Unicode/PROVENANCE.md" Pack="true" PackagePath="licenses/Unicode/" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.13" />
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+  <Target Name="IncludePrivateSchemaBuildOutput" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+    <ItemGroup>
+      <_PrivateSchemaOutput Include="@(ReferenceCopyLocalPaths)"
+                            Condition="'%(ReferenceCopyLocalPaths.Extension)' == '.dll' And ('%(ReferenceCopyLocalPaths.Filename)' == 'Strands.Agents.Schema.Private' Or '%(ReferenceCopyLocalPaths.Filename)' == 'Strands.Agents.Schema.Private.resources')" />
+      <BuildOutputInPackage Include="@(_PrivateSchemaOutput)">
+        <FinalOutputPath>%(_PrivateSchemaOutput.Identity)</FinalOutputPath>
+        <TargetPath>%(_PrivateSchemaOutput.DestinationSubDirectory)%(_PrivateSchemaOutput.Filename)%(_PrivateSchemaOutput.Extension)</TargetPath>
+      </BuildOutputInPackage>
+    </ItemGroup>
+    <Error Condition="'@(_PrivateSchemaOutput->Count())' != '10'"
+           Text="Expected the private schema implementation and its nine localization satellites for $(TargetFramework); found @(_PrivateSchemaOutput->Count()) DLLs." />
+  </Target>
+</Project>

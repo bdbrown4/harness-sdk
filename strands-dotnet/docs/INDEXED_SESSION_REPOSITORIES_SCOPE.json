@@ -1,0 +1,30 @@
+{
+  "Capability": "Independent Python indexed SessionRepository family",
+  "UpstreamCommit": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "NativeBaseline": "1cd5d26 exact source archive without later rich/anchor/logging13 overlays",
+  "RequiredOperations": 9,
+  "OptionalMultiAgentOperations": 3,
+  "Contracts": 46,
+  "ObservedRuntimeRedDistinctContracts": 13,
+  "FirstGreenConformance": 33,
+  "AdditionalFrameworkFailures": "Two prior contracts failed on actual Framework paths; one already had an initial scaffold RED. Extended-path file adapter fixes both without host switches.",
+  "Owned": [
+    "strands-dotnet/src/Strands.Agents/SessionRepositories/SessionRecords.cs",
+    "strands-dotnet/src/Strands.Agents/SessionRepositories/ISessionRepository.cs",
+    "strands-dotnet/src/Strands.Agents/SessionRepositories/StorageSessionRepository.cs",
+    "strands-dotnet/src/Strands.Agents/SessionRepositories/FileSessionRepository.cs",
+    "strands-dotnet/src/Strands.Agents/SessionRepositories/SessionRecordCodec.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/SessionRepositories/SessionRepositoryTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/SessionRepositories/SessionRepositorySafetyTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/SessionRepositories/SessionRepositoryConformanceTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/SessionRepositories/SessionRecordJsonTests.cs",
+    "strands-dotnet/docs/INDEXED_SESSION_REPOSITORIES.md",
+    "strands-dotnet/docs/INDEXED_SESSION_REPOSITORIES_SCOPE.json"
+  ],
+  "CompatibilityProjectAdditionOnly": "<Compile Include=\"../Strands.Agents.Tests/SessionRepositories/**/*.cs\" Link=\"SessionRepositories/%(RecursiveDir)%(Filename)%(Extension)\" />",
+  "SourceSemantics": ["Create-session duplicate rejection", "Create-agent/message upsert", "Update-missing rejection and original CreatedAt retention", "Original plus optional effective redaction", "Numeric sparse-ID ordering followed by row pagination", "Detached agent state and optional explicit-ID multi-agent JSON"],
+  "NativePolicies": ["Opaque IDs hashed under validated namespace", "Signed Int64 row identities", "Nonnegative row pagination", "Typed DateTimeOffset timestamps", "Versioned key-bound native envelopes and duplicate-property rejection", "Standard System.Text.Json complete-envelope depth limit", "Optional MaxRecordBytes defaults unbounded", "Per-instance serialization and live storage callback cycle rejection"],
+  "NotIncluded": ["Agent or repository-manager journal integration", "Whole-snapshot store changes", "Foreign serialized-file compatibility", "S3-specific repository", "Concrete session deletion", "Cross-record transactions or external-writer create-if-absent", "Rollback after uncooperative backend late publication"],
+  "FullParity": false,
+  "ReleaseReady": false
+}

@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Manual memory.search/add/inject/extract start and completion helpers only",
+  "status": "implemented_subset",
+  "sourceParent": "a2c6ecde19ac41719bd1536ef905b8c40b7698a2",
+  "files": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Telemetry/Tracer.cs",
+      "sha256": "FE6E10EB4870E875225DDAD514D7802E82F50151E8FCBCF334BC41E078A3C837",
+      "length": 9746
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Telemetry/TraceSpan.cs",
+      "sha256": "2D86B0FAE0D3A8A70C4A650836AB17168D4F77E28FBF4F7E6A2CA00CD1827C19",
+      "length": 10769
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Telemetry/Tracer.Memory.cs",
+      "sha256": "BA1E91EBC7B36CA98529F3A23F4EE65DB5A6D020F1E03B3FF98A3C551E1ABEF6",
+      "length": 9067
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Telemetry/MemorySpanOptions.cs",
+      "sha256": "D984D1FFC38D859347486B25446E5367D3A726A9B0C78949E3AD42658766FEAE",
+      "length": 6263
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Telemetry/MemorySpanContent.cs",
+      "sha256": "98275E494598664785859DD9316164D79584436457E8B601F9048EB2D3A41A61",
+      "length": 2185
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryTelemetry.cs",
+      "sha256": "126FAF7586CD42D9F991F630A5FB883B475C1EB95077B033369ABE5BE42653C4",
+      "length": 4443
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/ManualMemoryTracerTests.cs",
+      "sha256": "9D96D8BCD9D79D004CDF38FEEAF49F51A2B3CF3270D87800591F690801A2AA79",
+      "length": 26888
+    },
+    {
+      "path": "strands-dotnet/docs/MANUAL_MEMORY_TRACING.md",
+      "sha256": "FFE2C4E6A715763BC2C8D3710F8DBF8B1DEBB221BBDB966E753D05F1057D0F6E",
+      "length": 5773
+    }
+  ],
+  "upstreamSources": [
+    {
+      "lines": [
+        664,
+        862
+      ],
+      "path": "strands-ts/src/telemetry/tracer.ts"
+    },
+    {
+      "lines": [
+        170,
+        260
+      ],
+      "path": "strands-ts/src/telemetry/types.ts"
+    },
+    {
+      "lines": [
+        962,
+        1270
+      ],
+      "path": "strands-py/src/strands/telemetry/tracer.py"
+    }
+  ],
+  "profiles": {
+    "default": "TypeScript",
+    "TypeScript": "Ambient parent except forced write/extraction roots; configured service name; no constructor/per-call custom fields; optional missing result fields omitted",
+    "Python": "Optional recording explicit parent; literal provider; per-call custom then supported scalar extras; result store_name/null fields; extraction extras only",
+    "activation": "Helpers never make spans ambient automatically; applications may use handle context helpers",
+    "rawContent": "Memory query/content/results payloads bypass model redaction; placement follows TraceConventions",
+    "sampling": "Unrecorded/propagation-only completion stops without fabricated result/status data"
+  },
+  "verification": {
+    "summary": "work/manual-memory-tracer/final-exact/summary.json",
+    "passing": 614,
+    "trx": 6,
+    "newContracts": 26,
+    "newContractExecutions": 156,
+    "observedRuntimeRedToGreen": 7,
+    "firstGreenConformance": 19,
+    "actualFrameworkRelease": 534296,
+    "cleanFramework48": false,
+    "apiPack": "work/manual-memory-tracer/final-exact/api-pack.log",
+    "sourceInputManifest": "work/manual-memory-exact/source-input-manifest.json",
+    "allTestedSourceHashesVerifiedUnchanged": true,
+    "format": "Positive6production+1test probes; final clean0 files changed"
+  },
+  "excluded": [
+    "Specialized extractor model spans",
+    "New public ambient activation policy",
+    "Exporter provisioning",
+    "Full telemetry or full SDK parity",
+    "Linux and clean Framework4.8 proof of this new increment"
+  ],
+  "sharedIntegrationRequirements": [
+    {
+      "requirement": "Existing Telemetry/**/*.cs linked glob includes ManualMemoryTracerTests.cs; no project replacement",
+      "path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj"
+    }
+  ]
+}

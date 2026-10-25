@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <_SandboxFixtureProject>$(MSBuildThisFileDirectory)Strands.Sandbox.ProcessFixture/Strands.Sandbox.ProcessFixture.csproj</_SandboxFixtureProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(_SandboxFixtureProject)" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <Target Name="CopySandboxProcessFixture" AfterTargets="Build" Condition="'$(TargetFramework)' != ''">
+    <PropertyGroup>
+      <_SandboxFixtureFramework Condition="'$(TargetFramework)' == 'net48'">net48</_SandboxFixtureFramework>
+      <_SandboxFixtureFramework Condition="'$(TargetFramework)' != 'net48'">net8.0</_SandboxFixtureFramework>
+    </PropertyGroup>
+    <MSBuild Projects="$(_SandboxFixtureProject)" Targets="GetSandboxFixtureFiles" Properties="TargetFramework=$(_SandboxFixtureFramework);Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="_SandboxClientFixtureFiles" />
+    </MSBuild>
+    <Copy SourceFiles="@(_SandboxClientFixtureFiles)" DestinationFolder="$(OutDir)SandboxProcessFixture" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

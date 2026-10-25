@@ -1,0 +1,49 @@
+name: ".NET: Nova Windows transport"
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
+      windows-runner:
+        type: string
+        default: strands-agents_windows-latest_4-core
+permissions:
+  contents: read
+jobs:
+  native:
+    name: Static-CRT Nova transport win-x86 and win-x64
+    runs-on: ${{ inputs.windows-runner }}
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: strands-dotnet
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - name: Build both pinned Nova transport architectures without AWS requests
+        run: |
+          New-Item -ItemType Directory -Path artifacts/nova-logs -Force | Out-Null
+          foreach ($architecture in @('x86', 'x64')) {
+            & ./src/Strands.Agents.Bedrock/native/NovaTransport/Build-NovaTransport.ps1 -Architecture $architecture -WorkingDirectory (Join-Path $env:RUNNER_TEMP "strands-nova-$architecture") -OutputDirectory artifacts/nova-native *> "artifacts/nova-logs/build-win-$architecture.log"
+            if ($LASTEXITCODE -ne 0) { throw "Nova native $architecture build failed." }
+            Get-Content "artifacts/nova-logs/build-win-$architecture.log"
+          }
+      - name: Share both verified Nova native architectures and source provenance
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: nova-native-windows
+          path: strands-dotnet/artifacts/nova-native/
+          retention-days: 7
+          if-no-files-found: error
+      - name: Retain native build diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: nova-build-diagnostics
+          path: strands-dotnet/artifacts/nova-logs/
+          retention-days: 7
+          if-no-files-found: warn

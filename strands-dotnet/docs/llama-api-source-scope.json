@@ -1,0 +1,56 @@
+{
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "Provider": "Meta Llama API",
+  "Source": "strands-py/src/strands/models/llamaapi.py",
+  "Scope": [
+    "Native Meta event SSE, not OpenAI chat framing",
+    "Borrowed HttpClient with fixed or asynchronous credential callback",
+    "All six pinned model configuration fields, immutable typed updates",
+    "Text, inline image and correlated rich text/JSON/image tool results",
+    "Buffered native function deltas including first argument fragment and sticky identity",
+    "Native stop reasons and exact nonnegative integral values from float-schema token metrics",
+    "Source warning/ignored tool choice by default; explicit vendor-supported all-mode wire opt-in"
+  ],
+  "SourceDeprecation": "Pinned Python marks the Meta service deprecated and class removal planned for v2; no Obsolete compiler attribute is introduced.",
+  "NativeDifferences": [
+    "Assistant text blocks concatenate instead of truncating after the first block",
+    "The first tool argument fragment is preserved",
+    "Unrepresentable content is rejected before credential callbacks and transport rather than silently skipped",
+    "Complete event and valid tool correlation are required before terminal success",
+    "No fabricated zero timing is emitted; raw native metrics remain detached message metadata"
+  ],
+  "Remaining": [
+    "Pinned provider-native structured_output remains unimplemented upstream; this adapter adds no false native structured-output claim",
+    "No live Meta service credentials or endpoint availability were tested",
+    "Vercel LanguageModelV3 and LiteLLM library/router bridges remain separate provider gaps"
+  ],
+  "VerificationProfile": "Native HttpClient/HttpMessageHandler plus real streamed HttpContent fixtures; no foreign runtime or service costs",
+  "ActualRuntimeRedCases": 24,
+  "TotalBehaviorCases": 64,
+  "Review": "Parent bounded read-only review found source inline-image tool-result and Framework diagnostic-copy defects; actual RED2 reproduced and fixed, final bounded PASS.",
+  "ConformanceCasesWithoutClaimedProductRed": 40,
+  "FixtureCorrections": [
+    "Missing portable HttpClient imports were compile failures, not runtime REDs",
+    "Three added cancellation conformance fixtures initially assumed Framework HttpClient preserves canceled async-handler exception identity; synchronous native-handler fixtures now test the actual shared boundary",
+    "Modern HttpClient may add an exact-token wrapper: diagnostic assertions require the original cancellation to be the actual reachable InnerException, while native normalization asserts direct runtime diagnostics"
+  ],
+  "Reuse": [
+    "The same native text/image formatter is used for ordinary content and source-supported tool-result content after JSON-to-text conversion",
+    "The existing runtime-diagnostics cancellation exception now serves both actual Framework body-open and send-normalization needs; no public abstraction or extra dependency was added"
+  ],
+  "DesignReferences": [
+    "https://www.hanselman.com/blog/we-are-abstracting-on-the-shoulders-of-giants",
+    "https://newsletter.kentbeck.com/p/canon-tdd"
+  ],
+  "AssistantProjectionFollowup": {
+    "PreservedBaseManifest": "base57-owned-manifest.json",
+    "PreservedBaseSha256": "458E967799323A07B0B8285B526474087923E248E8F0B6537116CC1534D9C1A5",
+    "AddedCases": 7,
+    "ObservedRuntimeRedCases": 5,
+    "ConformanceCasesWithoutClaimedProductRed": 2,
+    "Default": "ConcatenatedText",
+    "OptIn": "PythonFirstBlock validates all ordinary blocks, then retains the first supported text/inline-image block; tools remain separately correlated",
+    "VendorMismatch": "Pinned Python can project an assistant image although the published typed assistant schema permits string/TextContentItem; opt-in does not claim live-service acceptance"
+  },
+  "FixedCoreDependencyCommit": "08784bf381587308ae426a0865013c32b75822aa"
+}

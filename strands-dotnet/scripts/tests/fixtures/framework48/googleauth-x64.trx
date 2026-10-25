@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TestRun xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010"><Results><UnitTestResult executionId="34d552f6-8ecc-4f63-9e72-5d8a6fdf8afa" testId="8d0c66e5-2cce-c91c-af8f-217c6f755f9f" testName="Strands.Compatibility.Tests.RuntimeArchitectureCompatibilityTests.TestHostUsesTheRequestedProcessArchitecture" computerName="fixture-host" duration="00:00:00.2020000" startTime="2026-10-21T08:43:53.1620395-04:00" endTime="2026-10-21T08:43:53.3655893-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="34d552f6-8ecc-4f63-9e72-5d8a6fdf8afa">
+      <Output>
+        <StdOut>{"PointerSize":8,"Runtime":".NET Framework 4.8.10008.0","ProcessArchitecture":"X64","ExpectedArchitecture":"x64"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    </Results><TestDefinitions><UnitTest name="Strands.Compatibility.Tests.RuntimeArchitectureCompatibilityTests.TestHostUsesTheRequestedProcessArchitecture" storage="fixture.dll" id="8d0c66e5-2cce-c91c-af8f-217c6f755f9f">
+      <Execution id="34d552f6-8ecc-4f63-9e72-5d8a6fdf8afa" />
+      <TestMethod codeBase="fixture.dll" adapterTypeName="executor://xunit/VsTestRunner3/netfx/" className="Strands.Compatibility.Tests.RuntimeArchitectureCompatibilityTests" name="TestHostUsesTheRequestedProcessArchitecture" />
+    </UnitTest>
+    </TestDefinitions><ResultSummary><Counters total="1" executed="1" passed="1" failed="0" notExecuted="0" /></ResultSummary></TestRun>

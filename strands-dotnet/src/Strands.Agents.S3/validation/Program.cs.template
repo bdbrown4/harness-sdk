@@ -1,0 +1,122 @@
+using System.Globalization;
+using System.Net;
+using System.Net.Sockets;
+using System.Security;
+using System.Text;
+using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Strands.Agents.S3;
+using Strands.Agents.Storage;
+
+internal static class Program
+{
+    private static void Check(bool value, string message) { if (!value) throw new InvalidOperationException(message); }
+    private static async Task Main(string[] args)
+    {
+        Check(args.Length == 1 && IntPtr.Size == int.Parse(args[0], CultureInfo.InvariantCulture), "Physical pointer assertion failed.");
+        using var fixture = new LocalS3();
+        using var client = new AmazonS3Client(new BasicAWSCredentials("fixture-access", "fixture-secret"), new AmazonS3Config { ServiceURL = fixture.Url, ForcePathStyle = true, AuthenticationRegion = "us-east-1", MaxErrorRetry = 0, Timeout = TimeSpan.FromSeconds(15) });
+        var configuration = client.Config;
+        var storage = new S3Storage(client, "fixture-bucket", new S3StorageOptions { Prefix = "/root///" });
+        var payload = new byte[] { 0, 255, 13, 10, 128, 240, 159, 152, 128 };
+        try
+        {
+            var scoped = storage.Namespace("scope"); var input = (byte[])payload.Clone();
+            await scoped.WriteAsync("entries/雪 +%", input); input[0] = 9; await scoped.WriteAsync("empty", Array.Empty<byte>());
+            var read = (await scoped.ReadAsync("entries/雪 +%"))!; Check(read.SequenceEqual(payload), "Native byte round trip failed."); read[0] = 7;
+            Check((await scoped.ReadAsync("entries/雪 +%"))!.SequenceEqual(payload), "Read buffers were retained."); Check((await scoped.ReadAsync("empty"))!.Length == 0, "Empty byte object was lost.");
+            Check((await scoped.ListAsync()).SequenceEqual(new[] { "empty", "entries/雪 +%" }), "Native namespace/list failed.");
+            Check((await scoped.SearchAsync("entries")).Single().Key == "entries/雪 +%", "Native keyword search failed.");
+            await scoped.DeleteAsync("entries/雪 +%"); await scoped.DeleteAsync("empty"); await scoped.DeleteAsync("missing");
+            Check(await scoped.ReadAsync("entries/雪 +%") is null, "NoSuchKey did not represent a missing object."); Check((await scoped.ListAsync()).Count == 0, "Deletes left listed objects.");
+        }
+        finally { await storage.DisposeAsync(); }
+        Check(ReferenceEquals(configuration, client.Config), "Borrowed configuration changed.");
+        var available = await client.ListObjectsV2Async(new ListObjectsV2Request { BucketName = "fixture-bucket", Prefix = "root/", MaxKeys = 1000 });
+        Check((available.S3Objects?.Count ?? 0) == 0, "Borrowed client was unusable after storage disposal.");
+        Check(fixture.Requests >= 15 && fixture.Put && fixture.Get && fixture.Delete && fixture.List, "Expected official SDK protocol operations were absent.");
+        Console.WriteLine("S3 package: fourOps=ok; namespace=ok; search=ok; borrowed=true; pointer=" + IntPtr.Size.ToString(CultureInfo.InvariantCulture));
+    }
+
+    // This private bounded localhost fixture is not an AWS service emulator or live cloud proof.
+    private sealed class LocalS3 : IDisposable
+    {
+        private readonly TcpListener _listener = new(IPAddress.Loopback, 0);
+        private readonly CancellationTokenSource _stop = new(TimeSpan.FromSeconds(45));
+        private readonly Dictionary<string, byte[]> _objects = new(StringComparer.Ordinal);
+        private readonly Task _loop;
+        internal string Url { get; }
+        internal int Requests { get; private set; }
+        internal bool Put { get; private set; }
+        internal bool Get { get; private set; }
+        internal bool Delete { get; private set; }
+        internal bool List { get; private set; }
+        internal LocalS3() { _listener.Start(); Url = "http://127.0.0.1:" + ((IPEndPoint)_listener.LocalEndpoint).Port.ToString(CultureInfo.InvariantCulture); _loop = ServeAsync(); }
+        private async Task ServeAsync()
+        {
+            using var registration = _stop.Token.Register(_listener.Stop);
+            try
+            {
+                while (true)
+                {
+                    using var connection = await _listener.AcceptTcpClientAsync().ConfigureAwait(false); using var stream = connection.GetStream();
+                    var header = await HeaderAsync(stream).ConfigureAwait(false); var lines = header.Split(new[] { "\r\n" }, StringSplitOptions.None); var first = lines[0].Split(' ');
+                    var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                    foreach (var line in lines.Skip(1)) { var colon = line.IndexOf(':'); if (colon > 0) headers[line.Substring(0, colon)] = line.Substring(colon + 1).Trim(); }
+                    Check(headers.TryGetValue("Authorization", out var authorization) && authorization.StartsWith("AWS4-HMAC-SHA256 ", StringComparison.Ordinal), "Request was not serialized/signed by the official SDK.");
+                    if (headers.TryGetValue("Expect", out var expect) && expect.IndexOf("100-continue", StringComparison.OrdinalIgnoreCase) >= 0) await SendAsync(stream, Encoding.ASCII.GetBytes("HTTP/1.1 100 Continue\r\n\r\n")).ConfigureAwait(false);
+                    Check(!headers.ContainsKey("Transfer-Encoding"), "Fixture expected a bounded content-length request.");
+                    var bodyLength = headers.TryGetValue("Content-Length", out var length) ? int.Parse(length, CultureInfo.InvariantCulture) : 0; Check(bodyLength >= 0 && bodyLength <= 65536, "Fixture payload exceeded its small bound."); var body = new byte[bodyLength];
+                    for (var offset = 0; offset < body.Length;) { var read = await stream.ReadAsync(body, offset, body.Length - offset, _stop.Token).ConfigureAwait(false); if (read == 0) throw new EndOfStreamException(); offset += read; }
+                    if (headers.TryGetValue("Content-Encoding", out var encoding) && encoding.IndexOf("aws-chunked", StringComparison.OrdinalIgnoreCase) >= 0) body = DecodeAwsChunks(body);
+                    var uri = new Uri(Url + first[1]); var path = Uri.UnescapeDataString(uri.AbsolutePath); Check(path.StartsWith("/fixture-bucket", StringComparison.Ordinal), "Unexpected fixture bucket.");
+                    var key = path.Length > 16 ? path.Substring(16).TrimStart('/') : ""; var query = new Dictionary<string, string>(StringComparer.Ordinal);
+                    foreach (var part in uri.Query.TrimStart('?').Split('&')) { var equal = part.IndexOf('='); if (equal > 0) query[Uri.UnescapeDataString(part.Substring(0, equal))] = Uri.UnescapeDataString(part.Substring(equal + 1).Replace("+", " ")); }
+                    Requests++;
+                    var status = 200; var kind = "application/octet-stream"; byte[] response;
+                    if (first[0] == "PUT") { Put = true; _objects[key] = body; response = Array.Empty<byte>(); }
+                    else if (first[0] == "DELETE") { Delete = true; _objects.Remove(key); status = 204; response = Array.Empty<byte>(); }
+                    else if (query.ContainsKey("list-type"))
+                    {
+                        List = true; Check(query["list-type"] == "2" && query["max-keys"] == "1000", "Unexpected list protocol."); var prefix = query.TryGetValue("prefix", out var value) ? value : "";
+                        var objects = string.Concat(_objects.Keys.Where(item => item.StartsWith(prefix, StringComparison.Ordinal)).OrderBy(item => item, StringComparer.Ordinal).Select(item => "<Contents><Key>" + SecurityElement.Escape(item) + "</Key><Size>" + _objects[item].Length.ToString(CultureInfo.InvariantCulture) + "</Size></Contents>"));
+                        response = Encoding.UTF8.GetBytes("<ListBucketResult xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Name>fixture-bucket</Name><IsTruncated>false</IsTruncated>" + objects + "</ListBucketResult>"); kind = "application/xml";
+                    }
+                    else
+                    {
+                        Get = true;
+                        if (!_objects.TryGetValue(key, out response!)) { status = 404; response = Encoding.UTF8.GetBytes("<Error><Code>NoSuchKey</Code><Message>fixture missing</Message><RequestId>fixture</RequestId></Error>"); kind = "application/xml"; }
+                    }
+                    await SendAsync(stream, Encoding.ASCII.GetBytes("HTTP/1.1 " + status.ToString(CultureInfo.InvariantCulture) + " Fixture\r\nConnection: close\r\nx-amz-request-id: fixture\r\nContent-Type: " + kind + "\r\nContent-Length: " + response.Length.ToString(CultureInfo.InvariantCulture) + "\r\n\r\n")).ConfigureAwait(false);
+                    await SendAsync(stream, response).ConfigureAwait(false);
+                }
+            }
+            catch (SocketException) when (_stop.IsCancellationRequested) { }
+            catch (ObjectDisposedException) when (_stop.IsCancellationRequested) { }
+        }
+        private async Task<string> HeaderAsync(Stream stream)
+        {
+            using var buffer = new MemoryStream(); var next = new byte[1];
+            while (buffer.Length < 65536)
+            {
+                if (await stream.ReadAsync(next, 0, 1, _stop.Token).ConfigureAwait(false) == 0) throw new EndOfStreamException(); buffer.WriteByte(next[0]); var bytes = buffer.GetBuffer(); var length = (int)buffer.Length;
+                if (length >= 4 && bytes[length - 4] == 13 && bytes[length - 3] == 10 && bytes[length - 2] == 13 && bytes[length - 1] == 10) return Encoding.ASCII.GetString(bytes, 0, length - 4);
+            }
+            throw new InvalidDataException("Fixture headers exceeded the small bound.");
+        }
+        private static byte[] DecodeAwsChunks(byte[] input)
+        {
+            using var output = new MemoryStream(); var offset = 0;
+            while (offset < input.Length)
+            {
+                var end = offset; while (end + 1 < input.Length && !(input[end] == 13 && input[end + 1] == 10)) end++;
+                Check(end + 1 < input.Length, "Incomplete SDK aws-chunked header."); var size = int.Parse(Encoding.ASCII.GetString(input, offset, end - offset).Split(';')[0], NumberStyles.HexNumber, CultureInfo.InvariantCulture); offset = end + 2;
+                if (size == 0) return output.ToArray(); Check(size >= 0 && size <= input.Length - offset - 2, "Invalid SDK aws-chunked length."); output.Write(input, offset, size); offset += size; Check(input[offset] == 13 && input[offset + 1] == 10, "Invalid SDK chunk terminator."); offset += 2;
+            }
+            throw new InvalidDataException("SDK aws-chunked payload was incomplete.");
+        }
+        private Task SendAsync(Stream stream, byte[] bytes) => stream.WriteAsync(bytes, 0, bytes.Length, _stop.Token);
+        public void Dispose() { _stop.Cancel(); _listener.Stop(); try { _loop.GetAwaiter().GetResult(); } finally { _stop.Dispose(); } }
+    }
+}

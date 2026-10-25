@@ -1,0 +1,21 @@
+<Project>
+  <!-- Keep both architectures nested. An AnyCPU Framework application can run in either process architecture. -->
+  <Target Name="StrandsAgentsCollectNovaNativeAssets"
+          BeforeTargets="AssignTargetPaths;GetCopyToOutputDirectoryItems"
+          Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <ItemGroup>
+      <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\strands-nova-crt.dll">
+        <Link>runtimes/win-x64/native/strands-nova-crt.dll</Link>
+        <TargetPath>runtimes/win-x64/native/strands-nova-crt.dll</TargetPath>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x86\native\strands-nova-crt.dll">
+        <Link>runtimes/win-x86/native/strands-nova-crt.dll</Link>
+        <TargetPath>runtimes/win-x86/native/strands-nova-crt.dll</TargetPath>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+  </Target>
+</Project>

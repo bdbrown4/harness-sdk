@@ -1,0 +1,11 @@
+# Stop helper
+
+`Stop.Create()` creates an optional tool using the pinned Python deferred cancellation profile. `Stop.Create(new() { Behavior = StopBehavior.TypeScriptEndTurn })` selects the experimental TypeScript ordinary end-turn profile. The factory is inert; tools bind their lifecycle to the agent that calls them.
+
+Python behavior requests `Agent.Cancel(message, afterCurrentTools: true)` and returns the same message. Already admitted siblings settle before the terminal cancellation result. TypeScript behavior installs private, weak-owner hooks on first use, matches a request to the originating invocation state and authoritative tool-result ID, and consumes it once after tools complete. Invocation completion and shutdown expire pending requests. Existing stateful acknowledgement, delegation, independent failure and caller cancellation guards remain authoritative.
+
+Absent, null, or empty messages select `Agent loop stopped.` before the supplied-message cap; a cap of one therefore still permits that longer default. Nonempty whitespace is retained. `MaximumMessageLength` defaults to 4096 and must be positive. Python counts Unicode code points; TypeScript counts UTF-16 code units. These profiles do not promise identical generated-schema bytes or foreign runtime string behavior for malformed surrogate sequences.
+
+Direct tool cancellation preserves the attributable operation or captured-context token. Ordinary `Agent.InvokeAsync` can represent attributable caller cancellation as an `AgentResult` with `StopReasons.Cancelled`; the optional Stop tool does not replace that established result contract. Completed tool results and accepted interrupt ledgers use the separately accepted durable-save bookkeeping, including dirty retry after a failed write. Stop itself adds no session format or persistence hook.
+
+Primary sources are pinned at `3bd98e618320f0f286acbfb2252f72388030421b`: `strands-py/src/strands/vended_tools/stop/stop.py` and `strands-ts/src/experimental/vended-tools/stop/{stop,types}.ts`. Python's exact argument is `after_current_tools=True`. The TypeScript feature remains experimental upstream. This component's selected fake-model/hook tests do not certify a complete combined matrix, an external service, genuine Framework 4.8, Linux or macOS.

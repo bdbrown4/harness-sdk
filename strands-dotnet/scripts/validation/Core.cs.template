@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using Strands.Agents;
+
+internal static class Program
+{
+    private static void Require(bool condition, string message)
+    {
+        if (!condition) throw new InvalidOperationException(message);
+    }
+
+    private static async Task Main(string[] args)
+    {
+        Require(args.Length == 1 && int.Parse(args[0]) == IntPtr.Size, "process architecture");
+        var model = new Model();
+        var calls = 0;
+        var tool = new FunctionTool(new ToolSpec("echo", "Echo a value", JsonSerializer.SerializeToElement(new
+        {
+            type = "object", properties = new { value = new { type = "string" } }, required = new[] { "value" }, additionalProperties = false
+        })), (input, context, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            Require(context.ToolUse.ToolUseId == "package-call", "tool correlation");
+            calls++;
+            return new ValueTask<string>(input.GetProperty("value").GetString()!);
+        });
+        var agent = new Agent(new AgentOptions { Model = model, Tools = new[] { tool } });
+        try
+        {
+            var result = await agent.InvokeAsync("echo package");
+            Require(result.ToString() == "core-ok" && result.StopReason == StopReasons.EndTurn, "completed result");
+            Require(result.Turns == 2 && calls == 1 && model.Calls == 2, "one tool body across two model turns");
+            Require(result.Usage.InputTokens == 7 && result.Usage.OutputTokens == 4, "usage");
+            Require(agent.Messages.Count == 4 && agent.Messages[3].Role == Role.Assistant, "committed conversation");
+        }
+        finally { await agent.DisposeAsync(); }
+        Require(model.Disposed == 0, "borrowed model ownership");
+        model.Dispose();
+        Require(model.Disposed == 1, "caller model cleanup");
+        Console.WriteLine("PASS core-package-tool-cycle pointer=" + IntPtr.Size);
+    }
+
+    private sealed class Model : IModel, IDisposable
+    {
+        internal int Calls;
+        internal int Disposed;
+        public async IAsyncEnumerable<ModelStreamEvent> StreamAsync(ModelRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            Calls++;
+            yield return new ModelMessageStartEvent();
+            if (Calls == 1)
+            {
+                Require(request.Messages.Count == 1 && request.Messages[0].Text == "echo package", "input conversation");
+                Require(request.Tools is { Count: 1 } && request.Tools[0].Name == "echo", "published tool schema");
+                yield return new ModelContentBlockStartEvent(0, new ToolUseBlock("package-call", "echo", JsonSerializer.SerializeToElement(new { })));
+                yield return new ModelContentBlockDeltaEvent(0, ToolInput: "{\"value\":\"echoed\"}");
+                yield return new ModelContentBlockStopEvent(0);
+                yield return new ModelMessageStopEvent(StopReasons.ToolUse);
+            }
+            else
+            {
+                Require(Calls == 2 && request.Messages.Count == 3, "continued conversation");
+                var reply = request.Messages[2].Content.Single() as ToolResultBlock;
+                Require(reply is not null && reply.ToolUseId == "package-call" && reply.Status == ToolResultStatus.Success && reply.Content == "echoed", "correlated successful result");
+                yield return new ModelContentBlockStartEvent(0);
+                yield return new ModelContentBlockDeltaEvent(0, Text: "core-ok");
+                yield return new ModelContentBlockStopEvent(0);
+                yield return new ModelMessageStopEvent(StopReasons.EndTurn);
+                yield return new ModelMetadataEvent(new Usage(7, 4));
+            }
+            await Task.CompletedTask;
+        }
+        public void Dispose() { Disposed++; }
+    }
+}

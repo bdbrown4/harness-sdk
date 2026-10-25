@@ -1,0 +1,71 @@
+using System.Diagnostics;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Strands.Agents.Telemetry;
+
+if (args.Length != 0)
+{
+    if (args.Length != 1 || !int.TryParse(args[0], out var expectedPointer) || expectedPointer is not (4 or 8) || IntPtr.Size != expectedPointer)
+        throw new InvalidOperationException("The package consumer has the wrong process architecture.");
+    var asset = (System.Runtime.Versioning.TargetFrameworkAttribute?)Attribute.GetCustomAttribute(typeof(StrandsTelemetryOptions).Assembly, typeof(System.Runtime.Versioning.TargetFrameworkAttribute));
+    if (asset?.FrameworkName != ".NETStandard,Version=v2.0") throw new InvalidOperationException("Framework consumption must select the normal .NET Standard 2.0 asset.");
+    Console.WriteLine($"OpenTelemetry package architecture: pointer={IntPtr.Size}; asset=netstandard2.0");
+}
+
+var spans = new List<Activity>();
+var spanExporter = new CaptureExporter<Activity>(spans);
+var traceBuilder = Sdk.CreateTracerProviderBuilder().SetSampler(new AlwaysOnSampler()).ConfigureResource(resource =>
+    resource.AddService("host-service").AddAttributes(new Dictionary<string, object> { ["host.region"] = "offline" }));
+Require(ReferenceEquals(traceBuilder, traceBuilder.AddStrandsInstrumentation(new() { ServiceName = "package-consumer" })));
+using (var traces = traceBuilder.AddProcessor(new SimpleActivityExportProcessor(spanExporter)).Build())
+{
+    Require(spanExporter.Disposals == 0);
+    new Strands.Agents.Telemetry.Tracer().StartSpan("consumer.first").End();
+    new Strands.Agents.Telemetry.Tracer().StartSpan("consumer.second").End();
+    Require(traces.ForceFlush(5000));
+    Require(spans.Count == 2 && spans[0].DisplayName == "consumer.first" && spans[1].DisplayName == "consumer.second");
+    Require(spanExporter.Disposals == 0);
+    Require(traces.GetResource().Attributes.Any(pair => pair.Key == "service.name" && Equals(pair.Value, "package-consumer")));
+    Require(traces.GetResource().Attributes.Any(pair => pair.Key == "host.region" && Equals(pair.Value, "offline")));
+}
+Require(spanExporter.Disposals == 1);
+
+var measurements = new List<Metric>();
+var metricExporter = new CaptureExporter<Metric>(measurements);
+var metricBuilder = Sdk.CreateMeterProviderBuilder();
+Require(ReferenceEquals(metricBuilder, metricBuilder.AddStrandsInstrumentation(new() { ServiceName = "package-consumer" })));
+using (var metrics = metricBuilder.AddReader(new BaseExportingMetricReader(metricExporter)).Build())
+{
+    Require(metricExporter.Disposals == 0);
+    new AgentMeter().StartNewInvocation();
+    Require(metrics.ForceFlush(5000));
+    var invocation = measurements.Single(value => value.Name == "gen_ai.agent.invocation.count");
+    var points = new List<long>();
+    foreach (var point in invocation.GetMetricPoints()) points.Add(point.GetSumLong());
+    Require(points.Count == 1 && points[0] == 1 && metricExporter.Disposals == 0);
+    Require(metrics.GetResource().Attributes.Any(pair => pair.Key == "service.name" && Equals(pair.Value, "package-consumer")));
+}
+Require(metricExporter.Disposals == 1);
+Console.WriteLine("OpenTelemetry package: spans=2; invocations=1; resource=ok; ownership=ok");
+
+static void Require(bool condition)
+{
+    if (!condition) throw new InvalidOperationException("Native OpenTelemetry package contract failed.");
+}
+
+sealed class CaptureExporter<T>(List<T> values) : BaseExporter<T> where T : class
+{
+    public int Disposals { get; private set; }
+    public override ExportResult Export(in Batch<T> batch)
+    {
+        foreach (var value in batch) values.Add(value);
+        return ExportResult.Success;
+    }
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing) Disposals++;
+        base.Dispose(disposing);
+    }
+}

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/Strands.Agents/Strands.Agents.csproj" />
+  <Project Path="src/Strands.Agents.SageMaker/Strands.Agents.SageMaker.csproj" />
+  <Project Path="tests/Strands.SageMaker.Tests/Strands.SageMaker.Tests.csproj" />
+</Solution>

@@ -1,0 +1,86 @@
+{
+  "UpstreamBaseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "Scope": "Standalone local execution traces and native activity emission only; automatic agent integration, content policy, metrics and exporter setup remain pending.",
+  "BehaviorCases": 12,
+  "ObservedRuntimeRedToGreen": 9,
+  "ImmediatelyGreen": 3,
+  "PassingManagedExecutions": 50,
+  "Failed": 0,
+  "Skipped": 0,
+  "LocalFrameworkIsClean48": false,
+  "SourceFiles": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/AgentTrace.cs",
+      "Sha256": "AC199E49A167BE158166092F73FC361B67A5E671ECEBE7B51EF1BAA66934FED5"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/Tracer.cs",
+      "Sha256": "1622D3B992E93929DA92ADE247308E889AC785712C4FFD95FF3E6C20D1D74D13"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/TraceSpan.cs",
+      "Sha256": "37CCB12CA01D23290170B661790EA7FA0904CA9139064D00E7838F3E6201D5D9"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/AgentTraceTests.cs",
+      "Sha256": "A1300C3D02950E2233F101780648628A7417ABDDBE217483A343BC270044ABAE"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/TracerTests.cs",
+      "Sha256": "832A625E59C0FCA85C264310AD8E0DEC6FFC407ACEA470F171937B8DA38D9127"
+    },
+    {
+      "Path": "strands-dotnet/docs/TELEMETRY.md",
+      "Sha256": "861862F5F63EA23029EF0A6EC690941FCA3A1689DE954EDB21C3839150798BED"
+    }
+  ],
+  "ObservedSharedDependencies": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Strands.Agents.csproj",
+      "Sha256": "6CED110D429A2A3E00E265B75F61E5407C06226F3205E86FEADD12703609BD9A"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Messages.cs",
+      "Sha256": "440EB7A0E1D08412FB96017C61B2E935F009319B3351C10B445F3B34C1EB7FA5"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj",
+      "Sha256": "CE117C6C80029ED538B6F3037E5E1E0BF974E543C9303A344B77B8455698D3E4"
+    }
+  ],
+  "Tests": [
+    {
+      "Path": "work/telemetry-results/local12-final/core-net8.0/18126_DESKTOP-47NGAFF_2026-10-20_21_52_32_net8.0.trx",
+      "Target": "core-net8.0",
+      "Passed": 12,
+      "Sha256": "2A265674F4CA010740BB6C7AB68E99EB725FED04A01F122A42FA0D0D64025EC2"
+    },
+    {
+      "Path": "work/telemetry-results/local12-final/core-net10.0/18126_DESKTOP-47NGAFF_2026-10-20_21_52_39_net10.0.trx",
+      "Target": "core-net10.0",
+      "Passed": 12,
+      "Sha256": "CCFE30D6459B8E84EDF785EA21AB0A18B784C1932D08ACDE4154E13D6E035EFA"
+    },
+    {
+      "Path": "work/telemetry-results/local12-final/net48-x64/18126_DESKTOP-47NGAFF_2026-10-20_21_52_55_net48.trx",
+      "Target": "net48-x64",
+      "Passed": 13,
+      "Sha256": "3217641703ABE48A9A328C876D31500F287A0773883DF4A195570D8B3CA8A3A9"
+    },
+    {
+      "Path": "work/telemetry-results/local12-final/net48-x86/18126_DESKTOP-47NGAFF_2026-10-20_21_53_12_net48.trx",
+      "Target": "net48-x86",
+      "Passed": 13,
+      "Sha256": "7B8F35DA334CD8CD5682FD367B21EC3211E5822507C92AC3695B069F29692491"
+    }
+  ],
+  "RedEvidence": [
+    "work/telemetry-results/local-red",
+    "work/telemetry-results/tracer-runtime-red",
+    "work/telemetry-results/observer-red",
+    "work/telemetry-results/usage-red"
+  ],
+  "Formatting": "Five owned source/test documents selected with exact project-relative paths; deliberate leading-whitespace probes normalized in all five, then zero-change verification. Directory-only and absolute include attempts selected zero documents and are not proof.",
+  "PeerReview": "Independent read-only review passed, including final ambient-observer and invalid-usage error-preservation patches.",
+  "Packaging": "This component has not yet undergone frozen combined NuGet/API validation; later integration must include its explicit DiagnosticSource10.0.10 dependency."
+}

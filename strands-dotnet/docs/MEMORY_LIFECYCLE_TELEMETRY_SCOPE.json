@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Automatic memory.inject and memory.extract activities only",
+  "status": "implemented_subset",
+  "sourceParent": "f343cb11b8d4409010ba0f9c83aa562c7d05a164",
+  "prerequisite": {
+    "manifest": "work/activity-id-format6-captured-manifest.json",
+    "sha256": "2103B87B63DF4C297E456DC2A76FEEBD415242B1016CF62BDE5EC63B899E97D3"
+  },
+  "files": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Agent.MemoryTelemetry.cs",
+      "sha256": "AFAE221176C0E87B29A588AA795D3CEB0BB9AFC350F964B7A183B528992C9024",
+      "length": 190
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryManager.cs",
+      "sha256": "094007060A63E71B4B2613B5395035834AA593C1B2C719856A79AB4C0FE66CB5",
+      "length": 17879
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryManager.Injection.cs",
+      "sha256": "EEBF0D76F1476DC20587A9222D448308B63410E40CFDE5CBD7D5A04691C8B2D5",
+      "length": 3937
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/ExtractionCoordinator.cs",
+      "sha256": "DB079FA4B93441FD35FCA36A46B16B7B4320689C8F9B830043607B105D094E4D",
+      "length": 8890
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryTelemetry.cs",
+      "sha256": "2E242D579816442CED02066BBFD46C1C66AE8AFAC873008672A1CB7283A2D370",
+      "length": 5746
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Telemetry/TraceSpan.cs",
+      "sha256": "8FE3189F8F345EDE58E5E886EBDB46CF22091448E7511A7B3CC9A4A42BE02B16",
+      "length": 10230
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/Memory/MemoryLifecycleTelemetryTests.cs",
+      "sha256": "B70E18D4BD28BDCDE83795E9D49830A54FAF1CFE7623146FD766688F7BED79DF",
+      "length": 27166
+    },
+    {
+      "path": "strands-dotnet/docs/MEMORY_LIFECYCLE_TELEMETRY.md",
+      "sha256": "25A58C7C76FBA8ABB5FBEC48C5F78442E820A9E9FFDC9A1FC12783508A484B70",
+      "length": 5288
+    }
+  ],
+  "sharedIntegrationRequirements": [
+    {
+      "path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj",
+      "addition": "<Compile Include=\"../Strands.Agents.Tests/Memory/MemoryLifecycleTelemetryTests.cs\" Link=\"Memory/MemoryLifecycleTelemetryTests.cs\" />",
+      "note": "Exact Root-owned link only; do not replace project with this capture."
+    }
+  ],
+  "upstreamSources": [
+    {
+      "path": "strands-ts/src/telemetry/tracer.ts",
+      "lines": [
+        772,
+        793,
+        816,
+        855
+      ]
+    },
+    {
+      "path": "strands-ts/src/memory/memory-manager.ts",
+      "lines": [
+        292
+      ]
+    },
+    {
+      "path": "strands-ts/src/memory/extraction/coordinator.ts",
+      "lines": [
+        144,
+        199
+      ]
+    },
+    {
+      "path": "strands-py/src/strands/telemetry/tracer.py",
+      "lines": [
+        1141,
+        1168,
+        1198,
+        1248
+      ]
+    },
+    {
+      "path": "strands-py/src/strands/memory/memory_manager.py",
+      "lines": [
+        667
+      ]
+    },
+    {
+      "path": "strands-py/src/strands/memory/extraction/coordinator.py",
+      "lines": [
+        196,
+        214
+      ]
+    }
+  ],
+  "contracts": {
+    "injection": "Active span after gate; nested retrieval; source renderer flags; fail-open except requested caller cancellation",
+    "extraction": "Active root; optional immutable scheduling link; store/filter/count/error fields",
+    "builtInTriggers": "Capture this agent recording invocation context synchronously at enqueue",
+    "customTriggers": "Capture actual sampled ambient context at trigger fire",
+    "flush": "Unlinked roots; canceled wait does not abort accepted background IO",
+    "observers": "Listener/diagnostic failures do not repeat confirmed writes"
+  },
+  "validation": {
+    "newContracts": 23,
+    "observedRuntimeRed": 2,
+    "firstGreen": 19,
+    "fixtureExpectationCorrections": 2,
+    "passingExecutions": 670,
+    "featureExecutions": 138,
+    "trx": 6,
+    "failed": 0,
+    "skipped": 0,
+    "frameworkRelease": 534296,
+    "cleanFramework48": false,
+    "proof": "work/memory-lifecycle-telemetry/final-exact/summary.json",
+    "proofSha256": "27AB31783B1BEC92A51BBE5EEA2FC98794CCA0CDB7C39F277EA030133D070634",
+    "sourceInputManifest": "work/memory-lifecycle-exact/lifecycle-source-manifest.json",
+    "sourceInputManifestSha256": "4AF8FB0B19732364CC3315FFF8208743D36207FCB2C278F9288FF16C58127993",
+    "sourceInputFiles": 884,
+    "allInputHashesUnchanged": true,
+    "positiveFormatSourceFiles": 6,
+    "positiveFormatTestFiles": 1,
+    "peerReview": "Harness read-only PASS, no confirmed P1/P2"
+  },
+  "limitations": [
+    "Public manual memory tracer APIs remain separate",
+    "ModelExtractor specialized chat span remains separate",
+    "No raw transcript events added to inject/extract",
+    "Graph/Swarm active telemetry changes excluded",
+    "No clean Framework4.8 or Linux proof for this new increment yet"
+  ]
+}

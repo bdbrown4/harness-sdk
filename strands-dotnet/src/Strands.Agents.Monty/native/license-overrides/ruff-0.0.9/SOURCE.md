@@ -1,0 +1,1 @@
+Original license and third-party notices from astral-sh/ruff commit b0e47022cfce4f3594aa26d15ea792681430b6f6, identified by the ruff_* 0.0.9 archives .cargo_vcs_info.json. Source: https://github.com/astral-sh/ruff/blob/b0e47022cfce4f3594aa26d15ea792681430b6f6/LICENSE

@@ -1,0 +1,30 @@
+using System;
+using Strands.Agents.SchemaPointerImplementation;
+
+namespace Strands.Agents.SchemaImplementation;
+
+/// <summary>
+/// Represents an identifiable base document that may be or may contain a JSON Schema.
+/// </summary>
+public interface IBaseDocument
+{
+	/// <summary>
+	/// Gets the base URI that applies to this schema.  This may be defined by a parent schema.
+	/// </summary>
+	/// <remarks>
+	/// This property is initialized to a generated random value that matches `https://json-everything.net/{random}`
+	/// where `random` is 10 hex characters.
+	///
+	/// It may change after the initial evaluation based on whether the schema contains an `$id` keyword
+	/// or is a child of another schema.
+	/// </remarks>
+	Uri BaseUri { get; }
+
+	/// <summary>
+	/// Finds a schema within the document.
+	/// </summary>
+	/// <param name="pointer">A JSON Pointer to the location of the schema within the document.</param>
+	/// <param name="context">Build context.</param>
+	/// <returns>A JSON Schema, if found.</returns>
+	JsonSchemaNode? FindSubschema(JsonPointer pointer, BuildContext context);
+}

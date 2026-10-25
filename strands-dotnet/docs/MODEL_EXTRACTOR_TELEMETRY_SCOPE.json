@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "sourceParent": "a2c6ecde19ac41719bd1536ef905b8c40b7698a2",
+  "scope": "Real ModelExtractor model-call tracing only",
+  "status": "implemented_subset",
+  "prerequisiteManifest": "work/manual-memory26-captured-manifest.json",
+  "prerequisiteManifestSha256": "911602DAE98889738337BCCCF8EDCCD05672A3BF9ACA664F991D6789E1DC096D",
+  "files": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/Extraction.cs",
+      "sha256": "5CAED0D0FD61C4438B6EC6B6075F71C87CB84D4F1C49AC591B75632A8A18006F",
+      "length": 8134
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/ModelExtractor.Telemetry.cs",
+      "sha256": "44D08D03A652AA8395A6D783BBF5E2AA887214097FBAEACDBA12CCA475439E9D",
+      "length": 3037
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/ExtractionCoordinator.cs",
+      "sha256": "2A90660DE703AFADFAB24A3EDFB81670C4CB46D9516D7F0B5F88CC865FD9701E",
+      "length": 8958
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryTelemetry.cs",
+      "sha256": "854420D1F128D70E4424C24410D4D546D070A2589966623FC8AAE2A69A080DFE",
+      "length": 4539
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/Memory/ModelExtractorTelemetryTests.cs",
+      "sha256": "DE3F3BF0E6A3FDBAEBB7535D68EAE8D67498993E8784E2C86EBE0A13100DEF7C",
+      "length": 25633
+    },
+    {
+      "path": "strands-dotnet/docs/MODEL_EXTRACTOR_TELEMETRY.md",
+      "sha256": "10F130B43A41AB32794353A178ACA646FDA75A4673F3507CD6975AED657161A7",
+      "length": 4268
+    }
+  ],
+  "upstreamSources": [
+    {
+      "path": "strands-ts/src/memory/extraction/model-extractor.ts",
+      "lines": [
+        73,
+        120
+      ]
+    },
+    {
+      "path": "strands-py/src/strands/memory/extraction/model_extractor.py",
+      "lines": [
+        84,
+        109
+      ]
+    },
+    {
+      "path": "strands-ts/src/telemetry/tracer.ts",
+      "lines": [
+        354,
+        422,
+        1134,
+        1165
+      ]
+    },
+    {
+      "path": "strands-py/src/strands/telemetry/tracer.py",
+      "lines": [
+        407,
+        449,
+        479
+      ]
+    }
+  ],
+  "contracts": {
+    "default": "TypeScript; supplied context tracer only",
+    "Python": "Standalone tracer fallback and active model context around stream open/read/cleanup",
+    "profilePrecedence": "Explicit extractor option > manager context > TypeScript",
+    "modelOwnership": "Borrowed; no hidden agent/tools/retry or agent metric updates",
+    "usage": "TypeScript retains UsageReported absence; explicit Python completed calls use source-compatible zero accounting without changing provider presence",
+    "timing": "Positive latency milliseconds only with TypeScript reportedusage; Python also positiveTTFB milliseconds",
+    "content": "Existing model redaction/event conventions; memory raw-content policy not used",
+    "completion": "End before tolerant fact parse; no successful facts after accepted caller cancellation, including completion-listener cancellation; completed span stays successful",
+    "errors": "Original model/cleanup causes retained; requested caller cancellation selected with exact token and originalfailure cause",
+    "sampling": "Propagation-only handles stopped without fake accounting/status"
+  },
+  "verification": {
+    "summary": "work/model-extractor-telemetry/final-reviewed36/summary.json",
+    "passing": 726,
+    "trx": 6,
+    "contracts": 36,
+    "newExecutions": 216,
+    "observedRuntimeRedToGreen": 12,
+    "firstGreenConformance": 24,
+    "actualFrameworkRelease": 534296,
+    "cleanFramework48": false,
+    "sourceInputManifest": "work/model-extractor-exact-v3/source-input-manifest.json",
+    "all915InputHashesVerified": true,
+    "format": "All5files positively selected in35 proof; final2changed re-probed and all5 cleanlyverified",
+    "apiPack": "work/model-extractor-telemetry/final-reviewed36/api-pack.log",
+    "prior33Proof": "work/model-extractor-telemetry/final-exact/summary.json",
+    "prior35Proof": "work/model-extractor-telemetry/final-reviewed35/summary.json"
+  },
+  "sharedIntegrationRequirements": [
+    {
+      "note": "Exact Root-owned link only; do not replace project.",
+      "addition": "<Compile Include=\"../Strands.Agents.Tests/Memory/ModelExtractorTelemetryTests.cs\" Link=\"Memory/ModelExtractorTelemetryTests.cs\" />",
+      "path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj"
+    }
+  ],
+  "excluded": [
+    "Public full model-tracer helper overloads",
+    "Exporter setup",
+    "Extractor retry/agent execution",
+    "Global provider UsageReported policy changes",
+    "Full memory or telemetry parity",
+    "Linux and clean Framework4.8 proof of these new files"
+  ]
+}

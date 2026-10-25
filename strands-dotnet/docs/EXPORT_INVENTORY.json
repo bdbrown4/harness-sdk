@@ -1,0 +1,1801 @@
+{
+  "schema_version": 1,
+  "title": "Pinned SDK/harness export-family inventory",
+  "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "upstream_tree_verified_unchanged": true,
+  "observation_date": "2026-10-20",
+  "native_observation": "Mixed historical and refreshed observations. The eight rows named in native_observation_refresh retain their stated dates; tool_registry_and_direct_calls was additionally reconciled after accepted generation18/live-provider50, and byte_storage_and_search_catalog after S370. Unchanged rows and the initial native catalog/planning slices are not current absence/completion measures.",
+  "inventory_scope": "Feature families reachable through pinned public package entrypoints and importable public Python modules. This is not a complete symbol-by-symbol ABI baseline or an assertion that names imply behavioral parity.",
+  "validation": "Read-only source inspection plus JSON/reference validation only; no builds, tests, live providers, network requests, source commits or runtime parity checks were performed for this audit.",
+  "status_definitions": {
+    "absent": "No native implementation of the feature family was found.",
+    "partial": "A related native capability exists with named behavioral or surface gaps.",
+    "implemented_subset": "A substantive native implementation exists; remaining integration/extension gaps are still listed.",
+    "not_a_verified_pinned_sdk_export": "Not established as an SDK/harness parity requirement from the inspected pinned exports."
+  },
+  "priority_definition": "1 = foundational or directly blocks common default harness behavior; 2 = substantial common surface/catalog; 3 = language-specific or optional expansion. These are implementation priorities, not severity scores or completion percentages.",
+  "typescript_package_entrypoints": [
+    {
+      "specifier": "@strands-agents/sdk",
+      "source": "strands-ts/src/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/models/anthropic",
+      "source": "strands-ts/src/models/anthropic.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/models/openai",
+      "source": "strands-ts/src/models/openai/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/models/bedrock",
+      "source": "strands-ts/src/models/bedrock.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/models/google",
+      "source": "strands-ts/src/models/google/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/models/vercel",
+      "source": "strands-ts/src/models/vercel.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/models/routing",
+      "source": "strands-ts/src/models/routing/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/multiagent",
+      "source": "strands-ts/src/multiagent/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/experimental",
+      "source": "strands-ts/src/experimental/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/notebook",
+      "source": "strands-ts/src/vended-tools/notebook/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/file-editor",
+      "source": "strands-ts/src/vended-tools/file-editor/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/handoff-to-user",
+      "source": "strands-ts/src/vended-tools/handoff-to-user/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/http-request",
+      "source": "strands-ts/src/vended-tools/http-request/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/shell",
+      "source": "strands-ts/src/vended-tools/shell/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/bash",
+      "source": "strands-ts/src/vended-tools/bash/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/python-repl",
+      "source": "strands-ts/src/vended-tools/python-repl/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/sleep",
+      "source": "strands-ts/src/vended-tools/sleep/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/a2a-client",
+      "source": "strands-ts/src/vended-tools/a2a-client/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/experimental/vended-tools/stop",
+      "source": "strands-ts/src/experimental/vended-tools/stop/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/web-fetch",
+      "source": "strands-ts/src/vended-tools/web-fetch/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/mcp-router",
+      "source": "strands-ts/src/vended-tools/mcp-router/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools/subagent",
+      "source": "strands-ts/src/vended-tools/subagent/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/a2a",
+      "source": "strands-ts/src/a2a/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/a2a/express",
+      "source": "strands-ts/src/a2a/express-server.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/session/s3-storage",
+      "source": "strands-ts/src/session/s3-storage.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-memory-stores/bedrock-knowledge-base",
+      "source": "strands-ts/src/vended-memory-stores/bedrock-knowledge-base/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-memory-stores/file-memory-store",
+      "source": "strands-ts/src/vended-memory-stores/file-memory-store/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-memory-stores/test-memory-store",
+      "source": "strands-ts/src/vended-memory-stores/test-memory-store/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/telemetry",
+      "source": "strands-ts/src/telemetry/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-plugins/skills",
+      "source": "strands-ts/src/vended-plugins/skills/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-plugins/context-offloader",
+      "source": "strands-ts/src/vended-plugins/context-offloader/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-plugins/context-injector",
+      "source": "strands-ts/src/vended-plugins/context-injector/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-plugins/goal",
+      "source": "strands-ts/src/vended-plugins/goal/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-interventions/hitl",
+      "source": "strands-ts/src/vended-interventions/hitl/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-interventions/steering",
+      "source": "strands-ts/src/vended-interventions/steering/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-interventions/cedar",
+      "source": "strands-ts/src/vended-interventions/cedar/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-tools",
+      "source": "strands-ts/src/vended-tools/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/vended-plugins",
+      "source": "strands-ts/src/vended-plugins/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/storage",
+      "source": "strands-ts/src/storage/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/storage/search",
+      "source": "strands-ts/src/storage/search/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/storage/search/qmd",
+      "source": "strands-ts/src/storage/search/qmd.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/storage/search/bm25",
+      "source": "strands-ts/src/storage/search/qmd.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/sandbox",
+      "source": "strands-ts/src/sandbox/index.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/sandbox/docker",
+      "source": "strands-ts/src/sandbox/docker.ts"
+    },
+    {
+      "specifier": "@strands-agents/sdk/sandbox/ssh",
+      "source": "strands-ts/src/sandbox/ssh.ts"
+    }
+  ],
+  "additional_public_entrypoints": {
+    "typescript_node": [
+      "strands-ts/src/index.node.ts"
+    ],
+    "python": [
+      "strands-py/src/strands/__init__.py",
+      "strands-py/src/strands/models/__init__.py",
+      "strands-py/src/strands/tools/__init__.py",
+      "strands-py/src/strands/multiagent/__init__.py",
+      "strands-py/src/strands/middleware/__init__.py",
+      "strands-py/src/strands/interventions/__init__.py",
+      "strands-py/src/strands/session/__init__.py",
+      "strands-py/src/strands/telemetry/__init__.py",
+      "strands-py/src/strands/bidi/__init__.py",
+      "strands-py/src/strands/experimental/__init__.py",
+      "strands-py/src/strands/vended_tools/__init__.py"
+    ],
+    "harness": [
+      "harness-ts/src/index.ts",
+      "harness-py/src/strands_harness/__init__.py"
+    ]
+  },
+  "native_source_file_catalog": [
+    "harness-dotnet/src/Strands.Harness/AssemblyInfo.cs",
+    "harness-dotnet/src/Strands.Harness/Configuration/ConfigurationSchema.cs",
+    "harness-dotnet/src/Strands.Harness/Configuration/HarnessAgentConfig.cs",
+    "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.Generations.cs",
+    "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.ToolProvider.Lifetime.cs",
+    "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.ToolProvider.Updates.cs",
+    "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.ToolProvider.cs",
+    "harness-dotnet/src/Strands.Harness/Configuration/HarnessConfigBindings.cs",
+    "harness-dotnet/src/Strands.Harness/EnvironmentSandbox.cs",
+    "harness-dotnet/src/Strands.Harness/FileTools.cs",
+    "harness-dotnet/src/Strands.Harness/Guard.cs",
+    "harness-dotnet/src/Strands.Harness/Harness.cs",
+    "harness-dotnet/src/Strands.Harness/HarnessMemoryOptions.cs",
+    "harness-dotnet/src/Strands.Harness/HarnessOptions.cs",
+    "harness-dotnet/src/Strands.Harness/HarnessPrompt.cs",
+    "harness-dotnet/src/Strands.Harness/HarnessSkillsOptions.cs",
+    "harness-dotnet/src/Strands.Harness/Internal/HostShellRunner.cs",
+    "harness-dotnet/src/Strands.Harness/Internal/LegacyWindowsProcess.cs",
+    "harness-dotnet/src/Strands.Harness/Mcp/McpConnections.cs",
+    "harness-dotnet/src/Strands.Harness/Mcp/McpServerConfiguration.cs",
+    "harness-dotnet/src/Strands.Harness/Models/AuxiliaryModels.cs",
+    "harness-dotnet/src/Strands.Harness/Plugins/ContextInjection.cs",
+    "harness-dotnet/src/Strands.Harness/Plugins/EnvironmentContext.cs",
+    "harness-dotnet/src/Strands.Harness/Plugins/Todos.cs",
+    "harness-dotnet/src/Strands.Harness/ProcessSandbox.cs",
+    "harness-dotnet/src/Strands.Harness/Sandbox.cs",
+    "harness-dotnet/src/Strands.Harness/SandboxFileSystem.cs",
+    "harness-dotnet/src/Strands.Harness/Storage/SandboxStorage.cs",
+    "harness-dotnet/src/Strands.Harness/Tools/Shell.cs",
+    "harness-dotnet/src/Strands.Harness/Tools/StandardSubagent.cs",
+    "harness-dotnet/src/Strands.Harness/Tools/Subagent.cs",
+    "harness-dotnet/src/Strands.Harness/Tools/SubagentContext.cs",
+    "harness-dotnet/src/Strands.Harness/Tools/SubagentTypes.cs",
+    "strands-dotnet/src/Strands.Agents.Bedrock/BedrockModel.cs",
+    "strands-dotnet/src/Strands.Agents.Bedrock/BedrockModelOptions.cs",
+    "strands-dotnet/src/Strands.Agents.Bedrock/BedrockRequestMapper.cs",
+    "strands-dotnet/src/Strands.Agents.Bedrock/BedrockResponseReader.cs",
+    "strands-dotnet/src/Strands.Agents.Bedrock/BedrockStreamParser.cs",
+    "strands-dotnet/src/Strands.Agents.Sqlite/Bm25SearchStrategy.cs",
+    "strands-dotnet/src/Strands.Agents.Sqlite/Bm25SearchStrategyOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.cs",
+    "strands-dotnet/src/Strands.Agents/AgentOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Context/AgenticContextTools.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ContextManager.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ContextPresets.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ContextReductionMethods.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ContextReference.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ContextRetrievalTool.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ContextStrategy.cs",
+    "strands-dotnet/src/Strands.Agents/Context/MessagePins.cs",
+    "strands-dotnet/src/Strands.Agents/Context/Offload.cs",
+    "strands-dotnet/src/Strands.Agents/Context/OffloadEmergency.cs",
+    "strands-dotnet/src/Strands.Agents/Context/OffloadHistory.cs",
+    "strands-dotnet/src/Strands.Agents/Context/OffloadStrategy.cs",
+    "strands-dotnet/src/Strands.Agents/Context/Stash.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ToolResultOffloadOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ToolResultOffloader.cs",
+    "strands-dotnet/src/Strands.Agents/ConversationHistory.cs",
+    "strands-dotnet/src/Strands.Agents/FileSessionStore.cs",
+    "strands-dotnet/src/Strands.Agents/Files/IFileSystem.cs",
+    "strands-dotnet/src/Strands.Agents/Files/IReadOnlyFileSystem.cs",
+    "strands-dotnet/src/Strands.Agents/Files/LocalFileSystem.cs",
+    "strands-dotnet/src/Strands.Agents/Guard.cs",
+    "strands-dotnet/src/Strands.Agents/HookOrder.cs",
+    "strands-dotnet/src/Strands.Agents/Hooks.cs",
+    "strands-dotnet/src/Strands.Agents/Mcp/McpClient.cs",
+    "strands-dotnet/src/Strands.Agents/Mcp/McpTool.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/Extraction.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/ExtractionCoordinator.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/ExtractionTrigger.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/FileMemoryStore.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/MemoryManager.Injection.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/MemoryManager.Tools.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/MemoryManager.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/MemoryManagerOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Memory/MemoryStore.cs",
+    "strands-dotnet/src/Strands.Agents/Messages.cs",
+    "strands-dotnet/src/Strands.Agents/ModelMetadata.cs",
+    "strands-dotnet/src/Strands.Agents/ModelStreamAccumulator.cs",
+    "strands-dotnet/src/Strands.Agents/Models.cs",
+    "strands-dotnet/src/Strands.Agents/Models/AnthropicModel.cs",
+    "strands-dotnet/src/Strands.Agents/Models/GoogleContentBlock.cs",
+    "strands-dotnet/src/Strands.Agents/Models/GoogleFormatting.cs",
+    "strands-dotnet/src/Strands.Agents/Models/GoogleModel.cs",
+    "strands-dotnet/src/Strands.Agents/Models/GoogleModelOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Models/GoogleStreaming.cs",
+    "strands-dotnet/src/Strands.Agents/Models/OpenAIModel.cs",
+    "strands-dotnet/src/Strands.Agents/Models/OpenAIResponsesContent.cs",
+    "strands-dotnet/src/Strands.Agents/Models/OpenAIResponsesModel.cs",
+    "strands-dotnet/src/Strands.Agents/Models/OpenAIResponsesModelOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Models/ProviderHttp.cs",
+    "strands-dotnet/src/Strands.Agents/Models/ProviderOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Models/RetryModel.cs",
+    "strands-dotnet/src/Strands.Agents/Models/RoutingModel.cs",
+    "strands-dotnet/src/Strands.Agents/Plugins.cs",
+    "strands-dotnet/src/Strands.Agents/Sessions.cs",
+    "strands-dotnet/src/Strands.Agents/Skills/AgentSkills.cs",
+    "strands-dotnet/src/Strands.Agents/Skills/Skill.cs",
+    "strands-dotnet/src/Strands.Agents/Skills/SkillDocument.cs",
+    "strands-dotnet/src/Strands.Agents/Skills/SkillFileSources.cs",
+    "strands-dotnet/src/Strands.Agents/Skills/SkillHttpsSource.cs",
+    "strands-dotnet/src/Strands.Agents/SlidingWindowConversationManager.cs",
+    "strands-dotnet/src/Strands.Agents/StateStore.cs",
+    "strands-dotnet/src/Strands.Agents/Storage/IStorage.cs",
+    "strands-dotnet/src/Strands.Agents/Storage/InMemoryStorage.cs",
+    "strands-dotnet/src/Strands.Agents/Storage/LocalFileStorage.cs",
+    "strands-dotnet/src/Strands.Agents/Storage/StorageExtensions.cs",
+    "strands-dotnet/src/Strands.Agents/Storage/StorageKey.cs",
+    "strands-dotnet/src/Strands.Agents/Storage/StorageSearchStrategy.cs",
+    "strands-dotnet/src/Strands.Agents/StructuredOutput.cs",
+    "strands-dotnet/src/Strands.Agents/TaskCancellation.cs",
+    "strands-dotnet/src/Strands.Agents/Tools.cs"
+  ],
+  "feature_groups": [
+    {
+      "id": "tool_streaming",
+      "status": "absent",
+      "priority": 1,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/tools/tool.ts",
+          "strands-ts/src/hooks/events.ts",
+          "strands-ts/src/tools/function-tool.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/tools/decorator.py",
+          "strands-py/src/strands/tools/executors/concurrent.py",
+          "strands-py/src/strands/types/_events.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Tools.cs",
+          "strands-dotnet/src/Strands.Agents/Agent.cs",
+          "strands-dotnet/src/Strands.Agents/Hooks.cs"
+        ]
+      },
+      "remaining": [
+        "ITool and IRichTool return only final values; no native streaming tool capability or ToolStreamUpdateEvent.",
+        "MCP protocol progress callback availability does not provide agent-loop tool-stream parity."
+      ],
+      "acceptance_scenarios": [
+        "StreamingToolProgressIsObservedBeforeCompletion",
+        "ConcurrentToolProgressInterleavesWhileFinalResultsRetainRequestOrder",
+        "CancellationDisposesToolIteratorAndRetainsCompletedSiblings",
+        "InvalidOrDuplicateTerminalResultsCannotFabricateSuccess",
+        "PrimaryToolErrorRetainsEnumeratorCleanupFailure",
+        "ProgressJsonSurvivesProducerDocumentDisposal"
+      ],
+      "intentional_or_upstream_differences": [
+        "TS async generators return a final ToolResultBlock separately from yielded progress; a C# async enumerable needs an explicit terminal-result representation or separate completion contract."
+      ]
+    },
+    {
+      "id": "tool_schema_generation_and_decorators",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common_concept_language_specific_binding",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/tools/tool-factory.ts",
+          "strands-ts/src/tools/zod-tool.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/tools/decorator.py",
+          "strands-py/src/strands/tools/structured_output/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Tools.cs",
+          "strands-dotnet/src/Strands.Agents/StructuredOutput.cs"
+        ]
+      },
+      "remaining": [
+        "FunctionTool.Create<T> deserializes an explicitly supplied JSON schema; it does not generate schemas or descriptions from methods/types.",
+        "No attribute/delegate reflection binding equivalent to Python signature/docstring/Pydantic or TS Zod conversion."
+      ],
+      "acceptance_scenarios": [
+        "GeneratedSchemaPreservesRequiredOptionalDefaultsEnumsAndNestedTypes",
+        "ContextAndCancellationParametersAreInjectedNotAdvertised",
+        "UnsupportedClrTypesFailBeforeToolRegistration",
+        "TypedValidationFailureDoesNotInvokeTheDelegate"
+      ],
+      "intentional_or_upstream_differences": [
+        "Python decorators and TS Zod schemas are language integrations, not libraries to transplant into C#."
+      ]
+    },
+    {
+      "id": "tool_registry_and_direct_calls",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/agent/tool-caller.ts",
+          "strands-ts/src/registry/tool-registry.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/tools/registry.py",
+          "strands-py/src/strands/tools/tool_provider.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/ToolRegistry.cs",
+          "strands-dotnet/src/Strands.Agents/Agent.ToolRegistry.cs",
+          "strands-dotnet/src/Strands.Agents/Agent.ToolProviders.cs",
+          "strands-dotnet/src/Strands.Agents/IToolProvider.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.cs",
+          "strands-dotnet/src/Strands.Agents/IToolProviderUpdates.cs",
+          "strands-dotnet/src/Strands.Agents/Agent.ToolProviderUpdates.cs",
+          "strands-dotnet/src/Strands.Agents/Mcp/McpToolProvider.Updates.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.Generations.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.ToolProvider.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.ToolProvider.Lifetime.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.ToolProvider.Updates.cs"
+        ],
+        "tests": [
+          "strands-dotnet/tests/Strands.Agents.Tests/ToolRegistry/AgentToolRegistryConformanceTests.cs",
+          "strands-dotnet/tests/Strands.Agents.Tests/ToolProviders/ToolProviderSpecFilterTests.cs",
+          "strands-dotnet/tests/Strands.Agents.Tests/ToolProviders/AgentToolProviderUpdatesTests.cs",
+          "strands-dotnet/tests/Strands.Agents.Tests/ToolProviders/AgentToolProviderUpdatesBackgroundTests.cs",
+          "strands-dotnet/tests/Strands.Agents.Tests/ToolProviders/AgentToolProviderUpdatesMcpLifecycleTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/HarnessAssemblyGenerationTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/HarnessManagedToolProviderTests.cs"
+        ]
+      },
+      "remaining": [
+        "Foreign-language source watching, private dependency graph reload, outer Harness delegation/server and Bidi catalog refresh, automatic reconnect and resource unloading remain separate contracts.",
+        "Declared-file managed root generations and optional live Agent owner-batch publication now exist as bounded native capabilities. The latest composed Main still needs an exact-source combined matrix; their presence is not exhaustive cross-language registry parity."
+      ],
+      "acceptance_scenarios": [
+        "DirectCallUsesSchemaHooksContextAndCancellationWithoutAddingConversationHistory",
+        "AtomicProviderRegistrationFailureLeavesExistingToolsUntouched",
+        "LateProviderDiscoveryDoesNotExposeFilteredTools"
+      ],
+      "intentional_or_upstream_differences": [
+        "Native configuration resolves explicit CLR bindings rather than evaluating arbitrary Python/TypeScript module code."
+      ],
+      "implemented_observation": "Native direct calls, atomic application registration/replacement/removal, provider consumer lifecycle, frozen spec filtering and trusted managed assembly exports exist. Declared-file root-image generations preserve old exports, and optional IToolProviderUpdates supplies atomically validated live owner snapshots with retained admitted background bindings and independent MCP consumer drains. Fixed declared managed roots now have an opt-in watched IToolProviderUpdates factory with independent observer drains, admission receipts and retained borrowed old tools.",
+      "native_review": {
+        "date": "2026-10-21",
+        "scope": "Root-reconciled source presence after accepted generation18 and live-provider50; focused proofs are separate from the pending new combined Main matrix.",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "combined_main_validation": "pending",
+        "live_provider_component_summary_sha256": "205F622BFFD2C15BA9EE43911A3D80F731A561F4F3671E3DDA749F04A3A38668",
+        "watched_managed_component_summary_sha256": "0BE3869DA1E521D1B6842D8A051D13DF799163B33D8799A5974C0428D34A960A",
+        "agent_reentry_component_summary_sha256": "ED77214EE73249C3B932F8B2699AFA69AF94CCD8F84DF6059682EAA9CA14DCA8",
+        "mcp_cleanup_component_summary_sha256": "80778557CFAF301892232CF2D5A5E915A536AC87EE8DE191B847D093B880B2E5"
+      }
+    },
+    {
+      "id": "middleware",
+      "status": "absent",
+      "priority": 1,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/middleware/index.ts",
+          "strands-ts/src/middleware/stages.ts",
+          "strands-ts/src/middleware/registry.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/middleware/__init__.py",
+          "strands-py/src/strands/middleware/stages.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Hooks.cs",
+          "strands-dotnet/src/Strands.Agents/Agent.cs"
+        ]
+      },
+      "remaining": [
+        "Awaited mutable hooks are not Input/Wrap/Output middleware.",
+        "No InvokeModelStage/ExecuteToolStage middleware registration, wrap/next, short-circuit result or middleware interrupt contract."
+      ],
+      "acceptance_scenarios": [
+        "PhasesRunInputThenWrapThenOutputIndependentOfRegistrationOrder",
+        "WrapCanShortCircuitWithoutCallingProviderOrTool",
+        "NestedNextCallsAndStreamingCleanupHaveDefinedOwnership",
+        "MiddlewareCannotRetryAlreadyExposedOutputSilently"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "interventions_and_human_confirmation",
+      "status": "absent",
+      "priority": 1,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/interventions/index.ts",
+          "strands-ts/src/interventions/actions.ts",
+          "strands-ts/src/interventions/handler.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/interventions/__init__.py",
+          "strands-py/src/strands/interventions/actions.py",
+          "strands-py/src/strands/interventions/handler.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Hooks.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessAgentConfig.cs"
+        ]
+      },
+      "remaining": [
+        "BeforeToolCall.CancelReason supplies denial only; Proceed/Deny/Guide/Confirm/Transform, on-error policies and ordered intervention composition are absent.",
+        "Harness interventions and interventionModules reject unsupported runtime conversion."
+      ],
+      "acceptance_scenarios": [
+        "DenyNeverExecutesToolButProducesCorrelatedError",
+        "ConfirmPausesBeforeSideEffectsAndResumesOnce",
+        "GuideAndTransformApplyAtDocumentedLifecycleBoundaries",
+        "HandlerFailureFollowsExplicitFailOpenOrFailClosedPolicy"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "interrupt_resume_and_checkpoint",
+      "status": "absent",
+      "priority": 1,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/interrupt.ts",
+          "strands-ts/src/types/interrupt.ts",
+          "strands-ts/src/experimental/checkpoint.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/interrupt.py",
+          "strands-py/src/strands/experimental/checkpoint/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Agent.cs",
+          "strands-dotnet/src/Strands.Agents/Sessions.cs"
+        ]
+      },
+      "remaining": [
+        "Cancellation and pending-tool crash repair do not implement resumable interrupts.",
+        "No InterruptSource/response correlation, suspended invocation snapshot or experimental cycle checkpoint/resume positions."
+      ],
+      "acceptance_scenarios": [
+        "InterruptedBatchResumesOnlyUnfinishedToolCalls",
+        "ResumeRejectsUnknownDuplicateOrStaleInterruptResponses",
+        "CheckpointBeforeModelAndBeforeToolsRestoresWithoutRepeatingCompletedSideEffects",
+        "InterruptedStateSurvivesSessionRestoreAndNestedDelegation"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "hooks_and_plugin_lifecycle",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/hooks/index.ts",
+          "strands-ts/src/plugins/registry.ts",
+          "strands-ts/src/types/lifecycle-observer.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/hooks/events.py",
+          "strands-py/src/strands/plugins/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Hooks.cs",
+          "strands-dotnet/src/Strands.Agents/Plugins.cs",
+          "strands-dotnet/src/Strands.Agents/HookOrder.cs"
+        ]
+      },
+      "remaining": [
+        "Native awaited initialization/invocation/model/tool/batch/message/shutdown hooks exist.",
+        "ContentBlockEvent/ModelMessageEvent/ToolResultEvent/ToolStreamUpdateEvent/InterruptEvent and MultiAgentPlugin lifecycle/internal-state contract remain incomplete."
+      ],
+      "acceptance_scenarios": [
+        "EachExportedLifecycleEventHasDocumentedEmissionTimingAndMutability",
+        "PluginStateRestoresBeforeInitializationWithoutLeakingChildHooks",
+        "FailedCleanupAttemptsEveryOwnedCallbackAndRetainsPrimaryError"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "graph_orchestration",
+      "status": "absent",
+      "priority": 1,
+      "scope": "common_with_material_semantic_divergence",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/multiagent/index.ts",
+          "strands-ts/src/multiagent/graph.ts",
+          "strands-ts/src/multiagent/nodes.ts",
+          "strands-ts/src/multiagent/state.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/multiagent/__init__.py",
+          "strands-py/src/strands/multiagent/graph.py",
+          "strands-py/src/strands/multiagent/base.py"
+        ]
+      },
+      "native": {
+        "sources": []
+      },
+      "remaining": [
+        "No native Graph/GraphBuilder, Edge, Node, graph result/state/events, nested orchestration, graph sessions or graph plugin model."
+      ],
+      "acceptance_scenarios": [
+        "BoundedDiamondGraphRoutesInputsAndAggregatesUsageDeterministically",
+        "ConditionalEdgesAndFanInFollowAnExplicitDependencyPolicy",
+        "CyclesRespectMaxStepsAndCancellation",
+        "NodeFailureAndTimeoutFollowDocumentedFailFastOrContinuePolicy",
+        "NestedGraphAndSwarmCancellationAndSessionRestoreAreDefined"
+      ],
+      "intentional_or_upstream_differences": [
+        "TS graph documents AND dependency semantics; Python uses OR semantics over completed batches.",
+        "TS schedules individually ready nodes; Python schedules batches.",
+        "TS agent nodes reset by default; Python preserves state unless reset_on_revisit.",
+        "TS node failures become FAILED results while step limits throw; Python documents inverse behavior."
+      ]
+    },
+    {
+      "id": "swarm_orchestration",
+      "status": "absent",
+      "priority": 2,
+      "scope": "common_with_material_semantic_divergence",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/multiagent/swarm.ts",
+          "strands-ts/src/multiagent/events.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/multiagent/swarm.py",
+          "strands-py/src/strands/vended_tools/swarm/swarm.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "harness-dotnet/src/Strands.Harness/Tools/Subagent.cs"
+        ]
+      },
+      "remaining": [
+        "Single child delegation is implemented; it is not a swarm, handoff loop or shared multi-agent state."
+      ],
+      "acceptance_scenarios": [
+        "ValidHandoffReachesTheSelectedAgentWithStructuredContext",
+        "UnknownAgentAndMalformedHandoffCannotInvokeUnregisteredAgents",
+        "RepeatedHandoffCycleStopsWithinConfiguredLimits",
+        "CancellationAndInterruptResumePreserveAlreadyCompletedNodes"
+      ],
+      "intentional_or_upstream_differences": [
+        "TS swarm chooses routing through structured output; Python injects handoff_to_agent.",
+        "TS maxSteps and serialized JSON context differ from Python separate limits and shared context."
+      ]
+    },
+    {
+      "id": "a2a_client_and_server",
+      "status": "absent",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/a2a/index.ts",
+          "strands-ts/src/a2a/server.ts",
+          "strands-ts/src/a2a/a2a-agent.ts",
+          "strands-ts/src/vended-tools/a2a-client/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/agent/a2a_agent.py",
+          "strands-py/src/strands/multiagent/a2a/__init__.py",
+          "strands-py/src/strands/vended_tools/a2a_client/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": []
+      },
+      "remaining": [
+        "No A2A agent-card discovery, protocol client/server/executor, streaming task conversion, endpoint allowlist tool or context/task store."
+      ],
+      "acceptance_scenarios": [
+        "LoopbackAgentCardDiscoveryAndSendMessageCompleteOneTask",
+        "StreamingStatusAndArtifactEventsPreserveTaskContextCorrelation",
+        "CancellationAndContextEvictionReleaseOwnedAgents",
+        "EndpointAllowlistRejectsUndeclaredRemoteAgentsBeforeNetworkAccess"
+      ],
+      "intentional_or_upstream_differences": [
+        "Server host adapters are language-specific: TS includes Express; Python uses its own ASGI/server integration."
+      ]
+    },
+    {
+      "id": "bidirectional_realtime",
+      "status": "absent",
+      "priority": 3,
+      "scope": "python_only_at_pinned_public_entrypoints",
+      "typescript": {
+        "sources": []
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/bidi/__init__.py",
+          "strands-py/src/strands/bidi/agent/agent.py",
+          "strands-py/src/strands/bidi/models/__init__.py",
+          "strands-py/src/strands/bidi/io/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": []
+      },
+      "remaining": [
+        "No BidiAgent, realtime audio IO/event loop, Nova Sonic/Gemini Live/OpenAI Realtime model contracts, restart/session control or audio buffering."
+      ],
+      "acceptance_scenarios": [
+        "DuplexTextAudioEventsCanFlowWhileToolsExecute",
+        "InterruptionAndReconnectDoNotReplayAudioOrToolSideEffects",
+        "RestartAndShutdownCloseEveryInputOutputTask",
+        "AudioFormatAndTimingMetadataRoundTripWithoutLoss"
+      ],
+      "intentional_or_upstream_differences": [
+        "No corresponding bidi package export exists in pinned strands-ts/package.json; this expands beyond common TS/Python functionality."
+      ]
+    },
+    {
+      "id": "telemetry_and_local_metrics",
+      "status": "absent",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/telemetry/index.ts",
+          "strands-ts/src/telemetry/tracer.ts",
+          "strands-ts/src/telemetry/meter.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/telemetry/__init__.py",
+          "strands-py/src/strands/telemetry/config.py",
+          "strands-py/src/strands/telemetry/metrics.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Agent.cs"
+        ]
+      },
+      "remaining": [
+        "Usage counters and Trace diagnostics exist, but no native ActivitySource/Meter or OpenTelemetry agent/model/tool spans, exporters, baggage policy or local AgentTrace/AgentMetrics equivalents."
+      ],
+      "acceptance_scenarios": [
+        "InMemoryListenerObservesParentedAgentModelAndToolSpans",
+        "UsageLatencyRetryAndErrorMetricsAreEmittedOnce",
+        "PromptAndToolContentCaptureIsExplicitlyControlled",
+        "RemoteParentAndBaggageSurviveAsyncAndChildAgentBoundaries"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "decision_models",
+      "status": "absent",
+      "priority": 3,
+      "scope": "typescript_only_at_pinned_public_entrypoints",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/decisions/index.ts",
+          "strands-ts/src/decisions/decision-model.ts",
+          "strands-ts/src/decisions/llm-decision-model.ts"
+        ]
+      },
+      "python": {
+        "sources": []
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/StructuredOutput.cs"
+        ]
+      },
+      "remaining": [
+        "Structured output is available, but DecisionModel/LLMDecisionModel/defineQuestions/Uncertain are absent."
+      ],
+      "acceptance_scenarios": [
+        "QuestionSchemasConstrainAnswersAndPreserveUncertain",
+        "AuxiliaryModelFailureAndBudgetHaveExplicitDecisionOutcomes"
+      ],
+      "intentional_or_upstream_differences": [
+        "No matching Python decisions package was found; do not invent this as a common SDK gap."
+      ]
+    },
+    {
+      "id": "provider_common_catalog",
+      "status": "partial",
+      "priority": 1,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/models/bedrock.ts",
+          "strands-ts/src/models/anthropic.ts",
+          "strands-ts/src/models/openai/index.ts",
+          "strands-ts/src/models/google/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/models/bedrock.py",
+          "strands-py/src/strands/models/anthropic.py",
+          "strands-py/src/strands/models/openai.py",
+          "strands-py/src/strands/models/openai_responses.py",
+          "strands-py/src/strands/models/gemini.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents.Bedrock/BedrockModel.cs",
+          "strands-dotnet/src/Strands.Agents/Models/AnthropicModel.cs",
+          "strands-dotnet/src/Strands.Agents/Models/OpenAIModel.cs",
+          "strands-dotnet/src/Strands.Agents/Models/OpenAIResponsesModel.cs",
+          "strands-dotnet/src/Strands.Agents/Models/GoogleModel.cs"
+        ]
+      },
+      "remaining": [
+        "Five native streaming adapters exist, including stateful Responses; presence does not certify full provider API parity.",
+        "Bedrock guardrail configuration/redaction, native CountTokens/nonstreaming Converse and advanced request options remain absent.",
+        "Anthropic server-native tools/full effort/media extensions, signed Mantle transport and complete cross-provider replay remain incomplete."
+      ],
+      "acceptance_scenarios": [
+        "EachMappedProviderFeatureHasNativeWireAndMalformedStreamFixtures",
+        "GuardrailRedactionUpdatesHistoryAndStreamWithoutLeakingRedactedText",
+        "ConfiguredProviderOptionsReachTheWireWithoutManagedFieldOverridesBeingBypassed",
+        "AllSupportedRichBlocksReplayOrFailExplicitly"
+      ],
+      "intentional_or_upstream_differences": [
+        "TS OpenAIModel defaults to Responses with an api selector; native uses separate OpenAIModel (Chat) and OpenAIResponsesModel types.",
+        "Unknown model IDs use documented estimated fallback metadata rather than a live provider catalog."
+      ]
+    },
+    {
+      "id": "additional_provider_catalog",
+      "status": "partial",
+      "priority": 3,
+      "scope": "language_specific_catalog",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/models/vercel.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/models/__init__.py",
+          "strands-py/src/strands/models/ollama.py",
+          "strands-py/src/strands/models/mistral.py",
+          "strands-py/src/strands/models/litellm.py",
+          "strands-py/src/strands/models/llamacpp.py",
+          "strands-py/src/strands/models/llamaapi.py",
+          "strands-py/src/strands/models/sagemaker.py",
+          "strands-py/src/strands/models/writer.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Models/OllamaModel.cs",
+          "strands-dotnet/src/Strands.Agents/Models/MistralModel.cs",
+          "strands-dotnet/src/Strands.Agents/Models/WriterModel.cs",
+          "strands-dotnet/src/Strands.Agents/Models/LlamaCppModel.cs",
+          "strands-dotnet/src/Strands.Agents/Models/LlamaApiModel.cs",
+          "strands-dotnet/src/Strands.Agents.SageMaker/SageMakerAIModel.cs"
+        ],
+        "tests": [
+          "strands-dotnet/tests/Strands.SageMaker.Tests/SageMakerModelTests.cs"
+        ]
+      },
+      "remaining": [
+        "Complete Vercel/LiteLLM foreign-library bridge contracts remain open; a native HTTP adapter does not supply those library integrations.",
+        "Exhaustive provider-specific request/stream/configuration behavior and live-service validation remain separate from adapter presence."
+      ],
+      "acceptance_scenarios": [
+        "SelectedProviderCompletesNativeTextToolReasoningAndUsageFixtures",
+        "OptionalProviderDependenciesDoNotBecomeCoreConsumerRequirements"
+      ],
+      "intentional_or_upstream_differences": [
+        "Some are language SDK bridges (Vercel, LiteLLM, llama-cpp-python); equivalent capability or native alternate integration needs explicit design rather than importing foreign libraries."
+      ],
+      "implemented_observation": "Native Ollama, Mistral, Writer, llama.cpp, Llama API and optional official-AWS SageMaker adapters exist with deterministic protocol tests.",
+      "native_review": {
+        "date": "2026-10-21",
+        "scope": "Source-backed presence/remaining-contract reconciliation, not a new execution gate or exhaustive parity audit.",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "combined_main_validation": "pending"
+      }
+    },
+    {
+      "id": "rich_message_and_model_events",
+      "status": "partial",
+      "priority": 1,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/types/messages.ts",
+          "strands-ts/src/types/media.ts",
+          "strands-ts/src/types/citations.ts",
+          "strands-ts/src/models/streaming.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/types/content.py",
+          "strands-py/src/strands/types/streaming.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Messages.cs",
+          "strands-dotnet/src/Strands.Agents/Models.cs",
+          "strands-dotnet/src/Strands.Agents/ModelStreamAccumulator.cs"
+        ]
+      },
+      "remaining": [
+        "Typed text/tools/JSON/base64 image/audio/document/resource links/signed reasoning/cache and opaque Responses/Google blocks exist.",
+        "First-class video, citations, GuardContent and S3/location media sources and model redaction events are missing."
+      ],
+      "acceptance_scenarios": [
+        "EveryPublicContentVariantRoundTripsSessionAndSupportedProviderWire",
+        "CitationsPreserveGeneratedTextSourceLocationsAndStreamingDeltas",
+        "LocationSourcesAreValidatedWithoutFetchingImplicitly",
+        "UnknownBlocksCannotSilentlyDisappear"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "mcp_advanced_protocol_and_harness_auth",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/mcp/index.ts",
+          "strands-ts/src/mcp/client.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/tools/mcp/mcp_client.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Mcp/McpClient.cs",
+          "strands-dotnet/src/Strands.Agents/Mcp/McpTool.cs",
+          "harness-dotnet/src/Strands.Harness/Mcp/McpServerConfiguration.cs"
+        ]
+      },
+      "remaining": [
+        "Working official-client stdio/HTTP/SSE transports, discovery, rich result adaptation, prefix/filter and explicit ownership exist.",
+        "Strands task lifecycle adapters, reconnect state policy and harness declarative client-credentials auth remain incomplete.",
+        "Raw Protocol exposes official resources/prompts/handlers; availability is not Strands-specific adaptation or test coverage."
+      ],
+      "acceptance_scenarios": [
+        "TaskSubmitPollInputRequiredCancelAndFailurePreserveProtocolState",
+        "ReconnectNeverRepeatsAnUnacknowledgedSideEffectSilently",
+        "ClientCredentialsSecretsNeverEnterToolDescriptionsLogsOrExceptions",
+        "ProtocolProgressReachesAnAgentToolStreamAfterStreamingCapabilityExists"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "sessions_snapshots_and_cloud_storage",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/types/snapshot.ts",
+          "strands-ts/src/session/session-manager.ts",
+          "strands-ts/src/session/s3-storage.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/session/__init__.py",
+          "strands-py/src/strands/session/snapshot_session_manager.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Sessions.cs",
+          "strands-dotnet/src/Strands.Agents/FileSessionStore.cs"
+        ]
+      },
+      "remaining": [
+        "Native versioned full JSON sessions restore agent/state/model acknowledgement/stash and repair pending tools.",
+        "Scoped snapshots/presets, append repositories, generalized plugin state, multiagent/bidi save strategies, S3 backends and cross-language migration are absent."
+      ],
+      "acceptance_scenarios": [
+        "SnapshotPresetRestoresExactlyItsDeclaredScopes",
+        "AppendRepositoryAndFullSnapshotPoliciesDoNotDuplicateMessages",
+        "MultiAgentSessionResumesCompletedAndInterruptedNodesCorrectly",
+        "StorageConflictPolicyAndVersionMigrationAreExplicit"
+      ],
+      "intentional_or_upstream_differences": [
+        "Current native session format is intentionally not the Python/TypeScript snapshot interchange format."
+      ]
+    },
+    {
+      "id": "context_management",
+      "status": "implemented_subset",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/context-manager/context-manager.ts",
+          "strands-ts/src/context-manager/presets.ts",
+          "strands-ts/src/conversation-manager/summarizing-conversation-manager.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/_context_manager/__init__.py",
+          "strands-py/src/strands/agent/conversation_manager/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Context/ContextManager.cs",
+          "strands-dotnet/src/Strands.Agents/Context/OffloadStrategy.cs",
+          "strands-dotnet/src/Strands.Agents/Context/Stash.cs",
+          "strands-dotnet/src/Strands.Agents/SlidingWindowConversationManager.cs"
+        ]
+      },
+      "remaining": [
+        "Native first-class auto/agentic context, four presets, truncate/drop/summarize, stash/retrieval, pins, metadata/counting and bounded overflow recovery exist.",
+        "Legacy SummarizingConversationManager/NullConversationManager classes and complete cross-language snapshot/stash behavior are not replicated."
+      ],
+      "acceptance_scenarios": [
+        "RetainedTailPinsAndWholeToolPairsSurviveEveryPolicy",
+        "ProviderWireSizeCannotGrowWhenTokenHeuristicsDisagree",
+        "SessionRestoreKeepsOriginalReferencesAfterDurableReduction"
+      ],
+      "intentional_or_upstream_differences": [
+        "Native rejects non-shrinking transformations, retains minimum recent tail and signed/opaque blocks, and preserves retained message identities.",
+        "Agentic summary insertion role and small role-gap markers differ from literal upstream message splicing."
+      ]
+    },
+    {
+      "id": "memory_and_store_catalog",
+      "status": "implemented_subset",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/memory/index.ts",
+          "strands-ts/src/vended-memory-stores/file-memory-store/index.ts",
+          "strands-ts/src/vended-memory-stores/bedrock-knowledge-base/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/memory/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Memory/MemoryManager.cs",
+          "strands-dotnet/src/Strands.Agents/Memory/ExtractionCoordinator.cs",
+          "strands-dotnet/src/Strands.Agents/Memory/FileMemoryStore.cs",
+          "strands-dotnet/src/Strands.Agents/Memory/MemoryTelemetry.cs",
+          "strands-dotnet/src/Strands.Agents/Memory/ModelExtractor.Telemetry.cs"
+        ],
+        "tests": [
+          "strands-dotnet/tests/Strands.Agents.Tests/Memory/MemoryTelemetryTests.cs",
+          "strands-dotnet/tests/Strands.Agents.Tests/Memory/MemoryLifecycleTelemetryTests.cs"
+        ]
+      },
+      "remaining": [
+        "Bedrock knowledge-base and the full upstream store catalog remain incomplete; a custom strategy seam is not a concrete backend.",
+        "Knowledge-base Retrieve/write/scope/ACL/citation metadata require official-client fixtures; complete source-specific measurement behavior remains separately scoped."
+      ],
+      "acceptance_scenarios": [
+        "FailedStoresDoNotPreventIndependentRetrievalOrAdvanceUnsavedCursors",
+        "ExtractionShutdownDrainsAcceptedWorkAndPreservesRetryableFailures",
+        "KnowledgeBaseReadWriteAclAndCitationMetadataAreVerifiedAgainstNativeFixtures"
+      ],
+      "intentional_or_upstream_differences": [
+        "Native trimming advances only after confirmed saves; upstream provisional-mark behavior is not copied when it loses data."
+      ],
+      "implemented_observation": "Named/file stores, selected storage, read-only child views, extraction/recall and search/add/injection/extraction telemetry exist.",
+      "native_review": {
+        "date": "2026-10-21",
+        "scope": "Source-backed presence/remaining-contract reconciliation, not a new execution gate or exhaustive parity audit.",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "combined_main_validation": "pending"
+      }
+    },
+    {
+      "id": "vended_tool_catalog",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common_with_additional_catalog_differences",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/vended-tools/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/vended_tools/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "harness-dotnet/src/Strands.Harness/FileTools.cs",
+          "harness-dotnet/src/Strands.Harness/Tools/Shell.cs",
+          "harness-dotnet/src/Strands.Harness/Tools/Subagent.cs",
+          "harness-dotnet/src/Strands.Harness/Tools/WebFetch.cs",
+          "strands-dotnet/src/Strands.Agents/Mcp/McpRouter.cs",
+          "strands-dotnet/src/Strands.Agents/A2A/A2AClientTool.cs"
+        ],
+        "tests": [
+          "harness-dotnet/tests/Strands.Harness.Tests/McpRouterHarnessTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/WebFetchTests.cs"
+        ]
+      },
+      "remaining": [
+        "Dedicated notebook, bounded sleep, HTTP-request, persistent full Python REPL, handoff_to_user and cooperative-stop factories remain unimplemented catalog entries.",
+        "Monty programmatic tool calling is not a persistent CPython REPL; the Python vended swarm tool remains a separate integration."
+      ],
+      "acceptance_scenarios": [
+        "NotebookCapsAndStateIsolationPersistAcrossSessions",
+        "SleepCancellationAndHttpRedirectAuthenticationPoliciesAreExplicit",
+        "McpRouterListsAndCallsOnlyAuthorizedServerTools",
+        "HandoffAndStopPreserveSiblingToolCompletion"
+      ],
+      "intentional_or_upstream_differences": [
+        "Harness read/write/edit and SDK file_editor are related but distinct tools/contracts; do not infer parity from filesystem capability."
+      ],
+      "implemented_observation": "Native file/shell/delegation tools, web fetch, authorized MCP router and A2A client endpoint tool exist.",
+      "native_review": {
+        "date": "2026-10-21",
+        "scope": "Source-backed presence/remaining-contract reconciliation, not a new execution gate or exhaustive parity audit.",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "combined_main_validation": "pending"
+      }
+    },
+    {
+      "id": "vended_plugin_catalog",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/vended-plugins/index.ts",
+          "strands-ts/src/vended-plugins/goal/index.ts",
+          "strands-ts/src/vended-plugins/context-injector/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/vended_plugins/skills/__init__.py",
+          "strands-py/src/strands/vended_plugins/context_offloader/__init__.py",
+          "strands-py/src/strands/vended_plugins/context_injector/__init__.py",
+          "strands-py/src/strands/vended_plugins/goal/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Skills/AgentSkills.cs",
+          "strands-dotnet/src/Strands.Agents/Context/ToolResultOffloader.cs"
+        ]
+      },
+      "remaining": [
+        "Skills and opt-in context offloader exist; GoalLoop/judge and generalized ContextInjector are absent.",
+        "Memory injection is a specific implemented feature, not a general context-injector API."
+      ],
+      "acceptance_scenarios": [
+        "GoalLoopUsesAuxiliaryJudgeAndHonorsIterationCancellationLimits",
+        "ContextProvidersInjectEphemerallyWithoutCrossAgentStateLeak",
+        "SkillLoadingDoesNotEscalateFilesystemOrNetworkAuthority"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "vended_intervention_catalog",
+      "status": "absent",
+      "priority": 2,
+      "scope": "common_concept_with_catalog_differences",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/vended-interventions/hitl/index.ts",
+          "strands-ts/src/vended-interventions/steering/index.ts",
+          "strands-ts/src/vended-interventions/cedar/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/vended_plugins/steering/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": []
+      },
+      "remaining": [
+        "HITL, LLM steering/tool ledger and Cedar authorization components are absent; their prerequisite typed intervention/interrupt machinery is also absent."
+      ],
+      "acceptance_scenarios": [
+        "AuthorizationDenialNeverExecutesTheTool",
+        "DefaultHumanApprovalUsesResumableInterruptRatherThanImplicitConsoleIO",
+        "SteeringContextAndAuxiliaryModelCallsFollowExplicitBudgets"
+      ],
+      "intentional_or_upstream_differences": [
+        "TS packages steering under interventions; Python retains a vended_plugins steering namespace. Cedar/HITL catalogs are not asserted common solely from names."
+      ]
+    },
+    {
+      "id": "background_tasks",
+      "status": "implemented_subset",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/background-tasks/types.ts",
+          "strands-ts/src/background-tasks/manager.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/background_tasks/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Tasks/BackgroundTasksConfig.cs",
+          "strands-dotnet/src/Strands.Agents/Tasks/BackgroundTaskManager.cs",
+          "strands-dotnet/src/Strands.Agents/Tasks/BackgroundTaskScheduler.cs",
+          "strands-dotnet/src/Strands.Agents/Agent.BackgroundTasks.cs",
+          "harness-dotnet/src/Strands.Harness/Harness.BackgroundTasks.cs"
+        ],
+        "tests": [
+          "strands-dotnet/tests/Strands.Agents.Tests/Tasks/BackgroundTaskAgentTests.cs",
+          "strands-dotnet/tests/Strands.Agents.Tests/Tasks/BackgroundContinuationTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/BackgroundTasksTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/SubagentInterruptTests.cs"
+        ]
+      },
+      "remaining": [
+        "Complete assembled MCP task-required/input-required plus default background policy, selected child providers, fresh-session recovery and caller deadline composition needs explicit coverage.",
+        "Existing ordinary task/delegation contracts do not establish every such cross-component ordering and cleanup path."
+      ],
+      "acceptance_scenarios": [
+        "BackgroundToolReturnsTaskIdentityWithoutLosingFinalCompletion",
+        "TaskCancellationAndAgentShutdownDrainOrCancelAccordingToPolicy",
+        "BoundedTaskRegistryCannotLeakAcrossChildAgents"
+      ],
+      "intentional_or_upstream_differences": [],
+      "implemented_observation": "Bounded tool-task execution, task identity/results/cancellation, automatic continuation, Harness default policy and durable child background continuation exist.",
+      "native_review": {
+        "date": "2026-10-21",
+        "scope": "Source-backed presence/remaining-contract reconciliation, not a new execution gate or exhaustive parity audit.",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "combined_main_validation": "pending"
+      }
+    },
+    {
+      "id": "sandbox_catalog",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/sandbox/index.ts",
+          "strands-ts/src/sandbox/docker.ts",
+          "strands-ts/src/sandbox/ssh.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/sandbox/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "harness-dotnet/src/Strands.Harness/Sandbox.cs",
+          "harness-dotnet/src/Strands.Harness/ProcessSandbox.cs",
+          "harness-dotnet/src/Strands.Harness/Internal/HostShellRunner.cs"
+        ]
+      },
+      "remaining": [
+        "Native file/command sandbox capability interfaces and bounded host process execution exist.",
+        "Docker and SSH adapters, complete source event/output-file contract and core Sandbox placement remain incomplete."
+      ],
+      "acceptance_scenarios": [
+        "RemoteSandboxOwnsConnectionsAndTransfersFilesWithinDeclaredScope",
+        "StreamingOutputBoundsTimeoutAndProcessTreeCancellationArePreserved",
+        "NoMissingSandboxCapabilityFallsBackToHostExecution"
+      ],
+      "intentional_or_upstream_differences": [
+        "Current shell runtime supports modern Windows/Unix and Framework Windows; custom sandboxes remain caller-owned."
+      ]
+    },
+    {
+      "id": "byte_storage_and_search_catalog",
+      "status": "partial",
+      "priority": 2,
+      "scope": "common_with_language_specific_backends",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/storage/index.ts",
+          "strands-ts/src/storage/search/index.ts",
+          "strands-ts/src/storage/search/qmd.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/storage/__init__.py",
+          "strands-py/src/strands/storage/s3_storage.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents/Storage/IStorage.cs",
+          "strands-dotnet/src/Strands.Agents/Storage/InMemoryStorage.cs",
+          "strands-dotnet/src/Strands.Agents/Storage/LocalFileStorage.cs",
+          "strands-dotnet/src/Strands.Agents.S3/S3Storage.cs",
+          "strands-dotnet/src/Strands.Agents.S3/S3Storage.Lifetime.cs",
+          "strands-dotnet/src/Strands.Agents.S3/S3StorageOptions.cs",
+          "strands-dotnet/src/Strands.Agents.Sqlite/Bm25SearchStrategy.cs",
+          "strands-dotnet/src/Strands.Agents.Sqlite/Bm25SearchStrategyOptions.cs"
+        ],
+        "tests": [
+          "strands-dotnet/tests/Strands.S3.Tests/S3StorageContractTests.cs",
+          "strands-dotnet/tests/Strands.S3.Tests/S3StorageLifetimeTests.cs",
+          "strands-dotnet/tests/Strands.S3.Tests/S3StorageSafetyTests.cs",
+          "strands-dotnet/tests/Strands.S3.Tests/S3StorageWireTests.cs",
+          "strands-dotnet/tests/Strands.S3.Tests/S3StorageCancellationStackTests.cs",
+          "strands-dotnet/tests/Strands.Sqlite.Tests/Bm25SearchStrategyTests.cs",
+          "strands-dotnet/tests/Strands.Sqlite.Tests/Bm25SearchStrategyLifetimeTests.cs",
+          "strands-dotnet/tests/Strands.Sqlite.Tests/Bm25MemoryIntegrationTests.cs",
+          "strands-dotnet/tests/Strands.Sqlite.Tests/Bm25NativeTests.cs"
+        ]
+      },
+      "remaining": [
+        "Distinct TypeScript QMD filesystem-refresh/search semantics remain under implementation/audit; optional Python-profile SQLite FTS5/BM25 is now present with component evidence.",
+        "Complete native backend/search profiles, live-service durability/IAM and new combined-source validation remain open. S3 does not supply BedrockKnowledgeBaseStore, distributed transactions or an index deletion hook."
+      ],
+      "acceptance_scenarios": [
+        "NamespaceIsolationAndOpaqueKeyRoundTripDoNotEscapeBackendRoot",
+        "IndexerUpdatesAndDeletesStayConsistentWithStorageWrites",
+        "SearchBudgetsRankingAndCancellationAreDeterministic"
+      ],
+      "intentional_or_upstream_differences": [],
+      "implemented_observation": "Core byte storage/namespaces/local/in-memory plus optional officialSDK S3Storage now exist. S3 has lazy-owned/borrowed clients, explicit missing-code profiles, canonical finite pagination, separated write/index commits and physically joined shutdown. Optional SQLite FTS5/BM25 now provides the pinned Python tokenization/ranking family, persistent or temporary indexes, MD5 byte indexing, physical SQL drains and explicit FileMemoryStore backend-search selection.",
+      "native_review": {
+        "date": "2026-10-21",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "scope": "Root reconciled after accepted S370 and SQLite37/helper3; full2ecc Linux passed and Windows retained two x86 failures; later combined Main matrix pending",
+        "component_summary_sha256": "8A194A6A326C9C556F8875239D27BAE1C611D7899DF89EE4ADF7A651419B26E2",
+        "combined_main_validation": "pending",
+        "sqlite_component_summary_sha256": "4CFF101740DFC34204E3183C8B86D0769973C9A7535A4FA1DD53AE25F232685A",
+        "sqlite_helper_summary_sha256": "59C616D7F7EA67DE52B25D8E2A28FE9D872C5B6D89010C41D6B29CF4080A8ACF",
+        "sqlite_ci_summary_sha256": "BB54C813B37A9981DB33C6AC775C88DE8A4561F026234FB22A37BA1C8654C57F"
+      }
+    },
+    {
+      "id": "harness_web_tools",
+      "status": "implemented_subset",
+      "priority": 1,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "harness-ts/src/tools/web-fetch.ts",
+          "harness-ts/src/tools/web-search.ts",
+          "harness-ts/src/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "harness-py/src/strands_harness/tools/web_fetch.py",
+          "harness-py/src/strands_harness/tools/web_search.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "harness-dotnet/src/Strands.Harness/Tools/WebFetch.cs",
+          "harness-dotnet/src/Strands.Harness/Tools/CurlWebFetch.cs",
+          "harness-dotnet/src/Strands.Harness/Tools/WebFetchContent.cs",
+          "harness-dotnet/src/Strands.Harness/Tools/WebSearch.cs",
+          "harness-dotnet/src/Strands.Harness/Tools/ExaWebSearchBackend.cs",
+          "harness-dotnet/src/Strands.Harness/Models/ModelPolicy.cs"
+        ],
+        "tests": [
+          "harness-dotnet/tests/Strands.Harness.Tests/WebFetchTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/WebSearchTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/NativeModelPolicyTests.cs"
+        ]
+      },
+      "remaining": [
+        "Remaining provider/configuration/wire-error combinations require named source-contract coverage; the presence of supported search policies does not imply exhaustive policy parity.",
+        "Native output/encoding/redirect bounds and cache policies retain their documented differences from upstream full curl spooling."
+      ],
+      "acceptance_scenarios": [
+        "LoopbackWebFetchHonorsTransportSizeTimeoutRedirectAndContentTypeBounds",
+        "MarkdownAndAgenticModesPreserveSourcesAndUseAuxiliaryModel",
+        "ExaRequestPreservesQueryOptionsAndNeverLogsSecrets"
+      ],
+      "intentional_or_upstream_differences": [],
+      "implemented_observation": "Builtin web_fetch/Exa web_search, selected-sandbox curl, bounded HTML/text extraction, cached fetch and auxiliary-model summarization are implemented; supported native provider-search policy is mapped.",
+      "native_review": {
+        "date": "2026-10-21",
+        "scope": "Source-backed presence/remaining-contract reconciliation, not a new execution gate or exhaustive parity audit.",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "combined_main_validation": "pending"
+      }
+    },
+    {
+      "id": "harness_programmatic_tool_caller",
+      "status": "implemented_subset",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "harness-ts/src/tools/programmatic-tool-caller.ts",
+          "harness-ts/src/tools/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "harness-py/src/strands_harness/tools/programmatic_tool_caller.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "strands-dotnet/src/Strands.Agents.Monty/ProgrammaticToolCaller.cs",
+          "strands-dotnet/src/Strands.Agents.Monty/NativeWorker.cs",
+          "strands-dotnet/src/Strands.Agents.Monty/native/src/main.rs"
+        ],
+        "tests": [
+          "strands-dotnet/tests/Strands.Monty.Tests/ProgrammaticToolContractTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/HarnessProgrammaticToolTests.cs"
+        ]
+      },
+      "remaining": [
+        "Genuine macOS worker assets and execution, full five-RID release feed/fresh Harness consumer, executable permissions and production glibc floor remain independent release gates.",
+        "Streaming process events, complete task/background composition and exhaustive provider/configuration contracts remain open."
+      ],
+      "acceptance_scenarios": [
+        "CodeCanCallOnlyExplicitlyAllowedTools",
+        "BridgePreservesTypedArgumentsResultsAndToolErrors",
+        "TimeoutCancellationAndTeardownReleaseInterpreterAndPendingCalls"
+      ],
+      "intentional_or_upstream_differences": [
+        "Choice of a .NET-safe execution environment requires design; Python/Node execution cannot silently become in-process unrestricted CLR code."
+      ],
+      "implemented_observation": "Genuine pinned Monty workers provide bounded code execution, allowed-tool proxies, typed/rich results, cancellation and owned process cleanup; Windows and Linux execution are recorded by source checkpoint.",
+      "native_review": {
+        "date": "2026-10-21",
+        "scope": "Source-backed presence/remaining-contract reconciliation, not a new execution gate or exhaustive parity audit.",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "combined_main_validation": "pending"
+      }
+    },
+    {
+      "id": "harness_defaults_and_configuration",
+      "status": "partial",
+      "priority": 1,
+      "scope": "common_with_native_binding_contract",
+      "typescript": {
+        "sources": [
+          "harness-ts/src/index.ts",
+          "harness-ts/src/config.ts",
+          "harness-ts/src/defaults.ts",
+          "harness-ts/src/models.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "harness-py/src/strands_harness/__init__.py",
+          "harness-py/src/strands_harness/config.py",
+          "harness-py/src/strands_harness/defaults.py",
+          "harness-py/src/strands_harness/models.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "harness-dotnet/src/Strands.Harness/Harness.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessAgentConfig.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessConfigBindings.cs",
+          "harness-dotnet/src/Strands.Harness/Configuration/HarnessAssemblyLoader.cs",
+          "harness-dotnet/src/Strands.Harness/Models/ModelPolicy.cs",
+          "harness-dotnet/src/Strands.Harness/Models/ModelResolution.cs"
+        ],
+        "tests": [
+          "harness-dotnet/tests/Strands.Harness.Tests/ConfigurationTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/NativeModelPolicyTests.cs",
+          "harness-dotnet/tests/Strands.Harness.Tests/HarnessAssemblyLoaderTests.cs"
+        ]
+      },
+      "remaining": [
+        "Complete assembled-option reconstruction after entry/private-dependency changes remains open. Bounded declared managed root generations and watched tool exports now exist; old exports remain borrowed and usable.",
+        "Foreign Python/TypeScript module execution is not supplied by trusted CLR bindings. Remaining provider/default combinations require contract audit rather than an assumption that every normalized field is unsupported."
+      ],
+      "acceptance_scenarios": [
+        "DefaultPortableConfigProducesTheSameSelectedNativeCapabilitiesOrExplicitUnsupportedError",
+        "ExplicitProgrammaticDependenciesOverrideDefaultsWithoutDiscardingUserTools",
+        "UnsupportedNormalizedFieldsCannotBeSilentlyIgnored",
+        "ModelEffortAndCachingReachProviderWireWithExplicitOverridesWinning"
+      ],
+      "intentional_or_upstream_differences": [
+        "Python/TypeScript dependency installation and arbitrary source module loading are replaced by explicit native bindings; this is a documented different contract.",
+        "Native working tree is changing concurrently; refresh these runtime-binding observations at checkpoint."
+      ],
+      "implemented_observation": "Portable normalization, explicit native exports, trusted managed modules, context, interventions and supported effort/cache/native-search model policies are implemented.",
+      "native_review": {
+        "date": "2026-10-21",
+        "scope": "Source-backed presence/remaining-contract reconciliation, not a new execution gate or exhaustive parity audit.",
+        "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+        "combined_main_validation": "pending"
+      }
+    },
+    {
+      "id": "harness_delegation_and_plugins",
+      "status": "implemented_subset",
+      "priority": 2,
+      "scope": "common",
+      "typescript": {
+        "sources": [
+          "harness-ts/src/tools/subagent.ts",
+          "harness-ts/src/plugins/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "harness-py/src/strands_harness/tools/subagent.py",
+          "harness-py/src/strands_harness/plugins/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": [
+          "harness-dotnet/src/Strands.Harness/Tools/Subagent.cs",
+          "harness-dotnet/src/Strands.Harness/Tools/SubagentTypes.cs",
+          "harness-dotnet/src/Strands.Harness/Plugins/Todos.cs",
+          "harness-dotnet/src/Strands.Harness/Plugins/EnvironmentContext.cs"
+        ]
+      },
+      "remaining": [
+        "Authority axes, role presets, depth limits, independent child state, borrowed tools/MCP lifetime, todos and environment plugins exist.",
+        "Complete tracing/interruption/child durable-session behavior and all SDK AgentSpec/multiagent reuse paths are incomplete."
+      ],
+      "acceptance_scenarios": [
+        "ChildCannotEscalateFixedToolsModelInstructionsOrContext",
+        "ParentDisposalCannotCloseBorrowedChildResourcesTwice",
+        "InterruptedChildDelegationResumesWithoutRepeatingCompletedTools",
+        "TodoAndEnvironmentStateRestoresWithoutSharingSiblingHooks"
+      ],
+      "intentional_or_upstream_differences": []
+    },
+    {
+      "id": "standalone_evaluation_framework",
+      "status": "not_a_verified_pinned_sdk_export",
+      "priority": null,
+      "scope": "outside_confirmed_export_surface",
+      "typescript": {
+        "sources": [
+          "strands-ts/src/decisions/index.ts",
+          "strands-ts/src/vended-plugins/goal/index.ts"
+        ]
+      },
+      "python": {
+        "sources": [
+          "strands-py/src/strands/vended_plugins/goal/__init__.py"
+        ]
+      },
+      "native": {
+        "sources": []
+      },
+      "remaining": [
+        "No standalone benchmark/evaluation framework was established from the inspected pinned SDK/harness entrypoints.",
+        "Goal judging, decision models, telemetry and deterministic fixture tests are separate capabilities; do not count an external eval package as a missing base-SDK export without a source reference."
+      ],
+      "acceptance_scenarios": [],
+      "intentional_or_upstream_differences": []
+    }
+  ],
+  "next_bounded_slice": {
+    "id": "tool_streaming",
+    "rationale": "Closes a common exported capability and supplies progress plumbing needed by MCP, long-running tools and later multiagent events without prematurely implementing graph/interruption frameworks.",
+    "tentative_native_seam": "Optional streaming tool capability alongside ITool/IRichTool; typed progress and terminal-rich-result representation; a correlated agent ToolStreamUpdateEvent. Exact public API remains subject to design review.",
+    "acceptance_scenarios": [
+      "StreamingToolProgressIsObservedBeforeCompletion",
+      "ConcurrentToolProgressInterleavesWhileFinalResultsRetainRequestOrder",
+      "CancellationDisposesToolIteratorAndRetainsCompletedSiblings",
+      "InvalidOrDuplicateTerminalResultsCannotFabricateSuccess",
+      "PrimaryToolErrorRetainsEnumeratorCleanupFailure",
+      "ProgressJsonSurvivesProducerDocumentDisposal"
+    ],
+    "test_plan": [
+      "One runnable red progress-before-completion scenario before implementation.",
+      "Deterministic gated async iterators; no live services.",
+      "Concurrent two-tool fixture verifies interleaving progress and ordered final correlation.",
+      "Cancellation, early stream disposal, malformed terminal and cleanup-error fixtures.",
+      "Portable net48/net8/net10 fixtures detach JSON payloads and check caller ownership."
+    ],
+    "explicitly_not_covered": [
+      "Graph/Swarm/A2A orchestration",
+      "Resumable interrupts or checkpoints",
+      "Automatic schema generation",
+      "Background task management",
+      "Telemetry exporter setup"
+    ]
+  },
+  "proposed_native_union_policy": {
+    "status": "Design proposal for unimplemented families; not implemented public API or a parity claim.",
+    "principle": "Include the native capability union where useful. Expose explicit compatibility options for material upstream semantic conflicts. Document each native default, its source baseline, and any deliberate safety difference.",
+    "graph": {
+      "dependencyPolicy": {
+        "optional": "AnySatisfied (Python OR semantics)",
+        "default": "AllSatisfied (TS AND semantics)"
+      },
+      "scheduling": {
+        "optional": "CompletedBatches (Python scheduling)",
+        "default": "ReadyNodes (TS individual readiness with bounded concurrency)"
+      },
+      "agentRevisitState": {
+        "optional": "Retain (Python default), with explicit reset-on-revisit support",
+        "default": "Reset (TS node default)"
+      },
+      "nodeFailure": {
+        "optional": "FailFast (Python node error behavior)",
+        "default": "ContinueIndependentBranches (TS failed node result)"
+      },
+      "stepLimitOutcome": {
+        "optional": "FailedResult (Python graph limit behavior)",
+        "default": "Throw (TS graph limit behavior)"
+      },
+      "cancellation": "Native cooperative cancellation must release all active owned nodes; nested timeout policy must be explicit rather than inferred from either language."
+    },
+    "swarm": {
+      "handoff": {
+        "optional": "InjectedHandoffTool (Python)",
+        "default": "StructuredOutput (TS)"
+      },
+      "contextTransfer": {
+        "optional": "ExplicitSharedContext (Python capability), separately owned from caller invocation state",
+        "default": "DetachedSerializedJson (TS)"
+      },
+      "limits": {
+        "optional": "SeparateHandoffAndIterationLimits (Python)",
+        "default": "SingleMaxSteps (TS)"
+      },
+      "limitOutcome": {
+        "optional": "FailedResult for step limits (Python)",
+        "default": "Throw for step limit (TS); FailedResult for repetitive handoff (shared soft stop)"
+      }
+    },
+    "tools": "C# optional capabilities and schema generators preserve concepts, validation and observability; they do not reproduce decorators, Zod or Pydantic as foreign runtime dependencies.",
+    "providerAndHostCatalog": "Common native transports first; optional packages for union providers/server hosts. Clearly identify language SDK bridges for which a native transport is an alternative, not literal package parity.",
+    "retainedNativeSafety": [
+      "Never silently replay escaped streamed output or completed tool side effects.",
+      "Preserve cancellation, caller ownership, primary errors and bounded cleanup.",
+      "Refuse invalid or expanding context transformations even where a pinned source implementation accepts them."
+    ],
+    "defaultSelectionNote": "TypeScript defaults are proposed for new graph/swarm conflicts to provide one coherent baseline. Python alternatives remain explicit acceptance requirements for the inclusive union. Parent and maintainer API review may revise the proposal before implementation."
+  },
+  "bounded_followup_slices": [
+    {
+      "id": "tool_streaming",
+      "dependencies": [],
+      "acceptance": [
+        "StreamingToolProgressIsObservedBeforeCompletion",
+        "ConcurrentToolProgressInterleavesWhileFinalResultsRetainRequestOrder",
+        "CancellationDisposesToolIteratorAndRetainsCompletedSiblings",
+        "InvalidOrDuplicateTerminalResultsCannotFabricateSuccess",
+        "PrimaryToolErrorRetainsEnumeratorCleanupFailure",
+        "ProgressJsonSurvivesProducerDocumentDisposal"
+      ],
+      "completeClaim": "Common progress plus rich terminal result contract only; no background tasks or resumable interrupts implied."
+    },
+    {
+      "id": "multiagent_graph_core",
+      "dependencies": [
+        "A native invokable-agent abstraction and typed node state/result/events",
+        "Documented graph semantic compatibility options"
+      ],
+      "acceptance": [
+        "TwoNodeChainPropagatesOnlyItsPredecessorOutputs",
+        "BoundedDiamondGraphHonorsAllSatisfiedAndAnySatisfiedPolicies",
+        "ReadyNodesAndCompletedBatchesHaveDeterministicObservableScheduling",
+        "NodeCancellationDisposesStreamsAndPreservesCompletedBranchResults",
+        "ResetAndRetainRevisitPoliciesDoNotMutateCallerAgentSnapshots"
+      ],
+      "completeClaim": "A tested DAG execution slice; graph cycles, durable sessions, interruption, nested orchestration and telemetry remain explicit later requirements."
+    },
+    {
+      "id": "multiagent_swarm_core",
+      "dependencies": [
+        "Common node lifecycle/result/event contracts",
+        "Structured output already implemented"
+      ],
+      "acceptance": [
+        "StructuredOutputHandoffSelectsOnlyDeclaredAgents",
+        "InjectedHandoffToolSupportsThePythonCompatibilityMode",
+        "DetachedAndExplicitSharedContextPoliciesAreDistinct",
+        "FinalResponseEndsTheRunWithoutAnotherModelTurn",
+        "RepeatedHandoffsAndConfiguredLimitsStopDeterministically"
+      ],
+      "completeClaim": "Bounded handoff execution; no A2A, interruption or multiagent session parity implied."
+    },
+    {
+      "id": "middleware_and_interrupt_prerequisite",
+      "dependencies": [
+        "Explicit streaming result and cleanup contract"
+      ],
+      "acceptance": [
+        "InputWrapOutputOrderIsIndependentOfRegistrationOrder",
+        "WrapCanShortCircuitAndObserveProgressWithoutDuplicatingExecution",
+        "ConfirmationInterruptPersistsCorrelationAndResumesOnce",
+        "InterruptedToolBatchDoesNotRepeatCompletedSideEffects"
+      ],
+      "completeClaim": "Named stage and interrupt/resume contracts; full checkpoint positions and vended policy catalogs remain later slices."
+    }
+  ],
+  "native_observation_refresh": {
+    "date": "2026-10-21",
+    "feature_groups": [
+      "tool_registry_and_direct_calls",
+      "additional_provider_catalog",
+      "memory_and_store_catalog",
+      "vended_tool_catalog",
+      "background_tasks",
+      "harness_web_tools",
+      "harness_programmatic_tool_caller",
+      "harness_defaults_and_configuration"
+    ],
+    "scope": "Pinned upstream identities/acceptance scenarios unchanged. Selected native presence/gap observations refreshed against source/tests and existing source-specific proofs. No build/test/network operations by this inventory edit; current combined matrix and exhaustive family audit remain pending.",
+    "additional_updates": [
+      {
+        "date": "2026-10-21",
+        "feature_group": "tool_registry_and_direct_calls",
+        "scope": "Root-reconciled source presence after accepted generation18 and live-provider50; focused proofs are separate from the pending new combined Main matrix."
+      },
+      {
+        "date": "2026-10-21",
+        "feature_group": "byte_storage_and_search_catalog",
+        "scope": "Root reconciled after accepted S370; selected component and pipeline evidence, new combined Main matrix pending"
+      },
+      {
+        "date": "2026-10-21",
+        "feature_group": "byte_storage_and_search_catalog",
+        "scope": "Root reconciled after accepted S370 and SQLite37/helper3; full2ecc Linux passed and Windows retained two x86 failures; later combined Main matrix pending"
+      },
+      {
+        "date": "2026-10-21",
+        "feature_group": "tool_registry_and_direct_calls",
+        "scope": "Root reconciled accepted watched managed tools and bounded Agent/MCP lifetime guards; full combined matrix remains pending."
+      }
+    ]
+  }
+}

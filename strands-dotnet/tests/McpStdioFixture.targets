@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <_StrandsStdioFixtureProject>$(MSBuildThisFileDirectory)Strands.Agents.Tests/Mcp/StdioServer/Strands.Mcp.StdioServer.csproj</_StrandsStdioFixtureProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(_StrandsStdioFixtureProject)" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <Target Name="CopyMcpStdioFixture" AfterTargets="Build" Condition="'$(TargetFramework)' != ''">
+    <PropertyGroup>
+      <_McpStdioTargetFramework Condition="'$(TargetFramework)' == 'net48'">net48</_McpStdioTargetFramework>
+      <_McpStdioTargetFramework Condition="'$(TargetFramework)' != 'net48'">net8.0</_McpStdioTargetFramework>
+    </PropertyGroup>
+    <MSBuild Projects="$(_StrandsStdioFixtureProject)" Targets="GetStdioFixtureFiles" Properties="TargetFramework=$(_McpStdioTargetFramework);Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="_McpStdioFixtureAssets" />
+    </MSBuild>
+    <Copy SourceFiles="@(_McpStdioFixtureAssets)" DestinationFolder="$(OutDir)McpStdioFixture" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

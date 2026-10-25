@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TestRun xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010"><Results><UnitTestResult executionId="e36229e6-6507-4992-8952-0dca2cc211bb" testId="48dee4ad-e450-b07e-2b43-9c6137b5af84" testName="Strands.Cedar.Tests.NativeBridgeTests.RealEngineVersionAndRequestedProcessArchitectureAreVerified" computerName="fixture-host" duration="00:00:00.5570000" startTime="2026-10-21T08:47:41.6334340-04:00" endTime="2026-10-21T08:47:42.2057706-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e36229e6-6507-4992-8952-0dca2cc211bb">
+      <Output>
+        <StdOut>Process architecture: X86; pointer size: 4.
+
+Managed location: C:\Users\18126\AppData\Local\Temp\a514d9a0-f54d-4fa0-9a9a-8c0c7ecc2ec7\a514d9a0-f54d-4fa0-9a9a-8c0c7ecc2ec7\assembly\dl3\2eb7eaff\07cda03e_5661dd01\Strands.Agents.Cedar.dll; base directory: D:\CodexScratch\strands-rich-pipe-journal-provider-2f6c6f4-build\bin\Strands.Cedar.Tests\release_net48.</StdOut>
+      </Output>
+    </UnitTestResult>
+    </Results><TestDefinitions><UnitTest name="Strands.Cedar.Tests.NativeBridgeTests.RealEngineVersionAndRequestedProcessArchitectureAreVerified" storage="fixture.dll" id="48dee4ad-e450-b07e-2b43-9c6137b5af84">
+      <Execution id="e36229e6-6507-4992-8952-0dca2cc211bb" />
+      <TestMethod codeBase="fixture.dll" adapterTypeName="executor://xunit/VsTestRunner3/netfx/" className="Strands.Cedar.Tests.NativeBridgeTests" name="RealEngineVersionAndRequestedProcessArchitectureAreVerified" />
+    </UnitTest>
+    </TestDefinitions><ResultSummary><Counters total="1" executed="1" passed="1" failed="0" notExecuted="0" /></ResultSummary></TestRun>

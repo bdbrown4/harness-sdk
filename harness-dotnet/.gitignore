@@ -1,0 +1,4 @@
+obj/
+TestResults/
+artifacts/
+.agent/

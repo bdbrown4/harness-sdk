@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <PackageId>Strands.Agents.Monty</PackageId>
+    <Description>Genuine Monty worker execution for programmatic Strands tool orchestration.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <MontyNativeAssetsPath Condition="'$(MontyNativeAssetsPath)' == ''">$(MSBuildThisFileDirectory)../../artifacts/monty-native</MontyNativeAssetsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../CompilerTypeForwarders.cs" Link="CompilerTypeForwarders.cs" />
+    <Compile Remove="native/**/*.cs" />
+    <ProjectReference Include="../Strands.Agents/Strands.Agents.csproj" />
+    <InternalsVisibleTo Include="Strands.Monty.Tests" />
+    <InternalsVisibleTo Include="Strands.Compatibility.Tests" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../NOTICE" Pack="true" PackagePath="/" />
+    <None Include="../../../LICENSE.APACHE" Pack="true" PackagePath="/" />
+    <None Include="buildTransitive/Strands.Agents.Monty.targets" Pack="true" PackagePath="buildTransitive/" />
+    <None Include="$(MontyNativeAssetsPath)/licenses/**/*" Pack="true" PackagePath="licenses/" />
+    <None Include="$(MontyNativeAssetsPath)/runtimes/**/*" Link="runtimes/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Pack="true" PackagePath="runtimes/" />
+    <None Include="native/Cargo.lock" Pack="true" PackagePath="native-source/" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+  <Target Name="VerifyMontyNativePackageAssets" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_MontyRequiredAsset Include="win-x86/native/strands_monty_worker.exe;win-x64/native/strands_monty_worker.exe;linux-x64/native/strands_monty_worker;osx-x64/native/strands_monty_worker;osx-arm64/native/strands_monty_worker" />
+    </ItemGroup>
+    <Error Condition="!Exists('$(MontyNativeAssetsPath)/runtimes/%(_MontyRequiredAsset.Identity)')" Text="Missing Monty native package asset: %(_MontyRequiredAsset.Identity). Build and collect every supported native RID before packing." />
+    <Error Condition="!Exists('$(MontyNativeAssetsPath)/licenses/THIRD-PARTY-NOTICES.md')" Text="Missing generated native Monty dependency notices." />
+  </Target>
+</Project>

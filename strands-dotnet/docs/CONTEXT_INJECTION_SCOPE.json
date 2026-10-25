@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Vended ContextInjector with cancellation-aware callbacks and ephemeral model-input middleware. Existing memory injection and decision models are outside this increment.",
+  "status": "implemented_subset",
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Injection/ContextInjector.cs",
+      "sha256": "4cfa9f84edc8cd170f4026401bcd9b5be6637e3498c9eab750aa4f3f899878ba"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Injection/ContextInjectorOptions.cs",
+      "sha256": "5e7e769450d9779c933f1d0fa6bfe729805c36914d5d9f8dc2af08a5164a57e2"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Injection/InjectionContext.cs",
+      "sha256": "58ae121a7a494c666f767b3028973780b33119740ade255f4a6672644f345117"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/Injection/ContextInjectorTests.cs",
+      "sha256": "26bd3460dcb7556f3598718401a53b593946632929473f73884ac9f4bf1a34d7"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "strands-dotnet/docs/CONTEXT_INJECTION.md",
+      "sha256": "b33717b22445c6f8ac83ae26f818e033118b8335dc7da38824e3244b1ff0ad6c"
+    }
+  ],
+  "sharedIntegrationRequirements": [
+    {
+      "path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj",
+      "requirement": "Link ../Strands.Agents.Tests/Injection/**/*.cs into portable tests.",
+      "owner": "Root; do not replace the mutable shared project from this manifest."
+    }
+  ],
+  "sourceReferences": [
+    "strands-ts/src/injection/types.ts",
+    "strands-ts/src/injection/message-injection.ts",
+    "strands-ts/src/vended-plugins/context-injector/plugin.ts"
+  ],
+  "defaults": {
+    "name": "strands:context-injector",
+    "trigger": "UserTurn",
+    "predicate": "Absent; an explicit predicate replaces the built-in trigger."
+  },
+  "acceptance": [
+    "Ephemeral last-user append preserves ordered typed blocks, metadata, tracking identity and durable conversation history.",
+    "UserTurn excludes tool-result turns; EveryTurn and custom predicates select the required model calls.",
+    "Multiple injectors run in registration order and accumulate an existing dynamic cache suffix.",
+    "Shared plugin instances keep agents independent; callbacks see detached messages and borrowed application context without SDK state keys.",
+    "Trigger/render exceptions and empty text skip injection; requested caller cancellation wins before model IO and retains its token."
+  ],
+  "evidence": {
+    "runnableRedScenarios": 4,
+    "observedFailingTestExecutionsBeforeFix": 4,
+    "firstGreenConformanceCases": 16,
+    "focusedCases": 20,
+    "focusedExecutions": 100,
+    "modernCoreRegressionCasesEach": 1853,
+    "regressionExclusions": [
+      "AutomaticTelemetryTests",
+      "McpTaskContractTests",
+      "McpTaskClientTests",
+      "McpTaskLifetimeTests"
+    ],
+    "exclusionReason": "Concurrent owners were still implementing automatic telemetry and advanced MCP tasks; those named classes were explicitly excluded from both broad regression commands.",
+    "localFrameworkRelease": 534296,
+    "localFrameworkRuntime": ".NET Framework 4.8.1; net48 target, not a clean 4.8 runtime proof",
+    "cleanFramework48Proof": "Pending combined frozen checkpoint gate",
+    "peerReview": "Harness worker bounded read-only PASS; no actionable P1/P2",
+    "formatter": "Project-cwd-relative includes positively calibrated by a harmless indentation perturbation in one owned source and one owned test. Apply changed one selected file each; final verify changed 0/709 source and 0/306 test files, with no workspace warnings.",
+    "formatterLogs": [
+      "work/injection-format-source.log",
+      "work/injection-format-tests.log",
+      "work/injection-format-source-verify.log",
+      "work/injection-format-tests-verify.log"
+    ],
+    "tests": [
+      {
+        "name": "core-net8",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/injection-final/core-net8/18126_DESKTOP-47NGAFF_2026-10-21_00_12_29_net8.0.trx",
+        "sha256": "365e1351680b15b6b2a20e3981a2370ac3ac5d9e855930d9eb36ecfe33254ea5"
+      },
+      {
+        "name": "core-net10",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/injection-final/core-net10/18126_DESKTOP-47NGAFF_2026-10-21_00_16_40_net10.0.trx",
+        "sha256": "3d69922c64ce6e4376a22feb1fa2a6dda7a458d49194904249e839dfb2205898"
+      },
+      {
+        "name": "portable-net48-green",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/injection-final/portable-net48-green/18126_DESKTOP-47NGAFF_2026-10-21_00_17_19_net48.trx",
+        "sha256": "7edecaf36aa3d5d9c6adec1a7343b72009591b0186877fa086f865630f0c040d"
+      },
+      {
+        "name": "portable-net8",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/injection-final/portable-net8/18126_DESKTOP-47NGAFF_2026-10-21_00_13_28_net8.0.trx",
+        "sha256": "e402c44aac259ee31adf3b15185d9577bd6f3460d5ef1c0f6dd82f54a5df9a8a"
+      },
+      {
+        "name": "portable-net10",
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/injection-final/portable-net10/18126_DESKTOP-47NGAFF_2026-10-21_00_14_06_net10.0.trx",
+        "sha256": "d23e73a50ffd0e57d28370207cf9ea05a7ed84291a1c4b32c2f746134030c72c"
+      },
+      {
+        "name": "core-regression-net8",
+        "passed": 1853,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/injection-final/core-regression-net8/18126_DESKTOP-47NGAFF_2026-10-21_00_17_50_net8.0.trx",
+        "sha256": "9e44cd36f6a94f7ad14c2fa6667bdb5e00705a425b448431888bd6759c066a2c"
+      },
+      {
+        "name": "core-regression-net10",
+        "passed": 1853,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/injection-final/core-regression-net10/18126_DESKTOP-47NGAFF_2026-10-21_00_18_27_net10.0.trx",
+        "sha256": "1ff5091964dbaab33a0f4209fdc7f16bd34966dad052c89a6a9028abd702b8a3"
+      }
+    ],
+    "portabilityRegression": {
+      "initialPortableFailureCount": 3,
+      "cause": "Concurrent Root tracing integration converted middleware IValueTaskSource MoveNextAsync to Task using AsTask; the Framework bridge lost the original cancellation token.",
+      "isolation": "Direct callback, injector transform and registry ValueTask await retained OperationCanceledException and exact caller token. Only AsTask conversion changed it to TaskCanceledException with no token.",
+      "resolution": "Root direct-await ValueTask span helper and model/tool tracing call sites, protected by sampled/unsampled native ValueTask-source tests; injector assertions were unchanged.",
+      "rawEvidence": [
+        "work/injection-net48.log",
+        "work/injection-token-net48.log",
+        "work/injection-cancellation-probe/net48-direct.log",
+        "work/injection-cancellation-probe/net48-astask.log",
+        "work/injection-net48-green.log"
+      ]
+    }
+  },
+  "nativeDifferences": [
+    "A cancellation-aware renderer constructor plus enum/predicate options expresses the TypeScript configuration union.",
+    "Requested caller cancellation propagates instead of being swallowed as an ordinary fail-open callback exception."
+  ],
+  "limitations": [
+    "Rendered text is an application-controlled prompt surface; no trust or escaping policy is invented.",
+    "Callbacks and Agent/AppState references are borrowed; their own application mutations are not isolated.",
+    "Existing memory injection has not been refactored into this primitive.",
+    "No generic DecisionModel implementation is claimed by this scope."
+  ]
+}

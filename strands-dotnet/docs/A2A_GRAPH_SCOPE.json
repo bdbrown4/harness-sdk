@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Native A2A graph node with per-invocation stable-pause checkpoints and response reconciliation; not active-run crash recovery",
+  "status": "implemented_subset",
+  "extendsCapturedCheckpoint": {
+    "manifest": "A2A_CARDS_SCOPE.json",
+    "sha256": "873aafd514f95486ea4be6542af7547029afa7f73453fb17e1a6eb62c4b4a8de",
+    "policy": "Use the captured card checkpoint, replacing only current files listed in this manifest. Other core shared changes belong to their separate owning scopes."
+  },
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ANode.cs",
+      "sha256": "0b672f98952c4f7723afcc198fed1bc1c3d0abaeb702a6764fec2c9701379451"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ANode.Checkpoints.cs",
+      "sha256": "ec050f7688d7bee736ac81867a83cbf90103a63d023f60bbd6470b7f9bdbf39f"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ANodeOptions.cs",
+      "sha256": "abcc55864b9b5998b7a4723d57313df3f4160d616fe09528841b56518d49e926"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.Binding.cs",
+      "sha256": "367a1a70b4dc015616d92a15bc9122cf84e005aa259c3fe92e581c78a9ae2c6b"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AAgent.cs",
+      "sha256": "fd1bdbecac9cf30df02473bad292fa88547f388ec811c722f357e3bb1832500d"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/MultiAgent/INodeCheckpointValidator.cs",
+      "sha256": "fa6421437ceb6311aabbf904adfd5989a63d6ad93cf4878a8721ccfed237bb5d"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/MultiAgent/Contracts.cs",
+      "sha256": "a303b82b5e6d7a53cf7b14128230a8c6719e4c79201ad11224983a9f00099909"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/MultiAgent/MultiAgentCheckpointCodec.cs",
+      "sha256": "5b2d45d54ea9fe0725fd6591f96be645b4ede5941eb7fa2d06f15550fafd5ca5"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.Snapshots.cs",
+      "sha256": "d3f5f10c5759a7f0dfdba8884e01b157b1e30e943ea513576f5c4d9ec177e128"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.CheckpointJournal.cs",
+      "sha256": "edb7dd566f3b19268644bd333692fea8d6426ee6b58b2314d9e9ae6f6fc47c0f"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.Interrupts.cs",
+      "sha256": "198989b6e089a91d550284e7ab4f93ea2686cd8ef77c2929ab49dcede4d811e8"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.cs",
+      "sha256": "f693ff98604534001efa34d38978d9537ad2582ceaa96611e2478f69c13575ae"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Interrupts.cs",
+      "sha256": "dd7bf46ffad0b408fce243e4449a2be35dc12a385eac37927421cb587f0832b9"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AGraphNodeTests.cs",
+      "sha256": "229ea35f9d285a41aeebbec55417cc55aed07ec43ac84596b68c6930c4a03505"
+    }
+  ],
+  "documentation": [
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_GRAPH.md",
+      "sha256": "a42e7850a1b30299c560b42544fbf2e9a0a5569a49abb0cd9cb2f9c39b1d3afe"
+    },
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A.md",
+      "sha256": "89d00871f89c0f34d1f9c3d491c79302566cad2030f5ffc84bddbfa3a87bdf9f"
+    },
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_CARDS.md",
+      "sha256": "e46dede60e0959a278658f3218987872b06f6fdc45ef3e248e6ee74b7c1746ee"
+    },
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_SERVER.md",
+      "sha256": "ddb468c2216ea1471ef38c2d8f8c3722d302d8b1e9ec16b2d01efcb9a24650b6"
+    }
+  ],
+  "sourceReferences": [
+    "strands-ts/src/a2a/a2a-agent.ts",
+    "strands-py/src/strands/multiagent/a2a/_converters.py",
+    "strands-py/src/strands/multiagent/a2a/executor.py",
+    "strands-dotnet/src/Strands.Agents/MultiAgent/MultiAgentCheckpointCodec.cs",
+    "https://a2a-protocol.org/v0.3.0/specification/"
+  ],
+  "compatibilityPolicy": "Native explicit composition: TypeScript invokable remote text adapter plus Python server structured interrupt protocol and native graph checkpoints. Pinned Python remote client rejects interrupt responses; do not claim upstream durable remote resume was already implemented.",
+  "contracts": [
+    "Borrowed real HTTP/SSE client; typed progress/output and authoritative task lifecycle.",
+    "Shared node declarations keep mutable execution/checkpoint data in graph invocation state, without caller InvocationState SDK keys.",
+    "Opaque local RemoteAgent questions remain separate from native tool approvals; Agent interrupt ledger rejects that source.",
+    "Structured remote ID mapping, text-only visible projection with intact response protocol data, partial answers across fresh file-backed graphs.",
+    "Strict bounded checkpoint scope/version/node/task/context/question/source validation before atomic load, backward-compatible absent field.",
+    "Hashed discovery/configured/selected endpoint binding; restored discovered changes rejected before continuation; visits use an endpoint-bound client.",
+    "Accepted answers save before execution even when retrying existing DeferredResponses after an earlier failed save.",
+    "Pure preaccept response validation preserves mixed hook/body batch atomicity; invalid generic JSON can be corrected.",
+    "Preflight tasks/get recovers lost completed replies without resending structured answers; active tasks refuse another message.",
+    "Observed new pauses remove only proved-consumed deferred answers before progress publication, preserving early-disposal snapshots.",
+    "Distinct subsequent generic question IDs; generic text-only responses and explicit authentication-host boundary.",
+    "Handled uncertain generic sends refuse automatic paused text replay while allowing observed terminal reconciliation.",
+    "Iterator cleanup preserves original failures and attaches diagnostics; clients and remote executions remain borrowed."
+  ],
+  "validation": {
+    "newRemoteGraphCases": 26,
+    "scopedCore": {
+      "net10": 421,
+      "net8": 421
+    },
+    "scopedCompatibility": {
+      "net8": 363,
+      "net10": 363,
+      "net48": 363
+    },
+    "scopedExecutions": 1931,
+    "coreRegressions": {
+      "net8": 1658,
+      "net10": 1658,
+      "filter": "FullyQualifiedName!~.Telemetry.&FullyQualifiedName!~AgentToolOptionsTests (independent concurrent slices excluded; compiled AgentDelegation cases were green)"
+    },
+    "proofs": [
+      {
+        "file": "core-net8.0.trx",
+        "total": 421,
+        "passed": 421,
+        "failed": 0,
+        "skipped": 0,
+        "remoteGraphCases": 26
+      },
+      {
+        "file": "core-net10.0.trx",
+        "total": 421,
+        "passed": 421,
+        "failed": 0,
+        "skipped": 0,
+        "remoteGraphCases": 26
+      },
+      {
+        "file": "portable-net48.trx",
+        "total": 363,
+        "passed": 363,
+        "failed": 0,
+        "skipped": 0,
+        "remoteGraphCases": 26
+      },
+      {
+        "file": "portable-net8.0.trx",
+        "total": 363,
+        "passed": 363,
+        "failed": 0,
+        "skipped": 0,
+        "remoteGraphCases": 26
+      },
+      {
+        "file": "portable-net10.0.trx",
+        "total": 363,
+        "passed": 363,
+        "failed": 0,
+        "skipped": 0,
+        "remoteGraphCases": 26
+      },
+      {
+        "file": "all-core-net8.0.trx",
+        "total": 1658,
+        "passed": 1658,
+        "failed": 0,
+        "skipped": 0,
+        "remoteGraphCases": 26
+      },
+      {
+        "file": "all-core-net10.0.trx",
+        "total": 1658,
+        "passed": 1658,
+        "failed": 0,
+        "skipped": 0,
+        "remoteGraphCases": 26
+      }
+    ],
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 0,
+    "localFrameworkRuntime": "net48 target on installed Framework4.8.1 Release534296; clean4.8 CI pending for this increment",
+    "proofDirectory": "work/a2a-graph-final",
+    "format": [
+      "Project-cwd-relative source includes calibrated by repairing intentional indentation in INodeCheckpointValidator.cs (1/661), followed by0changes verification.",
+      "Test formatter actually normalized imports in A2AGraphNodeTests.cs (1/284), followed by0changes verification."
+    ],
+    "observedRedThenGreen": [
+      "Real TCP remote node initially returnedFailed from unsupported execution.",
+      "Fresh file-backed graph could not retain or resume a remote pause.",
+      "Retrying accepted answers after failed durable save sent a remote request before saving again.",
+      "A completed continuation with a lost response was resent instead of reconciled.",
+      "TextOnly projection stripped structured response protocol input.",
+      "Invalid projection enum was not rejected before discovery.",
+      "Consecutive unstructured pauses reused the same local identity and hid the new pending request.",
+      "Invalid generic JSON was accepted into a durable journal before being rejected by the body.",
+      "Early disposal after a partial continuation left stale deferred answers that invalidated checkpoint restoration.",
+      "An uncertain generic-text response was automatically replayed into a second indistinguishable request."
+    ],
+    "process": "Each listed behavior was observed as runnable runtime RED before its fix. Other validation/concurrency/lifetime/batch contracts passed on first execution and are regression evidence. A JsonElement record-equality assertion and temporary compile errors were fixture/scaffolding corrections, not feature RED evidence.",
+    "review": "Independent bounded read-only review PASS and final RetainPause/uncertain generic-send delta recheck PASS; no atomic cross-store remote receipt claim inferred."
+  },
+  "remaining": [
+    "Process-crash atomicity between local checkpoint storage and remote effects.",
+    "Active remote execution recovery/reconnect, automatic polling and cross-process leases.",
+    "Host resolution of generic-text acceptance uncertainty; no remote receipt/idempotency protocol is invented.",
+    "Authentication credential exchange, trusted checkpoint authorization and signature verification remain embedding-host responsibilities.",
+    "Remaining A2A transports, push lifecycle, host adapters and other protocol-family acceptance work remain outside this narrow bridge."
+  ]
+}

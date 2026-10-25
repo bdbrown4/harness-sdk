@@ -1,0 +1,127 @@
+{
+  "Name": "Native Meta Llama API 64-case frozen increment",
+  "SourceBaseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "CoreDependencyCommit": "08784bf381587308ae426a0865013c32b75822aa",
+  "SourceInputs": {
+    "Count": 257,
+    "Manifest": "source-manifest.json",
+    "Sha256": "5ac8f8388fc5535f792c58247303a98112c90c225f0cd9ba182c7b1fbd894cfd",
+    "ByteIdenticalOnWindowsAndLinux": true
+  },
+  "Matrix": [
+    {
+      "Path": "windows/results/net8.0.trx",
+      "Sha256": "06ce73b36d18e1eac3f55efcdc0447493bc54aa92e0782f3ac8ba6a365c40b75",
+      "Passed": 64,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "Path": "windows/results/net10.0.trx",
+      "Sha256": "7f409341a19e3f6448c972b52654d0cc53c70426bb73a2e7f85084caed6640e7",
+      "Passed": 64,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "Path": "windows/results/net48-x64.trx",
+      "Sha256": "5eee59b636ecfe69fe8da241ca7b3731cccdee12074197f9886c6829b59dee30",
+      "Passed": 65,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "Path": "windows/results/net48-x86.trx",
+      "Sha256": "c7d2cc597058920d4746fb342e5b2b4d720b6ad39a9bb94e265b949bff4e3989",
+      "Passed": 65,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "Path": "linux/results/net8.0/net8.0.trx",
+      "Sha256": "6c4ce4dfa9c62a36dd6e765c5a5972b9cab571f3e4e1ffc07aead78b125bdeaa",
+      "Passed": 64,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "Path": "linux/results/net10.0/net10.0.trx",
+      "Sha256": "10f5f4699a8dc3386c9819db17aea74ce993c155a8fbfad5d62b9a435b025529",
+      "Passed": 64,
+      "Failed": 0,
+      "Skipped": 0
+    }
+  ],
+  "TargetExecutions": 386,
+  "DistinctBehaviorCases": 64,
+  "FrameworkOnlyArchitectureAssertion": 1,
+  "ProductRuntimeRedCases": 24,
+  "OtherConformanceCases": 40,
+  "RuntimeRedEvidence": {
+    "Path": "actual-runtime-red-cases.json",
+    "Sha256": "0a5687c92db3efe5684f80d7f11801cfb6a647a271abd30ec2aa27a39f360d21"
+  },
+  "Windows": {
+    "Sdk": "10.0.402",
+    "FrameworkRelease": 534296,
+    "FrameworkVersion": "4.8.10008",
+    "FrameworkClassification": "Installed in-place 4.8.1-or-later runtime executing net48 targets",
+    "ArchitectureEvidence": "windows/architecture.log",
+    "ArchitectureEvidenceSha256": "596e32a317838bad6e27585ebc212a23c2a164fa00bf03fac1faed8a538112ed"
+  },
+  "Linux": {
+    "Environment": "Genuine WSL2 Ubuntu22.04.2 LTS linux-x64",
+    "Glibc": "2.35-0ubuntu3.15",
+    "Kernel": "6.18.54.1-microsoft-standard-WSL2",
+    "Sdk": "10.0.402",
+    "Runtimes": [
+      "8.0.32",
+      "10.0.13"
+    ],
+    "Log": "linux-gate.log",
+    "LogSha256": "633c597a793c34b8aa9c6396a5c8086a3f0afa787bcebed0b67ed24d8100c6c6"
+  },
+  "Build": "All three Core assets and all three selected test targets built in Release on Windows/Linux with zero warnings/errors; both genuine Core packages passed unsuppressed API validation.",
+  "Format": {
+    "Result": "0 of 763",
+    "PositiveSelection": "2 Core files and 1 test file formatted using project-cwd-relative includes and intentional leading-space probes",
+    "VerifySha256": "17327af6c5e6772cf93ba993b76a7507d23b80280590c6f7ff9dc17af675f482"
+  },
+  "Packages": [
+    {
+      "Path": "windows/feed/Strands.Agents.0.1.0-alpha.1.nupkg",
+      "Sha256": "8bab67cbf9926885cd5211fd478384cd50ceab5efe779a45657e4111aa6ea002"
+    },
+    {
+      "Path": "linux/feed/Strands.Agents.0.1.0-alpha.1.nupkg",
+      "Sha256": "adf89d75cc19b749bd4d235a8e30bb042f6f0cdb36ef3f7953136acd275d3d83"
+    }
+  ],
+  "Consumers": {
+    "Windows": [
+      "net48",
+      "net8.0",
+      "net10.0"
+    ],
+    "Linux": [
+      "net8.0",
+      "net10.0"
+    ],
+    "Model": "NuGet-only Strands.Agents reference, fresh sibling cache, strict local Strands.* source mapping, native HttpClient/Meta SSE handler, no project references",
+    "AssetAssertions": "net48 selects netstandard2.0 compile/runtime assets; modern targets select their matching native assets; all3dll+xml+README+NOTICE+LICENSE.APACHE and no test binaries verified",
+    "WindowsLog": "windows/package-final.log",
+    "WindowsLogSha256": "a5098e720b0413b1f2e4d28ff5247c4538ce2fb39fdc81f7d56b97cb4495c2de"
+  },
+  "HistoricalHarnessCorrection": "The first Windows package verifier assumed an older .NETFramework target key; SDK10 emits net48. Corrected verifier, retained old scratch, then completed a new empty-cache consumer run; no production defect was inferred.",
+  "Review": "Parent bounded read-only PASS for base57 transport/protocol fixes and separate assistant-content policy followup.",
+  "Limits": [
+    "No live Meta endpoint or credential proof; pinned Python marks the service deprecated",
+    "PythonFirstBlock explicitly retains source loss/vendor assistant-schema mismatch; unsupported location images reject rather than source skip",
+    "No clean4.8-only or macOS execution for this increment",
+    "Vercel/LiteLLM library bridges remain separate gaps; no full-SDK or PR-readiness claim"
+  ],
+  "Scope": {
+    "Path": "contract-scope.json",
+    "Sha256": "87295a81038ae3e705e6009fccc12a6e3d07cd05fe6b1fea81306cdd0cd8412f"
+  }
+}

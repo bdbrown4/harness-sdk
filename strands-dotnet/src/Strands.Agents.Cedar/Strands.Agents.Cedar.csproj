@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <PackageId>Strands.Agents.Cedar</PackageId>
+    <Description>Genuine Cedar policy authorization interventions and MCP schema generation for Strands Agents.</Description>
+    <PackageTags>strands;agents;cedar;authorization</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <CedarNativeAssetsPath Condition="'$(CedarNativeAssetsPath)' == ''">$(MSBuildThisFileDirectory)../../artifacts/cedar-native</CedarNativeAssetsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../CompilerTypeForwarders.cs" Link="CompilerTypeForwarders.cs" />
+    <Compile Remove="native/**/*.cs" />
+    <InternalsVisibleTo Include="Strands.Cedar.Tests" />
+    <ProjectReference Include="../Strands.Agents/Strands.Agents.csproj" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../NOTICE" Pack="true" PackagePath="/" />
+    <None Include="../../../LICENSE.APACHE" Pack="true" PackagePath="/" />
+    <None Include="buildTransitive/Strands.Agents.Cedar.targets" Pack="true" PackagePath="buildTransitive/" />
+    <None Include="$(CedarNativeAssetsPath)/runtimes/**/*" Link="runtimes/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Pack="true" PackagePath="runtimes/%(RecursiveDir)%(Filename)%(Extension)" />
+    <None Include="$(CedarNativeAssetsPath)/licenses/**/*" Link="native-licenses/%(RecursiveDir)%(Filename)%(Extension)" Pack="true" PackagePath="native-licenses/" />
+    <None Include="native/**/Cargo.lock" Pack="true" PackagePath="native-source/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+  <Target Name="VerifyCedarNativePackageAssets" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_CedarRequiredAsset Include="win-x86/native/strands_cedar_engine.dll;win-x86/native/strands_cedar_schema.dll;win-x64/native/strands_cedar_engine.dll;win-x64/native/strands_cedar_schema.dll;linux-x64/native/libstrands_cedar_engine.so;linux-x64/native/libstrands_cedar_schema.so;osx-x64/native/libstrands_cedar_engine.dylib;osx-x64/native/libstrands_cedar_schema.dylib;osx-arm64/native/libstrands_cedar_engine.dylib;osx-arm64/native/libstrands_cedar_schema.dylib" />
+    </ItemGroup>
+    <Error Condition="!Exists('$(CedarNativeAssetsPath)/runtimes/%(_CedarRequiredAsset.Identity)')" Text="Missing Cedar native package asset: %(_CedarRequiredAsset.Identity). Build and collect every supported native RID before packing." />
+    <Error Condition="!Exists('$(CedarNativeAssetsPath)/licenses/THIRD-PARTY-NOTICES.md')" Text="Missing generated native dependency license notices." />
+  </Target>
+</Project>

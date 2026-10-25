@@ -1,0 +1,9 @@
+# Provider timing metadata
+
+`ModelMetadataEvent.PerformanceMetrics` optionally carries provider-reported `ModelPerformanceMetrics`. Durations use `TimeSpan`; absent timing remains unknown, and an explicitly reported zero is retained. Usage events remain additive. The most recent event containing timing replaces the prior timing; a usage-only event leaves timing unchanged. Invalid negative timings and token overflow fail before either value is committed.
+
+The native model middleware terminal forwards timing through `InvokeModelResult.PerformanceMetrics`. Middleware may replace it, subject to the same nonnegative-duration validation. Existing event and result constructors retain their parameter lists. This increment does not attach telemetry to `AgentResult` or create automatic runtime spans.
+
+The Bedrock Converse stream adapter now preserves the native `metrics.latencyMs` value using exact millisecond-to-tick conversion. Missing timing remains null; a negative or unrepresentable duration raises `ModelException`. It does not invent time-to-first-token measurements. Tests use the existing binary AWS event-stream fixture and native AWS decoding. The wire field and units follow the [Bedrock stream metrics contract](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStreamMetrics.html).
+
+Fifteen contracts pass across modern Core/Bedrock suites, portable modern targets and actual Framework x64/x86 processes: 90 new timing executions and 576 executions including relevant regressions. Thirteen contracts have executable RED-to-GREEN evidence; two passed on first execution. Positive formatter probes cover all seven owned C# files. The installed Framework is 4.8.1-or-later. This increment is outside immutable checkpoint `187cbae1cf87a8baa1193b0fff1758e2f2a222bc`; combined-source, fresh-package, Linux/macOS and clean 4.8-only verification remain separate gates.

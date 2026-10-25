@@ -1,0 +1,437 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net48;net8.0;net10.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../Shared/TestPaths.cs" Link="Shared/TestPaths.cs" />
+    <Compile Include="../Strands.Agents.Tests/StructuredOutputPreemptionTests.cs" Link="StructuredOutput/StructuredOutputPreemptionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/StructuredOutputPreemptionSafetyTests.cs" Link="StructuredOutput/StructuredOutputPreemptionSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ModelInputReceiptTests.cs" Link="StructuredOutput/ModelInputReceiptTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ReceiptAgentTests.cs" Link="StructuredOutput/ReceiptAgentTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ReceiptCatalogSafetyTests.cs" Link="StructuredOutput/ReceiptCatalogSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ReceiptCatalogTests.cs" Link="StructuredOutput/ReceiptCatalogTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ReceiptIndexedSafetyTests.cs" Link="StructuredOutput/ReceiptIndexedSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ReceiptIndexedTests.cs" Link="StructuredOutput/ReceiptIndexedTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ReceiptManualCaptureTests.cs" Link="StructuredOutput/ReceiptManualCaptureTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ReceiptSnapshotTests.cs" Link="StructuredOutput/ReceiptSnapshotTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/StructuredOutputAcceptedResultTests.cs" Link="StructuredOutput/StructuredOutputAcceptedResultTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/StructuredOutputConformanceTests.cs" Link="StructuredOutput/StructuredOutputConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/StructuredOutputProfileTests.cs" Link="StructuredOutput/StructuredOutputProfileTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/CheckpointMarkerTests.cs" Link="CheckpointMarkerTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/CheckpointBoundarySafetyTests.cs" Link="Checkpoints/CheckpointBoundarySafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/CheckpointLifecycleMinimumTests.cs" Link="Checkpoints/CheckpointLifecycleMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/CheckpointPersistenceTests.cs" Link="Checkpoints/CheckpointPersistenceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/CheckpointPolicyControlsTests.cs" Link="Checkpoints/CheckpointPolicyControlsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/CheckpointStatefulTests.cs" Link="Checkpoints/CheckpointStatefulTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/CheckpointStorageCancellationTests.cs" Link="Checkpoints/CheckpointStorageCancellationTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockExplicitEmptyToolResultTests.cs" Link="Bedrock/BedrockExplicitEmptyToolResultTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/OrdinaryExplicitEmptyToolResult*.cs" Link="Models/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/StopMinimumTests.cs" Link="VendedTools/StopMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/StopPythonConformanceTests.cs" Link="VendedTools/StopPythonConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/StopTypeScriptConformanceTests.cs" Link="VendedTools/StopTypeScriptConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/GoogleExplicitEmptyToolResultTests.cs" Link="Models/GoogleExplicitEmptyToolResultTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/Bash*.cs" Link="Harness/Bash/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/ShutdownRegistration/OwnedShutdownRegistrationTests.cs" Link="ShutdownRegistration/OwnedShutdownRegistrationTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/ReadPagingTests.cs" Link="Harness/ReadPagingTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/ReadPagingBoundaryTests.cs" Link="Harness/ReadPagingBoundaryTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/ReadPagingProfileTests.cs" Link="Harness/ReadPagingProfileTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/ReadPagingProfileBoundaryTests.cs" Link="Harness/ReadPagingProfileBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/OrdinaryStructuredOutputMinimumTests.cs" Link="StructuredOutput/OrdinaryStructuredOutputMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/OrdinaryStructuredOutputConformanceTests.cs" Link="StructuredOutput/OrdinaryStructuredOutputConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/HandoffToUserMinimumTests.cs" Link="VendedTools/HandoffToUserMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/HandoffToUserBoundaryTests.cs" Link="VendedTools/HandoffToUserBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/HandoffToUserConformanceTests.cs" Link="VendedTools/HandoffToUserConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/HandoffToUserExplicitContentTests.cs" Link="VendedTools/HandoffToUserExplicitContentTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/HandoffToUserMediaTests.cs" Link="VendedTools/HandoffToUserMediaTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/HandoffToUserEnvelopeBoundaryTests.cs" Link="VendedTools/HandoffToUserEnvelopeBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/HandoffToUserEnvelopeConformanceTests.cs" Link="VendedTools/HandoffToUserEnvelopeConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentSystemPrompt*.cs" Link="AgentSystemPrompt/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/SleepMinimumTests.cs" Link="VendedTools/SleepMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/VendedTools/SleepConformanceTests.cs" Link="VendedTools/SleepConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/JsonSchemaStandardizationTests.cs" Link="Schema/JsonSchemaStandardizationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/JsonSchemaNumericConstraintTests.cs" Link="Schema/JsonSchemaNumericConstraintTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/JsonSchemaMultipleOfDefinitionTests.cs" Link="Schema/JsonSchemaMultipleOfDefinitionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/JsonSchemaExactArithmeticTests.cs" Link="Schema/JsonSchemaExactArithmeticTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/JsonSchemaNumericEqualityTests.cs" Link="Schema/JsonSchemaNumericEqualityTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/JsonSchemaEqualityProfileTests.cs" Link="Schema/JsonSchemaEqualityProfileTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/JsonSchemaEntrypointTests.cs" Link="Schema/JsonSchemaEntrypointTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockSystemPrompt*.cs" Link="Bedrock/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/AttributedPlugin*.cs" Link="AttributedPlugins/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogAutomaticSafetyTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogAutomaticSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogAutomaticTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogAutomaticTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogBoundaryTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogDeletionSafetyTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogDeletionSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogDeletionTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogDeletionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogFallbackSafetyTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogFallbackSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogFallbackTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogFallbackTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogMinimumTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogSafetyTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionCatalogs/SnapshotSessionCatalogStashDeletionTests.cs" Link="SessionCatalogs/SnapshotSessionCatalogStashDeletionTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockCacheProfile*.cs" Link="Bedrock/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockNovaToolResult*.cs" Link="Bedrock/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/StateStoreKeySnapshotTests.cs" Link="StateStoreKeySnapshotTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockReasoningReplay*.cs" Link="Bedrock/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxRemoteVendedFixtureTests.cs" Link="Sandbox/SandboxRemoteVendedFixtureTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxVendedToolRegistrationTests.cs" Link="Sandbox/SandboxVendedToolRegistrationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxVendedToolCancellationTests.cs" Link="Sandbox/SandboxVendedToolCancellationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxVendedToolChildTests.cs" Link="Sandbox/SandboxVendedToolChildTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxShellTests.cs" Link="Sandbox/SandboxShellTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxShellSafetyTests.cs" Link="Sandbox/SandboxShellSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorTests.cs" Link="Sandbox/SandboxFileEditorTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorSafetyTests.cs" Link="Sandbox/SandboxFileEditorSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorConformanceTests.cs" Link="Sandbox/SandboxFileEditorConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxRemoteVendingTests.cs" Link="Sandbox/SandboxRemoteVendingTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorCollectionCancellationTests.cs" Link="Sandbox/SandboxFileEditorCollectionCancellationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorBoundaryTests.cs" Link="Sandbox/SandboxFileEditorBoundaryTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockRecovery*.cs" Link="Bedrock/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockToolResultTurnRecoveryTests.cs" Link="Bedrock/BedrockToolResultTurnRecoveryTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/EnvironmentCharacterCountingTests.cs" Link="Harness/EnvironmentCharacterCountingTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/NotASandboxLocalEnvironmentTests.cs" Link="Sandbox/NotASandboxLocalEnvironmentTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessModelCapabilitiesTests.cs" Link="Harness/HarnessModelCapabilitiesTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessSandboxCodeConformanceTests.cs" Link="Harness/HarnessSandboxCodeConformanceTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessSandboxCodeRoutingTests.cs" Link="Harness/HarnessSandboxCodeRoutingTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/AgentSandboxFileAuthorityTests.cs" Link="Sandbox/AgentSandboxFileAuthorityTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/AgentSandboxRoutingTests.cs" Link="Sandbox/AgentSandboxRoutingTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionDeletionSafetyTests.cs" Link="Sessions/SessionDeletionSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/SessionDeletionTests.cs" Link="Sessions/SessionDeletionTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockHistoryToolTests.cs" Link="Bedrock/BedrockHistoryToolTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/EnvironmentDiscoveryTests.cs" Link="Harness/EnvironmentDiscoveryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxCodeExecutionTests.cs" Link="Sandbox/SandboxCodeExecutionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/PythonReplTests.cs" Link="Sandbox/PythonReplTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/InvocationCompositionTests.cs" Link="Harness/InvocationCompositionTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/NotebookTests.cs" Link="Harness/NotebookTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/NotebookStateTests.cs" Link="Harness/NotebookStateTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/NotebookProfileTests.cs" Link="Harness/NotebookProfileTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Idempotency/*.cs" Link="Idempotency/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/ToolBatchExecutor/*.cs" Link="ToolBatchExecutor/%(Filename)%(Extension)" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HttpRequestTests.cs" Link="Harness/HttpRequestTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HttpRequestConformanceTests.cs" Link="Harness/HttpRequestConformanceTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HttpRequestLifetimeTests.cs" Link="Harness/HttpRequestLifetimeTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessAssemblyImageTests.cs" Link="Harness/HarnessAssemblyImageTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessAssemblyGenerationTests.cs" Link="Harness/HarnessAssemblyGenerationTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/MemoryExtractionModelSelectionTests.cs" Link="Harness/MemoryExtractionModelSelectionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/TestMemoryStoreTests.cs" Link="Memory/TestMemoryStoreTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/TestMemoryStoreSafetyTests.cs" Link="Memory/TestMemoryStoreSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ToolProviders/ToolProviderLifecycleTests.cs" Link="ToolProviders/ToolProviderLifecycleTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ToolProviders/ToolProviderSafetyTests.cs" Link="ToolProviders/ToolProviderSafetyTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ToolProviders/AgentToolProviderUpdates*.cs" Link="ToolProviders/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/ToolProviders/ToolProviderSnapshotTests.cs" Link="ToolProviders/ToolProviderSnapshotTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ToolProviders/ToolProviderSpecFilterTests.cs" Link="ToolProviders/ToolProviderSpecFilterTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ToolProviders/ToolProviderCapabilityTests.cs" Link="ToolProviders/ToolProviderCapabilityTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ToolProviders/ToolProviderIntegrationTests.cs" Link="ToolProviders/ToolProviderIntegrationTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/ToolProviderHarnessTests.cs" Link="Harness/ToolProviderHarnessTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Processes/BinaryPipeTests.cs" Link="Processes/BinaryPipeTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/RichReadTests.cs" Link="Harness/RichReadTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/RichReadIntegrationTests.cs" Link="Harness/RichReadIntegrationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sessions/FileSessionPathTests.cs" Link="Sessions/FileSessionPathTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/EventParity/**/*.cs" Link="EventParity/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/ToolRegistry/**/*.cs" Link="ToolRegistry/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/SessionRepositories/**/*.cs" Link="SessionRepositories/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/Cancellation/**/*.cs" Link="Cancellation/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/AcceptedToolPersistence/AcceptedToolResultPersistenceTests.cs" Link="AcceptedToolPersistence/AcceptedToolResultPersistenceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpStdioLifetimeTests.cs" Link="Mcp/McpStdioLifetimeTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockLoggingTests.cs" Link="Bedrock/BedrockLoggingTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpRouterTests.cs" Link="Mcp/McpRouterTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpProviderHarnessTests.cs" Link="Harness/McpProviderHarnessTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpProviderDeclarationTests.cs" Link="Harness/McpProviderDeclarationTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpProviderAuthorityTests.cs" Link="Harness/McpProviderAuthorityTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpProviderBindingLifetimeTests.cs" Link="Harness/McpProviderBindingLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeSchemaTests.cs" Link="Mcp/McpToolChangeSchemaTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolProviderTests.cs" Link="Mcp/McpToolProviderTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolProviderLifetimeTests.cs" Link="Mcp/McpToolProviderLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolProviderAgentTests.cs" Link="Mcp/McpToolProviderAgentTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolProviderProtocolTests.cs" Link="Mcp/McpToolProviderProtocolTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpTransportOwnershipTests.cs" Link="Mcp/McpTransportOwnershipTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpMetadataTests.cs" Link="Mcp/McpMetadataTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpRouterHarnessTests.cs" Link="Harness/McpRouterHarnessTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Conversation/**/*.cs" Link="Conversation/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/Logging/**/*.cs" Link="Logging/Sdk/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/Logging/**/*.cs" Link="Logging/Harness/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/Memory/ModelExtractorTelemetryTests.cs" Link="Memory/ModelExtractorTelemetryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Context/StashCheckpointTests.cs" Link="Context/StashCheckpointTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/MultiAgentTelemetryTests.cs" Link="MultiAgent/MultiAgentTelemetryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphTelemetryTests.cs" Link="MultiAgent/GraphTelemetryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/SwarmTelemetryTests.cs" Link="MultiAgent/SwarmTelemetryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpAuthenticationTests.cs" Link="Mcp/McpAuthenticationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/OAuthLoopbackServer.cs" Link="Mcp/OAuthLoopbackServer.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpAuthenticationHarnessTests.cs" Link="Harness/McpAuthenticationHarnessTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessTelemetryTests.cs" Link="Harness/HarnessTelemetryTests.cs" />
+    <Compile Include="../Strands.OpenTelemetry.Tests/OtlpLoopback.cs" Link="Testing/OtlpLoopback.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpTestServer.cs" Link="Testing/McpTestServer.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/WebTestServer.cs" Link="Testing/WebTestServer.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/SubagentLifetimeTests.cs" Link="Harness/SubagentLifetimeTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/FreshHelperCheckpointMinimumTests.cs" Link="Harness/FreshHelperCheckpointMinimumTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/SwarmTool*.cs" Link="Harness/%(Filename)%(Extension)" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/OptionNull*.cs" Link="Harness/%(Filename)%(Extension)" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpTestServerLifetimeTests.cs" Link="Testing/McpTestServerLifetimeTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessInterventionTests.cs" Link="Harness/HarnessInterventionTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessConfigurationModuleTests.cs" Link="Harness/HarnessConfigurationModuleTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessAssemblyLoaderTests.cs" Link="Harness/HarnessAssemblyLoaderTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessManagedToolProviderTests.cs" Link="Harness/HarnessManagedToolProviderTests.cs" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.13" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/HarnessProgrammaticToolTests.cs" Link="Harness/HarnessProgrammaticToolTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/StorageTests.cs" Link="Storage/StorageTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/DirectToolTests.cs" Link="Tools/DirectToolTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxContractTests.cs" Link="Sandbox/SandboxContractTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/RemoteSandboxAdapterTests.cs" Link="Harness/RemoteSandboxAdapterTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/LocalFileStorageTests.cs" Link="Storage/LocalFileStorageTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Context/ContextManagerTests.cs" Link="Context/ContextManagerTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Context/StashTests.cs" Link="Context/StashTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/MemoryManagerTests.cs" Link="Memory/MemoryManagerTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/MemoryTelemetryTests.cs" Link="Memory/MemoryTelemetryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/MemoryLifecycleTelemetryTests.cs" Link="Memory/MemoryLifecycleTelemetryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/MemoryIntegrationTests.cs" Link="Memory/MemoryIntegrationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/FileMemoryStoreTests.cs" Link="Memory/FileMemoryStoreTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/MemoryExtractionTests.cs" Link="Memory/MemoryExtractionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/ModelExtractorTests.cs" Link="Memory/ModelExtractorTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Memory/MemoryDiagnosticsTests.cs" Link="Memory/MemoryDiagnosticsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ConversationValidationTests.cs" Link="ConversationValidationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentSnapshotTests.cs" Link="AgentSnapshotTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentSnapshotInterruptTests.cs" Link="AgentSnapshotInterruptTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentInputTests.cs" Link="AgentInputTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ModelRedactionTests.cs" Link="ModelRedactionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Telemetry/**/*.cs" Link="Telemetry/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/ToolRetryTests.cs" Link="ToolRetryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/InvocationContinuationTests.cs" Link="InvocationContinuationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ContinuationInputTests.cs" Link="ContinuationInputTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Tasks/BackgroundContinuationTests.cs" Link="Tasks/BackgroundContinuationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Goals/**/*.cs" Link="Goals/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/Injection/**/*.cs" Link="Injection/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/Decisions/**/*.cs" Link="Decisions/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpTaskContractTests.cs" Link="Mcp/McpTaskContractTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpTaskClientTests.cs" Link="Mcp/McpTaskClientTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpTaskLifetimeTests.cs" Link="Mcp/McpTaskLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpTaskLoopbackServer.cs" Link="Mcp/McpTaskLoopbackServer.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpLegacyTaskTests.cs" Link="Mcp/McpLegacyTaskTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpLegacyTaskLifetimeTests.cs" Link="Mcp/McpLegacyTaskLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpNegotiatedTaskTests.cs" Link="Mcp/McpNegotiatedTaskTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockTimingMetadataTests.cs" Link="Bedrock/BedrockTimingMetadataTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentToolOptionsTests.cs" Link="AgentToolOptionsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentDelegationTests.cs" Link="AgentDelegationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentToolInterruptTests.cs" Link="AgentToolInterruptTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentScopedToolsTests.cs" Link="AgentScopedToolsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentInterruptTests.cs" Link="AgentInterruptTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Interventions/InterventionTests.cs" Link="Interventions/InterventionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Interventions/GuideFeedbackDeliveryTests.cs" Link="Interventions/GuideFeedbackDeliveryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Interventions/HumanInTheLoopTests.cs" Link="Interventions/HumanInTheLoopTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Interventions/LlmRiskClassifierTests.cs" Link="Interventions/LlmRiskClassifierTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Interventions/HumanApprovalPromptsTests.cs" Link="Interventions/HumanApprovalPromptsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Interventions/SteeringHandlerTests.cs" Link="Interventions/SteeringHandlerTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Interventions/ToolLedgerProviderTests.cs" Link="Interventions/ToolLedgerProviderTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Interventions/LlmSteeringHandlerTests.cs" Link="Interventions/LlmSteeringHandlerTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ToolFactoryTests.cs" Link="ToolFactoryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/OllamaModelTests.cs" Link="Models/OllamaModelTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/OllamaStructuredOutputTests.cs" Link="Models/OllamaStructuredOutputTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/GoogleStructuredOutputTests.cs" Link="Models/GoogleStructuredOutputTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/GoogleImageUrlTests.cs" Link="Models/GoogleImageUrlTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/GoogleVertexAiTests.cs" Link="Models/GoogleVertexAiTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/MediaSourceTests.cs" Link="Models/MediaSourceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/DocumentProviderTests.cs" Link="Models/DocumentProviderTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/ProviderTransportTests.cs" Link="Models/ProviderTransportTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/ProviderBodyOpenTests.cs" Link="Models/ProviderBodyOpenTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/ProviderStreamCleanupTests.cs" Link="Models/ProviderStreamCleanupTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/ProviderCredentialTests.cs" Link="Models/ProviderCredentialTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/MistralModelTests.cs" Link="Models/MistralModelTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/WriterModelTests.cs" Link="Models/WriterModelTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/LlamaApiModelTests.cs" Link="Models/LlamaApiModelTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/LlamaApiProtocolTests.cs" Link="Models/LlamaApiProtocolTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/LlamaApiLifetimeTests.cs" Link="Models/LlamaApiLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/LlamaApiTestTransport.cs" Link="Models/LlamaApiTestTransport.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/LlamaCppModelTests.cs" Link="Models/LlamaCppModelTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/ModelConfigurationTests.cs" Link="Models/ModelConfigurationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/SwarmTests.cs" Link="MultiAgent/SwarmTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/A2A/**/*.cs" Link="A2A/%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphCheckpointTests.cs" Link="MultiAgent/GraphCheckpointTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/AnthropicServerToolsTests.cs" Link="Models/AnthropicServerToolsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/CitationTests.cs" Link="Models/CitationTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockModelTests.cs" Link="Bedrock/BedrockModelTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockOpaqueReasoningProgressTests.cs" Link="Bedrock/BedrockOpaqueReasoningProgressTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/OpaqueReasoningPayloadTests.cs" Link="Bedrock/OpaqueReasoningPayloadTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockModelConfigurationTests.cs" Link="Bedrock/BedrockModelConfigurationTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockMediaTests.cs" Link="Bedrock/BedrockMediaTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/DocumentSourceTests.cs" Link="Bedrock/DocumentSourceTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockTokenCountTests.cs" Link="Bedrock/BedrockTokenCountTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockRequestOptionsTests.cs" Link="Bedrock/BedrockRequestOptionsTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockNonStreamingTests.cs" Link="Bedrock/BedrockNonStreamingTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockGuardrailTests.cs" Link="Bedrock/BedrockGuardrailTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockStrictSchemaTests.cs" Link="Bedrock/BedrockStrictSchemaTests.cs" />
+    <Compile Include="../Strands.SageMaker.Tests/*.cs" Link="SageMaker/%(Filename)%(Extension)" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockProtocolTests.cs" Link="Bedrock/BedrockProtocolTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockLifecycleTests.cs" Link="Bedrock/BedrockLifecycleTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockCitationTests.cs" Link="Bedrock/BedrockCitationTests.cs" />
+    <Compile Include="../Strands.Bedrock.Tests/BedrockMantleTests.cs" Link="Bedrock/BedrockMantleTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/SubagentStreamingTests.cs" Link="Harness/SubagentStreamingTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/SubagentInterruptTests.cs" Link="Harness/SubagentInterruptTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/SubagentInterruptLifetimeTests.cs" Link="Harness/SubagentInterruptLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/OpenAIResponsesStructuredOutputTests.cs" Link="Models/OpenAIResponsesStructuredOutputTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/OpenAIResponsesStructuredOutputProtocolTests.cs" Link="Models/OpenAIResponsesStructuredOutputProtocolTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/OpenAIResponsesStructuredOutputLifetimeTests.cs" Link="Models/OpenAIResponsesStructuredOutputLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/OpenAIResponsesStructuredOutputErrorTests.cs" Link="Models/OpenAIResponsesStructuredOutputErrorTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeHttpDrainTests.cs" Link="Mcp/McpToolChangeHttpDrainTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpHttpBridgeTests.cs" Link="Mcp/McpHttpBridgeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeTests.cs" Link="Mcp/McpToolChangeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeDiagnosticsTests.cs" Link="Mcp/McpToolChangeDiagnosticsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeWorkerLifetimeTests.cs" Link="Mcp/McpToolChangeWorkerLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeTransportTests.cs" Link="Mcp/McpToolChangeTransportTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeReviewTests.cs" Link="Mcp/McpToolChangeReviewTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeProviderTests.cs" Link="Mcp/McpToolChangeProviderTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeStdioTests.cs" Link="Mcp/McpToolChangeStdioTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeLoopbackServer.cs" Link="Mcp/McpToolChangeLoopbackServer.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpToolChangeFixtureLifetimeTests.cs" Link="Mcp/McpToolChangeFixtureLifetimeTests.cs" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" PrivateAssets="all" />
+    <ProjectReference Include="../../src/Strands.Agents/Strands.Agents.csproj" />
+    <ProjectReference Include="../../src/Strands.Agents.Schema.Private/Strands.Agents.Schema.Private.csproj" />
+    <ProjectReference Include="../../src/Strands.Agents.Bedrock/Strands.Agents.Bedrock.csproj" />
+    <ProjectReference Include="../../src/Strands.Agents.SageMaker/Strands.Agents.SageMaker.csproj" />
+    <ProjectReference Include="../Strands.Consumer.Fixture/Strands.Consumer.Fixture.csproj" />
+    <ProjectReference Include="../../../harness-dotnet/src/Strands.Harness/Strands.Harness.csproj" />
+    <ProjectReference Include="../../../harness-dotnet/tests/Strands.Harness.ModuleFixture/Strands.Harness.ModuleFixture.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../../../harness-dotnet/tests/Strands.Harness.ModuleConflictFixture/Strands.Harness.ModuleConflictFixture.csproj" ReferenceOutputAssembly="false" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Net.Http" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+  <Import Project="../McpStdioFixture.targets" />
+  <Import Project="../../../harness-dotnet/tests/HarnessModuleFixture.targets" />
+  <Import Project="../SandboxProcessFixture.targets" />
+  <Import Project="../BinaryPipeFixture.targets" />
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/AgentResultJsonTests.cs" Link="AgentResultJsonTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentResultRenderingTests.cs" Link="AgentResultRenderingTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/AgentResultCheckpointTests.cs" Link="AgentResultCheckpointTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/Files/FileEntryMetadataTests.cs" Link="Files/FileEntryMetadataTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Files/FileRemovalTests.cs" Link="Files/FileRemovalTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Files/FileSystemTextBoundaryTests.cs" Link="Files/FileSystemTextBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Files/FileSystemTextTests.cs" Link="Files/FileSystemTextTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorIntegerBoundaryTests.cs" Link="Sandbox/SandboxFileEditorIntegerBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorIntegerSpellingTests.cs" Link="Sandbox/SandboxFileEditorIntegerSpellingTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorProfileAdditionalTests.cs" Link="Sandbox/SandboxFileEditorProfileAdditionalTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorProfileNativeTests.cs" Link="Sandbox/SandboxFileEditorProfileNativeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorProfileTests.cs" Link="Sandbox/SandboxFileEditorProfileTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxFileEditorPythonProfileTests.cs" Link="Sandbox/SandboxFileEditorPythonProfileTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxOutputFileTests.cs" Link="Sandbox/SandboxOutputFileTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxTerminalErrorTests.cs" Link="Sandbox/SandboxTerminalErrorTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/SandboxTerminalLifetimeTests.cs" Link="Sandbox/SandboxTerminalLifetimeTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Sandbox/ExecutionResultValueSemanticsTests.cs" Link="Sandbox/ExecutionResultValueSemanticsTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/DirectToolHistoryAdversarialCharacterizationTests.cs" Link="Tools/DirectToolHistoryAdversarialCharacterizationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/DirectToolHistoryManagementTests.cs" Link="Tools/DirectToolHistoryManagementTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/DirectToolHistoryMinimumTests.cs" Link="Tools/DirectToolHistoryMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/DirectToolRegisteredRecordingAuthorityTests.cs" Link="Tools/DirectToolRegisteredRecordingAuthorityTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/DirectToolStreamingConformanceTests.cs" Link="Tools/DirectToolStreamingConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/DirectToolStreamingMinimumTests.cs" Link="Tools/DirectToolStreamingMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ModelMistralMetadataTests.cs" Link="ModelMistralMetadataTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/ModelSystemTokenCountTests.cs" Link="ModelSystemTokenCountTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/SwarmStructuredMessageTests.cs" Link="MultiAgent/SwarmStructuredMessageTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpInclusiveMinimumTests.cs" Link="Mcp/McpInclusiveMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpMetadataConformanceTests.cs" Link="Mcp/McpMetadataConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpRouterUrlElicitationTests.cs" Link="Mcp/McpRouterUrlElicitationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpUrlElicitationConformanceTests.cs" Link="Mcp/McpUrlElicitationConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpUrlElicitationGuidanceTests.cs" Link="Mcp/McpUrlElicitationGuidanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Mcp/McpUrlElicitationTextCauseTests.cs" Link="Mcp/McpUrlElicitationTextCauseTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Files/FileSystemTypeScriptUtf8KnownVectorTests.cs" Link="Files/FileSystemTypeScriptUtf8KnownVectorTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphTypedResultSnapshotTests.cs" Link="MultiAgent/GraphTypedResultSnapshotTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphTypedResultBoundaryTests.cs" Link="MultiAgent/GraphTypedResultBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphSnapshotTests.cs" Link="MultiAgent/GraphSnapshotTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphContractTests.cs" Link="MultiAgent/GraphContractTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphTests.cs" Link="MultiAgent/GraphTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentTests.Helpers.cs" Link="Shared/AgentTests.Helpers.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphStructuredCheckpointTests.cs" Link="MultiAgent/GraphStructuredCheckpointTests.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0' Or '$(TargetFramework)' == 'net10.0'">
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/FileToolsTests.cs" Link="Harness/FileToolsTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/Models/AnthropicNativeTokenCountMinimumTests.cs" Link="Models/AnthropicNativeTokenCountMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/AnthropicNativeTokenCountBoundaryTests.cs" Link="Models/AnthropicNativeTokenCountBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/AnthropicNativeCountPolicyConformanceTests.cs" Link="Models/AnthropicNativeCountPolicyConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Models/ProviderParityTests.cs" Link="Models/ProviderParityTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphSwarmPythonTextProjectionTests.cs" Link="MultiAgent/GraphSwarmPythonTextProjectionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphSwarmPythonProjectionBoundaryTests.cs" Link="MultiAgent/GraphSwarmPythonProjectionBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/SwarmContextTextSerializationTests.cs" Link="MultiAgent/SwarmContextTextSerializationTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/AuxModelReassignmentTests.cs" Link="AuxiliaryModel/AuxModelReassignmentTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AuxModelMemoryLifecycleConformanceTests.cs" Link="AuxiliaryModel/AuxModelMemoryLifecycleConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentLifetimeTests.cs" Link="AuxiliaryModel/AgentLifetimeTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelReassignmentTests.cs" Link="PrimaryModel/PrimaryModelReassignmentTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelReassignmentConformanceTests.cs" Link="PrimaryModel/PrimaryModelReassignmentConformanceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelTerminalRaceTests.cs" Link="PrimaryModel/PrimaryModelTerminalRaceTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelTaskWaitCompatibility.cs" Link="PrimaryModel/PrimaryModelTaskWaitCompatibility.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelCrossStatefulMinimumTests.cs" Link="PrimaryModel/PrimaryModelCrossStatefulMinimumTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelCrossStatefulGuardTests.cs" Link="PrimaryModel/PrimaryModelCrossStatefulGuardTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/AgentStatefulModelTests.cs" Link="PrimaryModel/AgentStatefulModelTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/PublicMultiAgentResultProjectionTests.cs" Link="MultiAgent/PublicMultiAgentResultProjectionTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpIdentityStartupTests.cs" Link="Harness/McpIdentityStartupTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpIdentityStartupConformanceTests.cs" Link="Harness/McpIdentityStartupConformanceTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/McpServerOptionsJsonTests.cs" Link="Harness/McpServerOptionsJsonTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/Middleware/AgentMiddlewareTests.cs" Link="Middleware/AgentMiddlewareTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Middleware/MiddlewareContextTests.cs" Link="Middleware/MiddlewareContextTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Middleware/MiddlewareCustomStageTests.cs" Link="Middleware/MiddlewareCustomStageTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Middleware/MiddlewareRegistryTests.cs" Link="Middleware/MiddlewareRegistryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/Middleware/MiddlewareStageFactoryArgumentTests.cs" Link="Middleware/MiddlewareStageFactoryArgumentTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourceRestoreTests.cs" Link="PrimaryModel/PrimaryModelSourceRestoreTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourceRestoreFailureTests.cs" Link="PrimaryModel/PrimaryModelSourceRestoreFailureTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourceRestoreNativePauseTests.cs" Link="PrimaryModel/PrimaryModelSourceRestoreNativePauseTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourceRestoreCheckpointTests.cs" Link="PrimaryModel/PrimaryModelSourceRestoreCheckpointTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourceRestoreFreshCheckpointTests.cs" Link="PrimaryModel/PrimaryModelSourceRestoreFreshCheckpointTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/SwarmPythonKnowledgeReprTests.cs" Link="MultiAgent/SwarmPythonKnowledgeReprTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/SwarmPythonKnowledgeBoundaryTests.cs" Link="MultiAgent/SwarmPythonKnowledgeBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PythonLoneSurrogateParityTests.cs" Link="PythonLoneSurrogateParityTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PythonRawJsonReasonProjectionTests.cs" Link="PythonRawJsonReasonProjectionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/SwarmPythonBinary64EdgeTests.cs" Link="MultiAgent/SwarmPythonBinary64EdgeTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/MultiAgentPluginLifecycleTests.cs" Link="MultiAgent/MultiAgentPluginLifecycleTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/MultiAgentPluginCompositionTests.cs" Link="MultiAgent/MultiAgentPluginCompositionTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/MultiAgentPluginSessionPhaseTests.cs" Link="MultiAgent/MultiAgentPluginSessionPhaseTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/MultiAgentPluginPositiveSessionPhaseTests.cs" Link="MultiAgent/MultiAgentPluginPositiveSessionPhaseTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourceIndependentPendingTests.cs" Link="PrimaryModelSourceIndependentPendingTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelIndependentPendingOwnershipTests.cs" Link="PrimaryModelIndependentPendingOwnershipTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelStoredHistoryDomainTests.cs" Link="PrimaryModelStoredHistoryDomainTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelStoredHistoryContinuationTests.cs" Link="PrimaryModelStoredHistoryContinuationTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelStoredHistoryInputBoundaryTests.cs" Link="PrimaryModelStoredHistoryInputBoundaryTests.cs" />
+    <Compile Include="../../../harness-dotnet/tests/Strands.Harness.Tests/OwnedPythonPrefixGoalContextTests.cs" Link="Harness/OwnedPythonPrefixGoalContextTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelIndependentImportHistoryTests.cs" Link="PrimaryModelIndependentImportHistoryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourceFirstPauseProducerTests.cs" Link="PrimaryModelSourceFirstPauseProducerTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelIndependentPersistenceBoundaryTests.cs" Link="PrimaryModelIndependentPersistenceBoundaryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourcePauseRecoveryTests.cs" Link="PrimaryModelSourcePauseRecoveryTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/PrimaryModelSourcePauseDurabilityTests.cs" Link="PrimaryModelSourcePauseDurabilityTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphBuilderConstructionBaselineTests.cs" Link="MultiAgent/GraphBuilderConstructionBaselineTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphConstructionBaselineAdmissionTests.cs" Link="MultiAgent/GraphConstructionBaselineAdmissionTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphInterruptTests.cs" Link="MultiAgent/GraphInterruptTests.cs" />
+    <Compile Include="../Strands.Agents.Tests/MultiAgent/GraphLifetimeTests.cs" Link="MultiAgent/GraphLifetimeTests.cs" />
+  </ItemGroup>
+</Project>

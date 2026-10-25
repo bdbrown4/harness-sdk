@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Iterative GoalLoop, real structured judge and active internal retry checkpoint; separate decision and injection families remain outside this increment.",
+  "status": "implemented_subset",
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Agent.Goals.cs",
+      "sha256": "40db23745c104b843b843f561ce5a26e7c4d5f777b60df9475a62873c3f42a9b"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Goals/GoalContracts.cs",
+      "sha256": "c28e1945869180d275776473bc46c2cd474287f748e918c1d740853c801650bc"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Goals/GoalLoopOptions.cs",
+      "sha256": "1f2a14f56b928dfbe68cd1caff4cac27ee6eda457c6103f0a74bf0c8ffc82473"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Goals/GoalLoop.cs",
+      "sha256": "dad9ad64a992bbe328dc3075715f4b8dde64c2c6d69348fcebfdc0822d5bd0d3"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Goals/GoalJudge.cs",
+      "sha256": "cc77fd15d92b672c5f542b34a4dc2560aa4ff9f2cd84e57bd00d435d7979a6e2"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/Goals/GoalLoopTests.cs",
+      "sha256": "7838648ae767ab3417c150d9ab8a868cb92a9c9a93b4c3383eb0b6f5e1b8d799"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "strands-dotnet/docs/GOALS.md",
+      "sha256": "94a4435615a870a4f125eb083403584f13e4214511fe12321f694c03d9c6fbb8"
+    }
+  ],
+  "sharedIntegrationRequirements": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Agent.cs",
+      "requirement": "Call BeginGoalInvocationIdentity() exactly once immediately after the successful outer _invoking admission CAS. Automatic and explicit inner resumes retain that identity.",
+      "owner": "Root/Harness; do not replace the mutable shared file from this manifest."
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj",
+      "requirement": "Link ../Strands.Agents.Tests/Goals/**/*.cs into the portable tests.",
+      "owner": "Root; do not replace the mutable shared project from this manifest."
+    }
+  ],
+  "sourceReferences": [
+    "strands-ts/src/vended-plugins/goal/plugin.ts",
+    "strands-ts/src/vended-plugins/goal/judge.ts",
+    "strands-ts/src/vended-plugins/goal/__tests__/plugin.test.ts",
+    "strands-py/src/strands/vended_plugins/goal/plugin.py"
+  ],
+  "acceptance": [
+    "Programmatic and real natural-language judges; feedback retry, budgets, exceptions and invalid outcomes.",
+    "Typed continuation content, stateful acknowledgement reset and fresh borrowed judge ownership.",
+    "Cancellation, model errors, denial, interrupts and early stream disposal do not judge or silently retry incomplete attempts.",
+    "Per-agent isolation, one goal per agent, fresh outer-invocation receipt and immutable completed summaries."
+  ],
+  "evidence": {
+    "runnableRedScenarios": 13,
+    "observedFailingTestExecutionsBeforeFix": 15,
+    "firstGreenConformanceCases": 15,
+    "focusedCases": 30,
+    "focusedExecutions": 150,
+    "modernCoreRegressionsEachTarget": 1831,
+    "modernRegressionTiming": "Both unfiltered broad runs completed before Root introduced AutomaticTelemetryTests. That WIP class is absent from both TRX files; all existing timing metadata cases were included.",
+    "localFrameworkRelease": 534296,
+    "localFrameworkRuntime": ".NET Framework 4.8.1; net48 target, not a clean 4.8 runtime proof",
+    "cleanFramework48Proof": "Pending combined frozen checkpoint gate",
+    "peerReview": "Harness worker bounded read-only PASS; no actionable P1/P2",
+    "formatter": "Positive project-cwd-relative selection changed one source import and one test import; final verification changed 0/685 source files and 0/294 test files.",
+    "formatterLogs": [
+      "work/goal-format-source.log",
+      "work/goal-format-tests.log",
+      "work/goal-format-source-verify.log",
+      "work/goal-format-tests-verify.log"
+    ],
+    "tests": [
+      {
+        "name": "core-net8",
+        "passed": 30,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/goal-final/core-net8/18126_DESKTOP-47NGAFF_2026-10-20_23_50_39_net8.0.trx",
+        "sha256": "ce0d272ced367ce5f55b97b2518eabf21c86da5c7d2bab6cc6d6b3e82846f9bc"
+      },
+      {
+        "name": "core-net10",
+        "passed": 30,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/goal-final/core-net10/18126_DESKTOP-47NGAFF_2026-10-20_23_54_04_net10.0.trx",
+        "sha256": "fcbc8ba6185d334b32ef224b240be14a5e98da6f2beba1448f5e51c282212880"
+      },
+      {
+        "name": "portable-net48",
+        "passed": 30,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/goal-final/portable-net48/18126_DESKTOP-47NGAFF_2026-10-20_23_51_07_net48.trx",
+        "sha256": "11d232f58293002e5c4ba68f735fde670b777034c7d77c9ac133466720573639"
+      },
+      {
+        "name": "portable-net8",
+        "passed": 30,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/goal-final/portable-net8/18126_DESKTOP-47NGAFF_2026-10-20_23_54_20_net8.0.trx",
+        "sha256": "5d20254356257631c503759ff85c70182ca536147875c4dcea23545f787cca6c"
+      },
+      {
+        "name": "portable-net10",
+        "passed": 30,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/goal-final/portable-net10/18126_DESKTOP-47NGAFF_2026-10-20_23_54_48_net10.0.trx",
+        "sha256": "a9a82b95883f071b5e66ec616988ec3d265bbe23b7420567e7eca24d63f15ed5"
+      },
+      {
+        "name": "core-regression-net8",
+        "passed": 1831,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/goal-final/core-regression-net8/18126_DESKTOP-47NGAFF_2026-10-20_23_56_34_net8.0.trx",
+        "sha256": "938f78e14d98d61b3386e69d7d543b4357b9d094f8177851369a23c23badd1b4"
+      },
+      {
+        "name": "core-regression-net10",
+        "passed": 1831,
+        "failed": 0,
+        "skipped": 0,
+        "trx": "work/goal-final/core-regression-net10/18126_DESKTOP-47NGAFF_2026-10-20_23_56_59_net10.0.trx",
+        "sha256": "d2cd5a06c93a999f57781bb126033972f526cdd1d1f4d3cc2a31aeef07816aa2"
+      }
+    ]
+  },
+  "nativeDifferences": [
+    "TimeSpan timeout and nullable unbounded limits replace language-specific units/infinity.",
+    "Private outer-admission receipt disambiguates independent invocations after a mutable continuation is cleared or enumeration stops at an after-invocation boundary.",
+    "Detached current-run judge transcript preserves stateful responses after acknowledged history is cleared."
+  ],
+  "limitations": [
+    "Private attempts, elapsed time, judge transcript and retry checkpoint are not restored by a fresh-process session.",
+    "Context rewind excludes AppState and external effects and does not independently checkpoint context-manager internal caches.",
+    "Judge transcript includes visible text and bounded tool summaries; media and opaque reasoning are omitted.",
+    "Generic DecisionModel and ContextInjector are not implemented by this increment."
+  ]
+}

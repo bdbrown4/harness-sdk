@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TestRun xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010"><Results><UnitTestResult executionId="6f37df95-bd15-4f45-a5cd-a2d8c2027151" testId="490b507b-525e-5415-4687-223a968cb67c" testName="Strands.Agents.Monty.Tests.ProgrammaticToolCallerTests.NativeHandshakeProvesThePinnedEngineAndActualProcessArchitecture" computerName="fixture-host" duration="00:00:00.0240000" startTime="2026-10-21T08:47:25.4798480-04:00" endTime="2026-10-21T08:47:25.5052973-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f37df95-bd15-4f45-a5cd-a2d8c2027151">
+      <Output>
+        <StdOut>MontyEngine:0.0.23;ABI:1;ProcessArchitecture:X86;HostPointerSize:4;WorkerPointerBits:32;WorkerProcessId:56520</StdOut>
+      </Output>
+    </UnitTestResult>
+    </Results><TestDefinitions><UnitTest name="Strands.Agents.Monty.Tests.ProgrammaticToolCallerTests.NativeHandshakeProvesThePinnedEngineAndActualProcessArchitecture" storage="fixture.dll" id="490b507b-525e-5415-4687-223a968cb67c">
+      <Execution id="6f37df95-bd15-4f45-a5cd-a2d8c2027151" />
+      <TestMethod codeBase="fixture.dll" adapterTypeName="executor://xunit/VsTestRunner3/netfx/" className="Strands.Agents.Monty.Tests.ProgrammaticToolCallerTests" name="NativeHandshakeProvesThePinnedEngineAndActualProcessArchitecture" />
+    </UnitTest>
+    </TestDefinitions><ResultSummary><Counters total="1" executed="1" passed="1" failed="0" notExecuted="0" /></ResultSummary></TestRun>

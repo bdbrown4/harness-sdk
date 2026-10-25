@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TestRun xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Results><UnitTestResult executionId="5a163b2e-3d51-4877-8277-5b6f847063f6" testId="27e62a3c-2cb0-977b-3ca0-5e4a4d9a0071" testName="Strands.Compatibility.Tests.RuntimeArchitectureCompatibilityTests.TestHostUsesTheRequestedProcessArchitecture" computerName="fixture-host" duration="00:00:00.1960000" startTime="2026-10-21T17:18:06.8025467-04:00" endTime="2026-10-21T17:18:07.0065354-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fixture-only">
+      <Output>
+        <StdOut>{"PointerSize":8,"Runtime":".NET Framework 4.8.10008.0","ProcessArchitecture":"X64","ExpectedArchitecture":"x64"}</StdOut>
+      </Output>
+    </UnitTestResult>
+    </Results><TestDefinitions><UnitTest name="Strands.Compatibility.Tests.RuntimeArchitectureCompatibilityTests.TestHostUsesTheRequestedProcessArchitecture" storage="sqlite-fixture.dll" id="27e62a3c-2cb0-977b-3ca0-5e4a4d9a0071">
+      <Execution id="5a163b2e-3d51-4877-8277-5b6f847063f6" />
+      <TestMethod codeBase="sqlite-fixture.dll" adapterTypeName="executor://xunit/VsTestRunner3/netfx/" className="Strands.Compatibility.Tests.RuntimeArchitectureCompatibilityTests" name="TestHostUsesTheRequestedProcessArchitecture" />
+    </UnitTest>
+    </TestDefinitions><ResultSummary><Counters total="1" executed="1" passed="1" failed="0" notExecuted="0" /></ResultSummary></TestRun>

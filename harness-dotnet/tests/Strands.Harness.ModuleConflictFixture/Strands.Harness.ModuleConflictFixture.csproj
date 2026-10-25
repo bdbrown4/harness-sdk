@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <AssemblyName>Strands.Harness.ModuleFixture</AssemblyName>
+    <DefineConstants>$(DefineConstants);MODULE_CONFLICT</DefineConstants>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Strands.Harness/Strands.Harness.csproj" />
+    <Compile Include="../Strands.Harness.ModuleFixture/Exports.cs" Link="Exports.cs" />
+  </ItemGroup>
+</Project>

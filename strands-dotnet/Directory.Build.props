@@ -1,0 +1,36 @@
+<Project>
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12.0</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <Version>0.1.0-alpha.1</Version>
+    <Authors>Strands Agents</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/strands-agents/harness-sdk</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://strandsagents.com/</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <Target Name="IncludePrivateSchemaApiCompatReference"
+          BeforeTargets="GetReferencesForApiCompatValidatePackage"
+          DependsOnTargets="FindReferenceAssembliesForReferences">
+    <ItemGroup>
+      <_CoreApiCompatReference Include="@(ReferencePathWithRefAssemblies)"
+                               Condition="'%(ReferencePathWithRefAssemblies.Filename)' == 'Strands.Agents' And '%(ReferencePathWithRefAssemblies.ReferenceSourceTarget)' == 'ProjectReference' And '%(ReferencePathWithRefAssemblies.NearestTargetFramework)' == '$(TargetFramework)' And '%(ReferencePathWithRefAssemblies.OriginalPath)' != ''">
+        <PrivateSchemaPath>$([System.IO.Path]::GetDirectoryName('%(ReferencePathWithRefAssemblies.OriginalPath)'))/Strands.Agents.Schema.Private.dll</PrivateSchemaPath>
+      </_CoreApiCompatReference>
+      <!-- Core ships this private DLL; API validation also needs it when following Core references. -->
+      <ReferencePathWithRefAssemblies Include="@(_CoreApiCompatReference->'%(PrivateSchemaPath)')"
+                                      Condition="Exists('%(_CoreApiCompatReference.PrivateSchemaPath)')" />
+    </ItemGroup>
+  </Target>
+</Project>

@@ -1,0 +1,371 @@
+name: ".NET: Isolated Framework 4.8"
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
+      native-assets-ready:
+        type: boolean
+        default: false
+      portaudio-assets-ready:
+        type: boolean
+        default: false
+      nova-assets-ready:
+        type: boolean
+        default: false
+      cedar-assets-ready:
+        type: boolean
+        default: false
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    if: ${{ !inputs.native-assets-ready }}
+    uses: ./.github/workflows/dotnet-monty.yml
+    with:
+      ref: ${{ inputs.ref || github.sha }}
+
+  native-cedar:
+    if: ${{ !inputs.cedar-assets-ready }}
+    uses: ./.github/workflows/dotnet-cedar.yml
+    with:
+      ref: ${{ inputs.ref || github.sha }}
+      native-only: true
+
+  native-portaudio:
+    if: ${{ !inputs.portaudio-assets-ready }}
+    uses: ./.github/workflows/dotnet-portaudio.yml
+    with:
+      ref: ${{ inputs.ref || github.sha }}
+
+  native-nova:
+    if: ${{ !inputs.nova-assets-ready }}
+    uses: ./.github/workflows/dotnet-nova.yml
+    with:
+      ref: ${{ inputs.ref || github.sha }}
+
+  framework48:
+    needs: [native, native-cedar, native-portaudio, native-nova]
+    if: ${{ !cancelled() && (needs.native.result == 'success' || needs.native.result == 'skipped') && (needs.native-portaudio.result == 'success' || needs.native-portaudio.result == 'skipped') && (needs.native-nova.result == 'success' || needs.native-nova.result == 'skipped') && (needs.native-cedar.result == 'success' || needs.native-cedar.result == 'skipped') }}
+    runs-on: windows-2022
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+      NativeNovaAssetsPath: ${{ github.workspace }}/strands-dotnet/artifacts/nova-native
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Select the host Python runtime for isolated test prerequisites
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Stage existing interpreter prerequisites without installing into the container
+        run: |
+          $selectedPython = (Get-Command python -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
+          ./strands-dotnet/scripts/Stage-Framework48Interpreters.ps1 -PythonExecutable $selectedPython -OutputDirectory (Join-Path $env:RUNNER_TEMP 'strands-interpreters-fw48')
+
+      - name: Verify Framework runner script contracts on Windows PowerShell
+        shell: powershell
+        run: |
+          ./strands-dotnet/scripts/tests/Test-ManagedPackages.Contract.Tests.ps1 `
+            -ProductionScript ./strands-dotnet/scripts/Test-ManagedPackages.ps1 `
+            -EvidenceDirectory ./artifacts/framework48/managed-package-contracts
+          if ($LASTEXITCODE -ne 0) { throw 'Managed package asset-selection contracts failed.' }
+          ./strands-dotnet/scripts/tests/Test-Framework48Interpreters.Contract.Tests.ps1 `
+            -ProductionScript ./strands-dotnet/scripts/Stage-Framework48Interpreters.ps1 `
+            -EvidenceDirectory ./artifacts/framework48/interpreter-contracts
+          if ($LASTEXITCODE -ne 0) { throw 'Framework interpreter prerequisite contracts failed.' }
+          ./strands-dotnet/scripts/tests/Test-Framework48.Contract.Tests.ps1 `
+            -ProductionScript ./strands-dotnet/scripts/Test-Framework48.ps1 `
+            -FixtureDirectory ./strands-dotnet/scripts/tests/fixtures/framework48 `
+            -EvidenceDirectory ./artifacts/framework48/script-contracts `
+            -NativeValidatorRoot ./strands-dotnet/src
+      - name: Verify Bidi and Audio package identity selection
+        shell: powershell
+        run: ./strands-dotnet/scripts/tests/Test-BidiPackageSelection.Contract.Tests.ps1 -ProductionScript ./strands-dotnet/src/Strands.Agents.Bidi/validation/Test-Package.ps1 -EvidenceDirectory artifacts/framework48/bidi-package-selection
+      - name: Verify native artifact and package-input contracts on Windows PowerShell
+        shell: powershell
+        run: ./strands-dotnet/scripts/tests/Test-DotNetCI.Contract.Tests.ps1 -RepositoryRoot . -EvidenceDirectory artifacts/framework48/ci-contracts
+      - name: Download all verified native Monty workers
+        uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: monty-native-*
+          path: strands-dotnet/artifacts/monty-native-archives
+          merge-multiple: true
+      - name: Expand the verified native Monty tar carriers
+        shell: pwsh
+        working-directory: strands-dotnet
+        run: ./src/Strands.Agents.Monty/native/Expand-NativeArtifacts.ps1 -ArchiveDirectory artifacts/monty-native-archives -DestinationDirectory artifacts/monty-native
+      - name: Download all verified native Cedar libraries and licenses
+        uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: cedar-native-*
+          path: strands-dotnet/artifacts/cedar-native
+          merge-multiple: true
+      - name: Download the verified PortAudio Windows native assets
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: portaudio-native-windows
+          path: strands-dotnet/artifacts/portaudio-native
+
+      - name: Download the verified Nova Windows transport assets
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: nova-native-windows
+          path: strands-dotnet/artifacts/nova-native
+
+      - name: Build and pack the native contribution
+        working-directory: strands-dotnet
+        run: |
+          dotnet restore Strands.slnx
+          if ($LASTEXITCODE -ne 0) { throw 'Restore failed.' }
+          dotnet build Strands.slnx --configuration Release --no-restore
+          if ($LASTEXITCODE -ne 0) { throw 'Build failed.' }
+          dotnet restore Strands.Cedar.slnx
+          if ($LASTEXITCODE -ne 0) { throw 'Cedar restore failed.' }
+          dotnet build Strands.Cedar.slnx --configuration Release --no-restore
+          if ($LASTEXITCODE -ne 0) { throw 'Cedar build failed.' }
+          dotnet pack Strands.slnx --configuration Release --no-restore --output artifacts/packages
+          if ($LASTEXITCODE -ne 0) { throw 'Pack failed.' }
+          dotnet pack src/Strands.Agents.Cedar/Strands.Agents.Cedar.csproj --configuration Release --no-build --no-restore --output artifacts/packages
+          if ($LASTEXITCODE -ne 0) { throw 'Cedar pack failed.' }
+          ./scripts/Test-ManagedPackages.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-managed-fw48') -TargetFramework net48 -PrepareOnly
+          ./scripts/Test-Packages.ps1 -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-fw48')
+          ./src/Strands.Agents.Bedrock/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-bedrock-fw48')
+          ./src/Strands.Agents.Bedrock/validation/Test-Framework48NovaPackage.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-nova-fw48')
+          ./src/Strands.Agents.SageMaker/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-sagemaker-fw48')
+          ./src/Strands.Agents.Bidi/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-bidi-fw48')
+          ./src/Strands.Agents.Bidi.Audio/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-audio-fw48') -TargetFramework net48
+          ./src/Strands.Agents.OpenTelemetry/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-otel-fw48')
+          ./src/Strands.Agents.S3/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-s3-fw48') -TargetFramework net48
+          ./src/Strands.Agents.Sqlite/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-sqlite-fw48')
+          ./src/Strands.Agents.BedrockKnowledgeBase/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-knowledge-base-fw48') -TargetFramework net48
+          ./src/Strands.Agents.Monty/native/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-monty-fw48')
+          ./src/Strands.Agents.Cedar/native/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-cedar-fw48')
+      - name: Retain S3 package preparation diagnostics
+        if: always()
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-s3-fw48'
+          $evidence = 'artifacts/framework48/s3-package'
+          New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+          if (Test-Path -LiteralPath (Join-Path $scratch 'summary.json')) { Copy-Item -LiteralPath (Join-Path $scratch 'summary.json') -Destination $evidence }
+          foreach ($variant in @('framework-x64', 'framework-x86')) {
+            foreach ($name in @('restore.log', 'build.log', 'consumer.log')) {
+              $log = Join-Path (Join-Path $scratch $variant) $name
+              if (Test-Path -LiteralPath $log) {
+                $destination = Join-Path $evidence $variant
+                New-Item -ItemType Directory -Path $destination -Force | Out-Null
+                Copy-Item -LiteralPath $log -Destination $destination
+              }
+            }
+          }
+      - name: Retain SQLite package preparation diagnostics
+        if: always()
+        shell: pwsh
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-sqlite-fw48'
+          $evidence = 'artifacts/framework48/sqlite-package'
+          New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+          if (Test-Path -LiteralPath (Join-Path $scratch 'summary.json')) { Copy-Item -LiteralPath (Join-Path $scratch 'summary.json') -Destination $evidence }
+          foreach ($variant in @('net8.0', 'net10.0', 'framework-x64', 'framework-x86')) {
+            foreach ($name in @('restore.log', 'build.log', 'write.log', 'read.log')) {
+              foreach ($suffix in @('', '.stdout.bin', '.stderr.bin')) {
+                $log = Join-Path (Join-Path $scratch $variant) ($name + $suffix)
+                if (Test-Path -LiteralPath $log) {
+                  $destination = Join-Path $evidence $variant
+                  New-Item -ItemType Directory -Path $destination -Force | Out-Null
+                  Copy-Item -LiteralPath $log -Destination $destination
+                }
+              }
+            }
+          }
+      - name: Retain Knowledge Base package consumer diagnostics
+        if: always()
+        shell: pwsh
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-knowledge-base-fw48'
+          $evidence = 'artifacts/framework48/knowledge-base-package'
+          New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+          if (Test-Path -LiteralPath (Join-Path $scratch 'summary.json')) { Copy-Item -LiteralPath (Join-Path $scratch 'summary.json') -Destination $evidence }
+          foreach ($variant in @('framework-x64', 'framework-x86')) {
+            foreach ($name in @('restore.log', 'build.log', 'consumer.log', 'consumer-receipt.json')) {
+              foreach ($suffix in @('', '.stdout.bin', '.stderr.bin')) {
+                $log = Join-Path (Join-Path $scratch $variant) ($name + $suffix)
+                if (Test-Path -LiteralPath $log) {
+                  $destination = Join-Path $evidence $variant
+                  New-Item -ItemType Directory -Path $destination -Force | Out-Null
+                  Copy-Item -LiteralPath $log -Destination $destination
+                }
+              }
+            }
+          }
+
+      - name: Prepare isolated runtime and test runner
+        run: |
+          New-Item -ItemType Directory -Path artifacts/framework48 -Force | Out-Null
+          git rev-parse HEAD | Set-Content artifacts/framework48/commit.log
+          docker version | Tee-Object -FilePath artifacts/framework48/docker-version.log
+          if ($LASTEXITCODE -ne 0) { throw 'Docker is unavailable.' }
+          nuget install Microsoft.TestPlatform -Version 17.14.1 -OutputDirectory (Join-Path $env:RUNNER_TEMP 'test-platform') -NonInteractive -DirectDownload
+          if ($LASTEXITCODE -ne 0) { throw 'Test platform preparation failed.' }
+          docker pull mcr.microsoft.com/windows/servercore:ltsc2022
+          if ($LASTEXITCODE -ne 0) { throw 'Clean Windows base image pull failed.' }
+          docker image inspect mcr.microsoft.com/windows/servercore:ltsc2022 | Set-Content artifacts/framework48/image.json
+      - name: Execute on Framework 4.8 without an in-place 4.8.1 runtime
+        run: |
+          $testConsole = 'C:\test-platform\Microsoft.TestPlatform.17.14.1\tools\net462\Common7\IDE\Extensions\TestPlatform\vstest.console.exe'
+          foreach ($platform in @('x64', 'x86')) {
+            $montyConsumer = if ($platform -eq 'x64') { 'C:\monty-consumer\consumer\bin\Release\net48\Consumer.exe' } else { 'C:\monty-consumer\framework-x86\Consumer.exe' }
+            $cedarConsumer = if ($platform -eq 'x64') { 'C:\cedar-consumer\consumer\bin\Release\net48\Consumer.exe' } else { 'C:\cedar-consumer\framework-x86\Consumer.exe' }
+            $coreConsumer = "C:\managed-consumer\consumers\core-net48-$platform\publish\Consumer.exe"
+            $googleAuthConsumer = "C:\managed-consumer\consumers\googleauth-net48-$platform\publish\Consumer.exe"
+            $novaConsumer = "C:\nova-consumer\consumers\nova\$platform\bin\Release\net48\Framework48NovaConsumer.exe"
+            $bedrockConsumer = "C:\bedrock-consumer\framework-$platform\Consumer.exe"
+            $s3Consumer = "C:\s3-consumer\framework-$platform\output\Consumer.exe"
+            $sqliteConsumer = "C:\sqlite-consumer\framework-$platform\output\Consumer.exe"
+            $audioConsumer = "C:\audio-consumer\framework-$platform\output\Strands.Bidi.Audio.Tests.exe"
+            $knowledgeBaseConsumer = "C:\knowledge-base-consumer\framework-$platform\output\Consumer.exe"
+            docker run --rm --isolation=process `
+              --mount "type=bind,source=$env:GITHUB_WORKSPACE,target=C:\source,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\test-platform,target=C:\test-platform,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-fw48,target=C:\consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-sagemaker-fw48,target=C:\sagemaker-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-bidi-fw48,target=C:\bidi-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-managed-fw48,target=C:\managed-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-nova-fw48,target=C:\nova-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-interpreters-fw48\python,target=C:\python,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-interpreters-fw48\bash,target=C:\bash" `
+              --env STRANDS_PYTHON_EXECUTABLE=C:\python\python.exe `
+              --env STRANDS_BASH_TEST_EXECUTABLE=C:\bash\usr\bin\bash.exe `
+              --env PYTHONDONTWRITEBYTECODE=1 `
+              --env PYTHONNOUSERSITE=1 `
+              --env PYTHONHOME=C:\python `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-audio-fw48,target=C:\audio-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-otel-fw48,target=C:\otel-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-monty-fw48,target=C:\monty-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-cedar-fw48,target=C:\cedar-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-bedrock-fw48,target=C:\bedrock-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-s3-fw48,target=C:\s3-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-sqlite-fw48,target=C:\sqlite-consumer,readonly" `
+              --mount "type=bind,source=$env:RUNNER_TEMP\strands-knowledge-base-fw48,target=C:\knowledge-base-consumer,readonly" `
+              --mount "type=bind,source=$env:GITHUB_WORKSPACE\artifacts\framework48,target=C:\evidence" `
+              mcr.microsoft.com/windows/servercore:ltsc2022 powershell -NoProfile -ExecutionPolicy Bypass `
+              -File C:\source\strands-dotnet\scripts\Test-Framework48.ps1 `
+              -TestAssembly C:\source\strands-dotnet\tests\Strands.Compatibility.Tests\bin\Release\net48\Strands.Compatibility.Tests.dll `
+              -VSTestConsole $testConsole `
+              -ConsumerExecutable "C:\consumer\framework-$platform\output\Consumer.exe" `
+              -SageMakerConsumerExecutable "C:\sagemaker-consumer\framework-$platform\output\Consumer.exe" `
+              -BidiTestAssembly C:\source\strands-dotnet\tests\Strands.Bidi.Tests\bin\Release\net48\Strands.Bidi.Tests.dll `
+              -BidiConsumerExecutable "C:\bidi-consumer\framework-$platform\output\Consumer.exe" `
+              -AudioTestAssembly C:\source\strands-dotnet\tests\Strands.Bidi.Audio.Tests\bin\Release\net48\Strands.Bidi.Audio.Tests.dll `
+              -AudioConsumerExecutable $audioConsumer `
+              -OpenTelemetryTestAssembly C:\source\strands-dotnet\tests\Strands.OpenTelemetry.Tests\bin\Release\net48\Strands.OpenTelemetry.Tests.dll `
+              -OpenTelemetryConsumerExecutable "C:\otel-consumer\framework-$platform\output\Consumer.exe" `
+              -S3TestAssembly C:\source\strands-dotnet\tests\Strands.S3.Tests\bin\Release\net48\Strands.S3.Tests.dll `
+              -S3ConsumerExecutable $s3Consumer `
+              -SqliteTestAssembly C:\source\strands-dotnet\tests\Strands.Sqlite.Tests\bin\Release\net48\Strands.Sqlite.Tests.dll `
+              -SqliteConsumerExecutable $sqliteConsumer `
+              -BedrockKnowledgeBaseTestAssembly C:\source\strands-dotnet\tests\Strands.BedrockKnowledgeBase.Tests\bin\Release\net48\Strands.BedrockKnowledgeBase.Tests.dll `
+              -BedrockKnowledgeBaseConsumerExecutable $knowledgeBaseConsumer `
+              -GoogleAuthTestAssembly C:\source\strands-dotnet\tests\Strands.GoogleAuth.Tests\bin\Release\net48\Strands.GoogleAuth.Tests.dll `
+              -MontyTestAssembly C:\source\strands-dotnet\tests\Strands.Monty.Tests\bin\Release\net48\Strands.Monty.Tests.dll `
+              -MontyTestResultValidator C:\source\strands-dotnet\src\Strands.Agents.Monty\native\Assert-TestResults.ps1 `
+              -MontyConsumerExecutable $montyConsumer `
+              -CedarTestAssembly C:\source\strands-dotnet\tests\Strands.Cedar.Tests\bin\Release\net48\Strands.Cedar.Tests.dll `
+              -CedarTestResultValidator C:\source\strands-dotnet\src\Strands.Agents.Cedar\native\Assert-TestResults.ps1 `
+              -CedarConsumerExecutable $cedarConsumer `
+              -BedrockConsumerExecutable $bedrockConsumer `
+              -BedrockNovaConsumerExecutable $novaConsumer `
+              -CoreConsumerExecutable $coreConsumer `
+              -GoogleAuthConsumerExecutable $googleAuthConsumer `
+              -ExampleExecutable C:\source\strands-dotnet\examples\GettingStarted\bin\Release\net48\GettingStarted.exe `
+              -Platform $platform `
+              -ResultsDirectory "C:\evidence\$platform"
+            if ($LASTEXITCODE -ne 0) { throw "Isolated Framework 4.8 $platform verification failed." }
+          }
+      - name: Verify copied interpreter inputs and retain provenance
+        if: always()
+        run: |
+          $stage = Join-Path $env:RUNNER_TEMP 'strands-interpreters-fw48'
+          if (Test-Path -LiteralPath (Join-Path $stage 'interpreter-manifest.json')) {
+            New-Item -ItemType Directory -Path artifacts/framework48/interpreters -Force | Out-Null
+            Copy-Item -LiteralPath (Join-Path $stage 'interpreter-manifest.json') -Destination artifacts/framework48/interpreters/
+            ./strands-dotnet/scripts/Stage-Framework48Interpreters.ps1 -OutputDirectory $stage -VerifyOnly
+          }
+      - name: Retain Core and GoogleAuth package preparation diagnostics
+        if: always()
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-managed-fw48'
+          if (Test-Path -LiteralPath $scratch) {
+            Get-ChildItem -LiteralPath $scratch -Recurse -File | Where-Object { $_.Name -eq 'summary.json' -or ($_.FullName.StartsWith((Join-Path $scratch 'consumers'), [StringComparison]::OrdinalIgnoreCase) -and ($_.Extension -eq '.log' -or $_.Name -eq 'project.assets.json')) } | ForEach-Object {
+              $relative = $_.FullName.Substring($scratch.Length).TrimStart([IO.Path]::DirectorySeparatorChar)
+              $destination = Join-Path 'artifacts/framework48/managed-package' $relative
+              New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
+              Copy-Item -LiteralPath $_.FullName -Destination $destination
+            }
+          }
+      - name: Retain optional Nova package diagnostics
+        if: always()
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-nova-fw48'
+          if (Test-Path -LiteralPath $scratch) {
+            Get-ChildItem -LiteralPath $scratch -Recurse -File | Where-Object { $_.Name -eq 'summary.json' -or $_.Extension -eq '.log' } | ForEach-Object {
+              $relative = $_.FullName.Substring($scratch.Length).TrimStart([IO.Path]::DirectorySeparatorChar)
+              $destination = Join-Path 'artifacts/framework48/nova-package' $relative
+              New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
+              Copy-Item -LiteralPath $_.FullName -Destination $destination
+            }
+          }
+      - name: Retain optional Audio package diagnostics
+        if: always()
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-audio-fw48'
+          if (Test-Path -LiteralPath $scratch) {
+            $evidence = 'artifacts/framework48/audio-package'
+            New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+            Get-ChildItem -LiteralPath $scratch -Recurse -File | Where-Object { $_.Name -match '(summary|package-assets)\.json$|\.log$' } | ForEach-Object {
+              $relative = $_.FullName.Substring($scratch.Length).TrimStart([IO.Path]::DirectorySeparatorChar)
+              $target = Join-Path $evidence $relative
+              New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+              Copy-Item -LiteralPath $_.FullName -Destination $target
+            }
+          }
+      - name: Retain full Harness package preparation diagnostics
+        if: always()
+        run: |
+          foreach ($platform in @('x64', 'x86')) {
+            $scratch = Join-Path $env:RUNNER_TEMP "strands-fw48/framework-$platform"
+            $evidence = "artifacts/framework48/harness-package/$platform"
+            New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+            foreach ($relative in @('package-assets.json', 'restore.log', 'build.log', 'source/Consumer.csproj', 'source/Program.cs', 'source/obj/project.assets.json')) {
+              $source = Join-Path $scratch $relative
+              if (Test-Path -LiteralPath $source) {
+                $target = Join-Path $evidence $relative
+                New-Item -ItemType Directory -Path (Split-Path $target -Parent) -Force | Out-Null
+                Copy-Item -LiteralPath $source -Destination $target
+              }
+            }
+          }
+      - uses: actions/upload-artifact@v7.0.1
+        if: always()
+        with:
+          name: isolated-framework48-evidence
+          path: artifacts/framework48/
+          retention-days: 7
+          if-no-files-found: error

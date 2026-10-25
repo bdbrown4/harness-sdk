@@ -1,0 +1,145 @@
+using System.Text.Json;
+using System.Runtime.CompilerServices;
+using Strands.Agents;
+using Strands.Agents.Bidi;
+using Strands.Agents.Bidi.Models;
+using Strands.Agents.Storage;
+using Strands.Bidi.Tests;
+using static Strands.Bidi.Tests.WebSocketServer;
+
+if (args.Length != 0)
+{
+    if (args.Length != 1 || !int.TryParse(args[0], out var expectedPointer) || expectedPointer is not (4 or 8) || IntPtr.Size != expectedPointer)
+        throw new InvalidOperationException("The package consumer has the wrong process architecture.");
+    var asset = (System.Runtime.Versioning.TargetFrameworkAttribute?)Attribute.GetCustomAttribute(typeof(BidiAgent).Assembly, typeof(System.Runtime.Versioning.TargetFrameworkAttribute));
+    if (asset?.FrameworkName != ".NETStandard,Version=v2.0") throw new InvalidOperationException("Framework consumption must select the normal .NET Standard 2.0 asset.");
+    Console.WriteLine($"Bidi package architecture: pointer={IntPtr.Size}; asset=netstandard2.0");
+}
+
+await using var server = new WebSocketServer();
+await using var model = new OpenAIRealtimeModel(new()
+{
+    ModelId = "fixture-model", TranscriptionModelId = null, ApiKey = "offline-key", Endpoint = server.Endpoint
+});
+await model.StartAsync();
+var peer = await Within(server.Connection);
+var session = await Within(peer.ReceiveAsync());
+Require(session.GetProperty("type").GetString() == "session.update");
+await model.SendAsync(new BidiMessage([new TextBlock("hello")]));
+Require((await Within(peer.ReceiveAsync())).GetProperty("item").GetProperty("content")[0].GetProperty("text").GetString() == "hello");
+Require((await Within(peer.ReceiveAsync())).GetProperty("type").GetString() == "response.create");
+await using var reader = model.ReceiveAsync().GetAsyncEnumerator();
+Require(await reader.MoveNextAsync() && reader.Current is BidiConnectionStartEvent);
+await peer.SendAsync("""{"type":"response.created","response":{"id":"r"}}""");
+Require(await reader.MoveNextAsync() && reader.Current is BidiResponseStartEvent);
+await peer.SendAsync("""{"type":"response.output_item.done","item":{"type":"function_call","status":"completed","call_id":"call","name":"lookup","arguments":"{\"key\":7}"}}""");
+Require(await reader.MoveNextAsync());
+var calls = reader.Current as BidiToolUseBlocksEvent;
+Require(calls?.ToolUses.Count == 1 && calls.ToolUses[0].Input.GetProperty("key").GetInt32() == 7);
+await model.SendAsync(new BidiMessage([new ToolResultBlock("call", "answer")]));
+Require((await Within(peer.ReceiveAsync())).GetProperty("item").GetProperty("call_id").GetString() == "call");
+await peer.SendAsync("""{"type":"response.done","response":{"id":"r","status":"completed","output":[]}}""");
+Require(await reader.MoveNextAsync() && reader.Current is BidiResponseStopEvent);
+Require((await Within(peer.ReceiveAsync())).GetProperty("type").GetString() == "response.create");
+await model.SendAsync(new BidiAudioDelta([1, 2, 3]));
+Require((await Within(peer.ReceiveAsync())).GetProperty("audio").GetString() == "AQID");
+await model.StopAsync();
+await using var agentServer = new WebSocketServer();
+await using var agentModel = new OpenAIRealtimeModel(new() { ModelId = "fixture-model", TranscriptionModelId = null, ApiKey = "offline-key", Endpoint = agentServer.Endpoint });
+var callerState = new Dictionary<string, object?> { ["principal"] = "offline" };
+var tool = new FunctionTool(new("lookup", "Look up an offline value", JsonSerializer.SerializeToElement(new { type = "object" })),
+    (_, context, _) => { Require(ReferenceEquals(callerState, context.InvocationState)); return new ValueTask<string>("7"); });
+await using var toolAgent = new Agent(new() { Model = new NoChatCalls(), Tools = [tool] });
+await using var agent = new BidiAgent(new() { ToolAgent = toolAgent, Model = agentModel, SystemPromptContent = [new TextBlock("package instructions"), new CachePointBlock("1h")] });
+await agent.StartAsync(callerState);
+var agentPeer = await Within(agentServer.Connection);
+var agentSetup = (await Within(agentPeer.ReceiveAsync())).GetProperty("session");
+Require(agentSetup.GetProperty("tools").GetArrayLength() == 1 && agentSetup.GetProperty("instructions").GetString() == "package instructions");
+await agentPeer.SendAsync("""{"type":"response.created","response":{"id":"agent-r"}}""");
+await agentPeer.SendAsync("""{"type":"response.output_item.done","item":{"type":"function_call","status":"completed","call_id":"agent-call","name":"lookup","arguments":"{}"}}""");
+await using var agentReader = agent.ReceiveAsync().GetAsyncEnumerator();
+do { Require(await agentReader.MoveNextAsync()); } while (agentReader.Current is not ToolResultEvent);
+Require((await Within(agentPeer.ReceiveAsync())).GetProperty("item").GetProperty("output").GetString()!.Contains("7"));
+Require(agent.Messages.Count == 2 && toolAgent.Messages.Count == 0 && callerState.Count == 1);
+await agent.StopAsync();
+agent.State.Set("package", 7);
+agent.SetSystemPrompt("temporary");
+agent.SetSystemPromptContent([new TextBlock("restored prompt"), new CachePointBlock("custom")]);
+var saved = await agent.TakeSnapshotAsync(new() { Preset = SnapshotPreset.Session, Include = SnapshotFields.SystemPrompt });
+var restoredSnapshot = JsonSerializer.Deserialize<AgentSnapshot>(JsonSerializer.Serialize(saved))!;
+var sessionDirectory = Path.Combine(Path.GetTempPath(), "strands-bidi-package-" + Guid.NewGuid().ToString("N"));
+await using (var persisted = new BidiAgent(new() { ToolAgent = toolAgent, Model = agentModel, SessionStore = new FileSessionStore(sessionDirectory), SessionId = "package-session" }))
+{
+    var initialized = 0;
+    using var registration = persisted.Hooks.Register<BidiInitializedEvent>((_, _) => { initialized++; return default; });
+    await persisted.LoadSnapshotAsync(restoredSnapshot); await persisted.SaveSessionAsync();
+    Require(initialized == 1 && persisted.State.Get<int>("package") == 7 && persisted.Messages.Count == 2);
+    Require(persisted.SystemPrompt == "restored prompt" && persisted.SystemPromptContent![1] is CachePointBlock { Ttl: "custom" });
+}
+await using (var recovered = new BidiAgent(new() { ToolAgent = toolAgent, Model = agentModel, SessionStore = new FileSessionStore(sessionDirectory), SessionId = "package-session" }))
+{
+    await recovered.InitializeAsync(); Require(recovered.State.Get<int>("package") == 7 && recovered.Messages.Count == 2);
+    Require(recovered.SystemPrompt == "restored prompt" && recovered.SystemPromptContent![1] is CachePointBlock { Ttl: "custom" });
+}
+var catalog = new BidiSnapshotSessionManager(new InMemoryStorage(), "package-catalog", BidiSessionSaveStrategy.Trigger);
+await using (var checkpointed = new BidiAgent(new() { ToolAgent = toolAgent, Model = agentModel, SessionManager = catalog, AgentId = "package-agent" }))
+{
+    await checkpointed.LoadSnapshotAsync(restoredSnapshot);
+    var handle = await catalog.SaveSnapshotAsync(checkpointed, isLatest: false);
+    Require(handle is not null && (await catalog.ListSnapshotIdsAsync(checkpointed)).Single() == handle);
+    checkpointed.State.Set("package", 8);
+    Require(await catalog.RestoreSnapshotAsync(checkpointed, handle));
+    Require(checkpointed.State.Get<int>("package") == 7 && checkpointed.Messages.Count == 2);
+    await catalog.DeleteSessionAsync(); Require((await catalog.ListSnapshotIdsAsync(checkpointed)).Count == 0);
+}
+await using var runServer = new WebSocketServer();
+await using var runModel = new OpenAIRealtimeModel(new() { ModelId = "fixture-model", TranscriptionModelId = null, ApiKey = "offline-key", Endpoint = runServer.Endpoint });
+await using var runAgent = new BidiAgent(new() { ToolAgent = toolAgent, Model = runModel });
+using var runCancellation = new CancellationTokenSource();
+var readCount = 0; var streamsStopped = 0; var responses = 0;
+var runInput = new BidiInputStream(async token =>
+{
+    if (Interlocked.Increment(ref readCount) == 1) return new BidiMessage([new TextBlock("run input")]);
+    await Task.Delay(Timeout.Infinite, token); throw new InvalidOperationException("unreachable");
+}, stop: token => { Require(!token.CanBeCanceled); streamsStopped++; return default; });
+var runOutput = new BidiOutputStream((value, _) => { if (value is BidiResponseStopEvent) { responses++; runCancellation.Cancel(); } return default; });
+var running = runAgent.RunAsync([runInput], [runOutput], callerState, runCancellation.Token);
+try
+{
+    var runPeer = await Within(runServer.Connection);
+    Require((await Within(runPeer.ReceiveAsync())).GetProperty("type").GetString() == "session.update");
+    Require((await Within(runPeer.ReceiveAsync())).GetProperty("item").GetProperty("content")[0].GetProperty("text").GetString() == "run input");
+    Require((await Within(runPeer.ReceiveAsync())).GetProperty("type").GetString() == "response.create");
+    await runPeer.SendAsync("""{"type":"response.created","response":{"id":"run"}}""");
+    await runPeer.SendAsync("""{"type":"response.done","response":{"id":"run","status":"completed","output":[]}}""");
+    try { await running; throw new InvalidOperationException("Expected the run's caller cancellation."); }
+    catch (OperationCanceledException error) { Require(error.CancellationToken == runCancellation.Token); }
+    Require(streamsStopped == 1 && responses == 1 && callerState.Count == 1);
+}
+finally { runCancellation.Cancel(); try { await running; } catch (OperationCanceledException) { } }
+await using var googleServer = new WebSocketServer();
+await using var google = new GoogleGeminiLiveModel(new() { ModelId = "offline-google", ApiKey = "offline-key", Endpoint = googleServer.Endpoint });
+var googleStarting = google.StartAsync(new() { SystemPrompt = "Offline package verification" });
+var googlePeer = await Within(googleServer.Connection);
+Require((await Within(googlePeer.ReceiveAsync())).GetProperty("setup").GetProperty("model").GetString() == "models/offline-google");
+await googlePeer.SendAsync("""{"setupComplete":{}}"""); await googleStarting;
+await google.SendAsync(new BidiMessage([new TextBlock("google input")]));
+Require((await Within(googlePeer.ReceiveAsync())).GetProperty("clientContent").GetProperty("turns")[0].GetProperty("parts")[0].GetProperty("text").GetString() == "google input");
+await googlePeer.SendAsync("""{"serverContent":{"modelTurn":{"parts":[{"text":"google output"}]},"turnComplete":true}}""");
+var googleText = ""; var googleCompleted = false;
+await foreach (var value in google.ReceiveAsync())
+{
+    if (value is BidiTextDeltaEvent text) googleText += text.Delta;
+    if (value is BidiResponseStopEvent) { googleCompleted = true; break; }
+}
+Require(googleCompleted && googleText == "google output"); await google.StopAsync();
+Console.WriteLine("Bidi package: websocket=ok; tool=7; continuation=one; audio=ok; agent=7");
+static void Require(bool condition)
+{
+    if (!condition) throw new InvalidOperationException("Native bidirectional package contract failed.");
+}
+sealed class NoChatCalls : IModel
+{
+    public async IAsyncEnumerable<ModelStreamEvent> StreamAsync(ModelRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    { await Task.CompletedTask; yield return new ModelMessageStartEvent(); throw new InvalidOperationException("The real tool host's chat model must remain unused in this offline fixture."); }
+}

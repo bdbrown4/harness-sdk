@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <PackageId>Strands.Agents.Bedrock</PackageId>
+    <Description>Native Amazon Bedrock Converse and Nova Sonic realtime model providers for Strands Agents.</Description>
+    <PackageTags>strands;agents;ai;bedrock;aws</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <NativeNovaAssetsPath Condition="'$(NativeNovaAssetsPath)' == ''">$(MSBuildThisFileDirectory)../../artifacts/nova-native</NativeNovaAssetsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../CompilerTypeForwarders.cs" Link="CompilerTypeForwarders.cs" />
+    <InternalsVisibleTo Include="Strands.Bedrock.Tests" />
+    <InternalsVisibleTo Include="Strands.Compatibility.Tests" />
+    <ProjectReference Include="../Strands.Agents/Strands.Agents.csproj" />
+    <ProjectReference Include="../Strands.Agents.Bidi/Strands.Agents.Bidi.csproj" />
+    <PackageReference Include="AWSSDK.BedrockRuntime" Version="4.0.101.12" />
+    <PackageReference Include="System.Threading.Channels" Version="10.0.10" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../NOTICE" Pack="true" PackagePath="/" />
+    <None Include="../../../LICENSE.APACHE" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(NativeNovaAssetsPath)/runtimes/**/*" Link="runtimes/%(RecursiveDir)%(Filename)%(Extension)"
+          TargetPath="runtimes/%(RecursiveDir)%(Filename)%(Extension)" Pack="true"
+          PackagePath="runtimes/%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="buildTransitive/Strands.Agents.Bedrock.targets" Pack="true"
+          PackagePath="buildTransitive/Strands.Agents.Bedrock.targets;build/Strands.Agents.Bedrock.targets" />
+    <None Include="licenses/aws-crt-native/**/*" Pack="true" PackagePath="licenses/aws-crt-native/" />
+  </ItemGroup>
+  <Target Name="VerifyNovaNativePackageAssets" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_NovaRequiredAsset Include="win-x86/native/strands-nova-crt.dll;win-x64/native/strands-nova-crt.dll" />
+    </ItemGroup>
+    <Error Condition="!Exists('$(NativeNovaAssetsPath)/runtimes/%(_NovaRequiredAsset.Identity)')" Text="Missing Nova Sonic native package asset: %(_NovaRequiredAsset.Identity). Build and collect both Windows architectures before packing." />
+    <Error Condition="!Exists('$(MSBuildThisFileDirectory)licenses/aws-crt-native/aws-c-common/THIRD-PARTY-LICENSES.txt')" Text="Missing native Nova Sonic dependency license notices." />
+  </Target>
+</Project>

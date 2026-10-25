@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/Strands.Agents/Strands.Agents.csproj" />
+  <Project Path="src/Strands.Agents.Cedar/Strands.Agents.Cedar.csproj" />
+  <Project Path="tests/Strands.Cedar.Tests/Strands.Cedar.Tests.csproj" />
+</Solution>

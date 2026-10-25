@@ -1,0 +1,20 @@
+{
+  "Capability": "Explicit TypeScript classic sliding-window fallback user-anchor policy",
+  "Upstream": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "Source": "strands-ts/src/conversation-manager/sliding-window-conversation-manager.ts:200-280,465-540",
+  "NativeBaseline": "1cd5d26 + exact five-file classic-rich24 capsule",
+  "Default": "Python; existing assistant tool-pair fallback",
+  "Owned": [
+    "strands-dotnet/src/Strands.Agents/Conversation/ClassicToolPairBoundaryPolicy.cs",
+    "strands-dotnet/src/Strands.Agents/Conversation/SlidingWindowConversationManager.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Conversation/ClassicToolPairAnchorTests.cs",
+    "strands-dotnet/docs/CLASSIC_TOOL_PAIR_BOUNDARIES.md",
+    "strands-dotnet/docs/CLASSIC_TOOL_PAIR_BOUNDARIES_SCOPE.json"
+  ],
+  "Changed": ["Explicit immutable boundary option and enum validation", "Validated pinned prefix or nearest plain user retained only when falling back to a complete pair", "No effective deletion or invalid anchor declines without history/pin/counter mutation"],
+  "Unchanged": ["Python default", "Agent/session/hooks/cancellation", "Lifecycle cadence", "Rich-result truncation selection", "Ordinary user trim points", "Zero-window behavior", "Native no-pair no-progress behavior", "Snapshot schema", "Borrowed resources"],
+  "Tests": {"Contracts": 22, "InitialRuntimeRed": 8, "FirstGreenConformance": 14},
+  "CompatibilityDifference": "TypeScript private helper returns false for a declined fallback. Native explicit fallback reduction rethrows supplied overflow or throws InvalidOperationException without a supplied error; a completely missing pair retains prior native no-progress behavior.",
+  "FullParity": false,
+  "ReleaseReady": false
+}

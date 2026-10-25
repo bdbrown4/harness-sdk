@@ -1,0 +1,82 @@
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using Google.Apis.Auth.OAuth2;
+using Strands.Agents;
+using Strands.Agents.GoogleAuth;
+using Strands.Agents.Models;
+
+internal static class Program
+{
+    private static void Require(bool condition, string message)
+    {
+        if (!condition) throw new InvalidOperationException(message);
+    }
+
+    private static async Task Main(string[] args)
+    {
+        Require(args.Length == 1 && int.Parse(args[0]) == IntPtr.Size, "process architecture");
+        var original = GoogleCredential.FromAccessToken("synthetic-package-token");
+        var credential = original.CreateWithQuotaProject("synthetic-quota");
+        var handler = new Handler();
+        using (var client = GoogleCredentialHttpClient.CreateVertexClient(credential))
+        {
+            Require(ReferenceEquals(credential.UnderlyingCredential, client.MessageHandler.Credential), "borrowed official credential");
+            var previous = client.MessageHandler.InnerHandler;
+            client.MessageHandler.InnerHandler = handler;
+            previous?.Dispose();
+            Require(client.DefaultRequestHeaders.Authorization is null && handler.Calls == 0, "inert transport preparation");
+            var model = new GoogleModel(client, new GoogleModelOptions("gemini-package")
+            {
+                UseVertexAi = true,
+                Endpoint = new Uri("https://package.invalid/vertex/models/gemini-package:streamGenerateContent?alt=sse")
+            });
+            var agent = new Agent(new AgentOptions { Model = model });
+            try
+            {
+                var result = await agent.InvokeAsync("authenticated package request");
+                Require(result.ToString() == "google-ok" && result.StopReason == StopReasons.EndTurn, "provider result");
+                Require(result.Usage.InputTokens == 3 && result.Usage.OutputTokens == 2, "provider usage");
+                Require(handler.Calls == 1 && handler.Disposed == 0, "one request and borrowed transport");
+                Require(original.QuotaProject is null && credential.QuotaProject == "synthetic-quota", "borrowed credential unchanged");
+                Require(agent.Messages.Count == 2 && agent.Messages[1].Role == Role.Assistant, "committed provider conversation");
+            }
+            finally { await agent.DisposeAsync(); }
+            Require(handler.Disposed == 0, "Agent does not dispose borrowed client");
+        }
+        Require(handler.Disposed == 1, "caller closes owned official HTTP pipeline");
+        Console.WriteLine("PASS googleauth-package-provider-request pointer=" + IntPtr.Size);
+    }
+
+    private sealed class Handler : HttpMessageHandler
+    {
+        internal int Calls;
+        internal int Disposed;
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            Calls++;
+            Require(request.Method == HttpMethod.Post && request.RequestUri!.Host == "package.invalid", "synthetic provider route only");
+            Require(request.RequestUri!.AbsolutePath.EndsWith(":streamGenerateContent", StringComparison.Ordinal), "supported Vertex operation");
+            Require(request.Headers.Authorization?.ToString() == "Bearer synthetic-package-token", "official bearer authorization");
+            Require(request.Headers.TryGetValues("x-goog-user-project", out var quota) && quota.Single() == "synthetic-quota", "official quota project");
+            Require(!request.Headers.Contains("x-goog-api-key"), "Vertex does not add a developer key");
+            using (var body = JsonDocument.Parse(await request.Content!.ReadAsStringAsync()))
+            {
+                var user = body.RootElement.GetProperty("contents")[0];
+                Require(user.GetProperty("role").GetString() == "user", "provider user role");
+                Require(user.GetProperty("parts")[0].GetProperty("text").GetString() == "authenticated package request", "provider request text");
+            }
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("data: {\"candidates\":[{\"content\":{\"role\":\"model\",\"parts\":[{\"text\":\"google-ok\"}]},\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":3,\"candidatesTokenCount\":2,\"totalTokenCount\":5}}\n\n", Encoding.UTF8, "text/event-stream")
+            };
+        }
+        protected override void Dispose(bool disposing) { if (disposing) Disposed++; base.Dispose(disposing); }
+    }
+}

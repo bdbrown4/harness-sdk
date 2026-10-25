@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net48;net8.0;net10.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.13" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48' and '$(_BinaryPipeArchitecture)' != ''">
+    <PlatformTarget>$(_BinaryPipeArchitecture)</PlatformTarget>
+    <AssemblyName>Strands.BinaryPipe.ProcessFixture.$(_BinaryPipeArchitecture)</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'"><RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers></PropertyGroup>
+  <Target Name="GetBinaryPipeFixtureFiles" DependsOnTargets="Build" Returns="@(_BinaryPipeFixtureFiles)">
+    <ItemGroup>
+      <_BinaryPipeFixtureFiles Include="$(TargetDir)**/*" />
+      <_BinaryPipeFixtureFiles Update="@(_BinaryPipeFixtureFiles)">
+        <BinaryPipeRelativePath>%(_BinaryPipeFixtureFiles.RecursiveDir)%(_BinaryPipeFixtureFiles.Filename)%(_BinaryPipeFixtureFiles.Extension)</BinaryPipeRelativePath>
+      </_BinaryPipeFixtureFiles>
+    </ItemGroup>
+  </Target>
+</Project>

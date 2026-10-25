@@ -1,0 +1,213 @@
+{
+  "BaseCommit": "36341c79f5e604e85b4d1382a521bdb49d5734fb",
+  "Prerequisite": "logging20-captured-manifest.json",
+  "PrerequisiteSha256": "491BCEB1CD2828D57BCB6BE062AD958F94D2C80550FE73E9FD67D504411258B4",
+  "DiagnosticFiles": 14,
+  "DiagnosticCalls": 19,
+  "OwnedCSharpPaths": [
+    "strands-dotnet/src/Strands.Agents/Agent.AgentTools.cs",
+    "strands-dotnet/src/Strands.Agents/ContinuationInputs.cs",
+    "strands-dotnet/src/Strands.Agents/Context/Offload.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ContextManager.cs",
+    "strands-dotnet/src/Strands.Agents/Context/ContextReductionMethods.cs",
+    "strands-dotnet/src/Strands.Agents/Context/StashCheckpoint.cs",
+    "strands-dotnet/src/Strands.Agents/Models/LlamaApiFormatting.cs",
+    "strands-dotnet/src/Strands.Agents.Bedrock/BedrockRequestMapper.cs",
+    "strands-dotnet/src/Strands.Agents.Bedrock/BedrockTokenCounting.cs",
+    "strands-dotnet/src/Strands.Agents.SageMaker/SageMakerRequestFormatter.cs",
+    "strands-dotnet/src/Strands.Agents.SageMaker/SageMakerPayloadParser.cs",
+    "strands-dotnet/src/Strands.Agents.Monty/ProgrammaticToolCaller.cs",
+    "strands-dotnet/src/Strands.Agents.Bidi/BidiSnapshotSessionManager.cs",
+    "strands-dotnet/src/Strands.Agents.Bidi/Models/OpenAIRealtimeModel.cs",
+    "strands-dotnet/src/Strands.Agents/Logging/SdkLogging.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Logging/RemainingLoggingTests.cs",
+    "strands-dotnet/tests/Strands.Bedrock.Tests/BedrockLoggingTests.cs",
+    "strands-dotnet/tests/Strands.SageMaker.Tests/SageMakerLoggingTests.cs",
+    "strands-dotnet/tests/Strands.Bidi.Tests/BidiLoggingTests.cs",
+    "strands-dotnet/tests/Strands.Monty.Tests/MontyLoggingTests.cs",
+    "strands-dotnet/src/Strands.Agents/Logging/LogDispatcher.cs"
+  ],
+  "Calls": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Agent.AgentTools.cs",
+      "BeforeSha256": "7D5E0097947DD8631042778C2EEB7A07D875427F55CF1B887DB911548EB9C6AE",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 113,
+          "Source": "TryTrace(() => System.Diagnostics.Trace.TraceError(\"Agent '{0}' could not restore its interrupted turn: {1}\", Spec.Name, failure.Message));"
+        },
+        {
+          "Line": 153,
+          "Source": "TryTrace(() => System.Diagnostics.Trace.TraceWarning(\"Agent '{0}' interrupted with PreserveContext=true and no session store; it cannot recover its interrupted turn after restart.\", Spec.Name));"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/ContinuationInputs.cs",
+      "BeforeSha256": "1F6AE6B07A05D3EA12A3EE5B07CC45F61B0BF1DBB8BC20EDE91234E50D804035",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 118,
+          "Source": "try { System.Diagnostics.Trace.TraceWarning(\"Continuation settlement callback failed: {0}\", error.Message); }"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Context/Offload.cs",
+      "BeforeSha256": "3121A02A9B4558252CCBBBE0B80B297F2737D32CA590E5A5FCBAFF8CEEFA50A6",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 40,
+          "Source": "if (include.Count > 0 && exclude.Count > 0) Trace.TraceWarning(\"An offload tool filter contains includes and excludes; exclusions are ignored.\");"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Context/ContextManager.cs",
+      "BeforeSha256": "872BAEBC296C5E9E522BBF62F3CC2CF0916410EBCC5CB2CE35ACABF300BBE3A6",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 149,
+          "Source": "Trace.TraceWarning(\"Context strategy '{0}' failed; continuing: {1}\", strategy.Name, error.Message);"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Context/ContextReductionMethods.cs",
+      "BeforeSha256": "A2D674D2A7F34E39015787546DA370676E5E312479DFE6380F29C7E33A502CA4",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 184,
+          "Source": "System.Diagnostics.Trace.WriteLine(\"Context summarization failed: \" + error.Message);"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Context/StashCheckpoint.cs",
+      "BeforeSha256": "586BA84DB4E5BBC0CB055617127EEC48FF20EF79231532AE6F1683A83F9A6380",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 48,
+          "Source": "try { Trace.TraceWarning(message); }"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Models/LlamaApiFormatting.cs",
+      "BeforeSha256": "269767F625D855F1329D06C1936F17EF4F1ACEF9234061AA5AEA3852D26B23AC",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 85,
+          "Source": "try { Trace.TraceWarning(\"ToolChoice was provided to this provider but is not supported by the pinned Llama API adapter; set HonorToolChoice to enable native wire support.\"); } catch (Exception) { }"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockRequestMapper.cs",
+      "BeforeSha256": "18CDA1DE2647D711C0BF31DA23F726E9F434716A1EA34A101846C625E5EF0B24",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 97,
+          "Source": "if (string.IsNullOrWhiteSpace(text)) System.Diagnostics.Trace.TraceWarning(\"Bedrock latest-message guard selection preserves blank text because guardrails reject blank guard content.\");"
+        },
+        {
+          "Line": 104,
+          "Source": "else System.Diagnostics.Trace.TraceWarning(\"Bedrock latest-message guard selection leaves an image unwrapped because guardrails require inline PNG/JPEG bytes.\");"
+        },
+        {
+          "Line": 289,
+          "Source": "if (warnings.Count > 0) System.Diagnostics.Trace.TraceWarning(\"Bedrock strict tool '{0}' retains unsupported or unresolved schema keywords: {1}.\", tool.Name, string.Join(\", \", warnings));"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bedrock/BedrockTokenCounting.cs",
+      "BeforeSha256": "BB2EFD8F128BE067A73E6277DD2F1F39FDDEB08DB99C85496887C918DE8A7776",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 62,
+          "Source": "try { System.Diagnostics.Trace.TraceWarning(\"Bedrock native token counting failed for model {0}; using the local estimate: {1}\", options.ModelId, error.Message); }"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.SageMaker/SageMakerRequestFormatter.cs",
+      "BeforeSha256": "930774E0BED5AB62F7C4E24AE6E263AF16D1BC461DE067A4FCE1B166D02254D1",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 15,
+          "Source": "if (request.ToolChoice is not null) Trace.TraceWarning(\"SageMaker ignores requested tool choice, matching the pinned provider.\");"
+        },
+        {
+          "Line": 16,
+          "Source": "if (options.CacheConfig is not null) Trace.TraceWarning(\"SageMaker ignores prompt cache controls.\");"
+        },
+        {
+          "Line": 36,
+          "Source": "if (block is ReasoningBlock or RedactedReasoningBlock or CachePointBlock) { Trace.TraceWarning(\"SageMaker skips {0} in chat history, matching the pinned provider.\", block.GetType().Name); continue; }"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.SageMaker/SageMakerPayloadParser.cs",
+      "BeforeSha256": "1576D8738E10583A036C6B1EE5196329075E113D527D53AE03631B3AA4FD7D68",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 58,
+          "Source": "Trace.TraceWarning(message);"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Monty/ProgrammaticToolCaller.cs",
+      "BeforeSha256": "4FB668866FB601968488F6A17BE678E20982FCC70E5BA1B46E083D8DC9DFDA0C",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 92,
+          "Source": "try { Trace.TraceWarning(\"programmatic_tool_caller: multiple tools normalize to '\" + alias + \"', no alias injected.\"); } catch (Exception) { }"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bidi/BidiSnapshotSessionManager.cs",
+      "BeforeSha256": "D6086A12747893D560791FCB1D2B7274E20B1B038293F370059C89D3CD653211",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 81,
+          "Source": "try { System.Diagnostics.Trace.TraceWarning(\"Snapshot trigger failed; immutable checkpoint skipped: {0}\", error.Message); }"
+        }
+      ]
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.Bidi/Models/OpenAIRealtimeModel.cs",
+      "BeforeSha256": "A68B222B0DAB01E832BCD97F4957DCEBDC4F480AC08161CEFB45323F6B9E88DE",
+      "PreviousDiagnosticCalls": [
+        {
+          "Line": 208,
+          "Source": "try { Trace.TraceWarning(\"Realtime restart re-anchor failed: {0}\", error.Message); }"
+        }
+      ]
+    }
+  ],
+  "Contracts": 13,
+  "ObservedRuntimeRedToGreen": 13,
+  "InitialFixtureFailuresExcluded": [
+    "Nested Agent fixture initially omitted required input",
+    "Core/SageMaker tests initially referenced nonexistent static ToolChoice.Any",
+    "Monty fixture initially used a forbidden dot in its tool name"
+  ],
+  "RemainingOwnerBoundaries": [
+    "Core/Harness MCP diagnostic calls remain owned by harness_parity",
+    "Default LogDispatcher Trace/console bridge is deliberate",
+    "Native package-consumer stdout is operational output"
+  ],
+  "ClassicFilesRequired": [],
+  "FullParity": false,
+  "ReleaseReady": false,
+  "AdditionalExistingRegression": "BedrockTokenCountTests.FailedDiagnosticListenersCannotReplaceThePromisedFallback: actual regression RED then GREEN; exact listener identity attached to original provider failure",
+  "SubsequentMcpClosure": {
+    "Document": "MCP_LOGGING.md",
+    "CapturedManifestSha256": "610FA823ACC3DE56F479E043F6486BCBFE88E4D0FE11826EFF35568B94E16F4D",
+    "Scope": "Five call-site groups/six concrete branches plus legacy helper conformance; original inventory retains its historical thirteen-contract scope"
+  }
+}

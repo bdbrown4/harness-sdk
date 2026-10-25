@@ -1,0 +1,131 @@
+{
+  "Scope": "Automatic ordinary agent telemetry, actual foreground/background terminal operations, legacy ValueTask cancellation preservation",
+  "UpstreamCommit": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "IntegrationParent": "458d9d1772926440a0690e209656c8d4eba11801",
+  "Contracts": 23,
+  "RuntimeRedToGreenContracts": 20,
+  "FirstGreenConformanceContracts": 3,
+  "NewPassingExecutions": 138,
+  "TotalPassingExecutions": 1222,
+  "Failed": 0,
+  "Skipped": 0,
+  "TrxFiles": 6,
+  "FinalRuns": [
+    {
+      "Path": "work/telemetry-results/automatic23-final/core-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_00_28_39_net10.0.trx",
+      "Total": 209,
+      "Passed": 209,
+      "Failed": 0,
+      "NewCases": 23,
+      "Sha256": "D89645CAC238BFDB0A3A4E6F86B07210103E0939AFCD919BCC35FCB1B7E67620"
+    },
+    {
+      "Path": "work/telemetry-results/automatic23-final/core-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_00_28_28_net8.0.trx",
+      "Total": 209,
+      "Passed": 209,
+      "Failed": 0,
+      "NewCases": 23,
+      "Sha256": "B4CE9F390A5169DC9D37DA1338A7C63514441F03560AE98D30B02298CECB547B"
+    },
+    {
+      "Path": "work/telemetry-results/automatic23-final/net48-x64/18126_DESKTOP-47NGAFF_2026-10-21_00_30_15_net48.trx",
+      "Total": 201,
+      "Passed": 201,
+      "Failed": 0,
+      "NewCases": 23,
+      "Sha256": "991D894AC9E105B11BAD462F3E7BF776071757B7E89D72814EA3C4C54A074D3A"
+    },
+    {
+      "Path": "work/telemetry-results/automatic23-final/net48-x86/18126_DESKTOP-47NGAFF_2026-10-21_00_30_32_net48.trx",
+      "Total": 201,
+      "Passed": 201,
+      "Failed": 0,
+      "NewCases": 23,
+      "Sha256": "7B36E37959DF8A83DDE24D7F1329F9086D7984794EF402275C25E32056E19814"
+    },
+    {
+      "Path": "work/telemetry-results/automatic23-final/portable-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_00_29_59_net10.0.trx",
+      "Total": 201,
+      "Passed": 201,
+      "Failed": 0,
+      "NewCases": 23,
+      "Sha256": "BEADEE0D9AD70A81FED16DE1176F5BE0A62ABBB6B31A081BCCC37CBEABD0D0F2"
+    },
+    {
+      "Path": "work/telemetry-results/automatic23-final/portable-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_00_29_41_net8.0.trx",
+      "Total": 201,
+      "Passed": 201,
+      "Failed": 0,
+      "NewCases": 23,
+      "Sha256": "DC58DE8A580C5487F344C06AA71B5859047F330E79C1CA02ADF4ABE79034E42B"
+    }
+  ],
+  "RuntimeRedDirectories": [
+    "automatic-telemetry-runtime-red3",
+    "automatic-telemetry-adverse-red1",
+    "automatic-boundaries-runtime-red",
+    "automatic-background-runtime-red",
+    "automatic-options-red",
+    "valuetask-context-red"
+  ],
+  "RuntimeRedCases": [
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.AModelCacheDoesNotReportAProviderOperation",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.AnInterruptedToolAttemptIsCountedWithoutACompletedResult",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.AToolCacheDoesNotReportABodyExecution",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.AutomaticActivitiesRetainParentageAndRestoreTheCallerContext",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.BackgroundToolBodiesReportTheirActualOutcome(fail: False)",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.BackgroundToolBodiesReportTheirActualOutcome(fail: True)",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.CancellingAutomaticBackgroundWaitingRetainsStatisticsAndTerminalReason",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.CustomAttributesAreDetachedAndInheritedByForegroundAndBackgroundOperations",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.EarlyDisposalFailuresSetTheInvocationErrorStatus",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.InvocationContentRecordsOnlyNewInputAndTheConfiguredInstructions",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.LateBackgroundCompletionPreservesResultSnapshotsAndForegroundParentage",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.MiddlewareProviderRetriesProduceOneSpanPerAttempt",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.OrdinaryInvocationAutomaticallyCollectsMetricsAndLocalTraces",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.PriorResultStatisticsRemainStableAcrossLaterInvocations",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.ProviderSpansUseTheEffectiveModelAndProviderAccounting",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.RefusingAHookContinuationAtTheTurnLimitRecordsTheTerminalReason",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.ToolHookRetriesAndRenamesReportEveryEffectiveAttempt",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.ToolResultStatusPolicyIsAnExplicitAgentChoice(pythonPolicy: True)",
+    "Strands.Agents.Tests.Telemetry.ValueTaskTraceContextTests.ContextPreservesTheOriginalValueTaskCancellation(sampled: False)",
+    "Strands.Agents.Tests.Telemetry.ValueTaskTraceContextTests.ContextPreservesTheOriginalValueTaskCancellation(sampled: True)"
+  ],
+  "FirstGreenCases": [
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.DisposingAnIncompleteStreamClosesSpansAndAllowsTheNextInvocation",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.ModelFailureAndFailingListenersCannotReplaceTheOriginalError",
+    "Strands.Agents.Tests.Telemetry.AutomaticTelemetryTests.ToolResultStatusPolicyIsAnExplicitAgentChoice(pythonPolicy: False)"
+  ],
+  "CompileOnlyAttempts": "Retained separately; no compilation failure is counted as executable RED evidence",
+  "Formatting": "Positive calibration selected all11 ownedCSharp files; final scoped verifies0of718 source and0of316 test files",
+  "PeerReview": "SDK worker reviewed actual terminal cache/routing/retry/error boundaries; background isolation and limitfinishreason P2 findings fixed with executable RED-to-GREEN; final delta read-only recheck PASS",
+  "Framework": "netstandard2.0 asset executed in actual x64/x86 Framework processes; installed release534296 is4.8.1+, not clean4.8-only",
+  "SharedRequirements": [
+    "Existing Compat Telemetry/**/*.cs link; no new link required"
+  ],
+  "SourceFiles": [
+    "strands-dotnet/src/Strands.Agents/Agent.cs",
+    "strands-dotnet/src/Strands.Agents/AgentOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.BackgroundTasks.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.Middleware.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.Telemetry.cs",
+    "strands-dotnet/src/Strands.Agents/Telemetry/TraceSpan.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/AutomaticTelemetryTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/AutomaticTelemetryMiddlewareTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/AutomaticTelemetryBackgroundTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/AutomaticTelemetryOptionsTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/ValueTaskTraceContextTests.cs",
+    "strands-dotnet/docs/AGENT_TELEMETRY.md",
+    "strands-dotnet/docs/TELEMETRY.md",
+    "strands-dotnet/docs/VALIDATION.md"
+  ],
+  "MetadataCorrection": "Supersedes capturev1 metadata only: Python reset_usage_metrics appends history and retains lifetime totals; actual remaining differences are unbounded history/latest-cycle context selection. All11CSharp source bytes unchanged.",
+  "PreviousCaptureManifestSha256": "3F7B960DC303D69E0D00AC720C5FF8B9C84BD615DFEB4F147F25D0643C6A884B",
+  "Remaining": [
+    "New combined source freeze and full release/package/crossOS gate",
+    "Current macOS and clean4.8-only runtime proof",
+    "Specialized memory/multiagent telemetry",
+    "Harness telemetry configuration",
+    "Python unbounded history/latestcycle context selection profile",
+    "TypeScript hook-resume telemetry boundary"
+  ]
+}

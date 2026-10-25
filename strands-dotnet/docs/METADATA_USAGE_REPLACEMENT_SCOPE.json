@@ -1,0 +1,75 @@
+{
+  "Scope": "ModelMetadataEvent record replacement preserves the native model-decorator usage contract",
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "ParentCaptures": [
+    "usage-presence9-captured",
+    "invocation-usage6-captured"
+  ],
+  "Contracts": 4,
+  "RuntimeRedToGreen": 2,
+  "FirstGreenConformance": 2,
+  "PassingExecutions": 944,
+  "NewPassingExecutions": 24,
+  "TrxFiles": 6,
+  "Failed": 0,
+  "Skipped": 0,
+  "Evidence": [
+    {
+      "Path": "work/telemetry-results/metadata-replacement4-final/net48-x64/18126_DESKTOP-47NGAFF_2026-10-21_01_56_21_net48.trx",
+      "Passed": 158,
+      "NewCases": 4,
+      "Sha256": "538006D1B3D49922D901A1051B68AE61FE8BD01D373C10AECF52EC9B3FDA96CA"
+    },
+    {
+      "Path": "work/telemetry-results/metadata-replacement4-final/net48-x86/18126_DESKTOP-47NGAFF_2026-10-21_01_56_34_net48.trx",
+      "Passed": 158,
+      "NewCases": 4,
+      "Sha256": "5BACE546FB9786888F97452CC7FD1C42A7E2E81FB6E9BD441C90300E7388533C"
+    },
+    {
+      "Path": "work/telemetry-results/metadata-replacement4-final/Strands.Agents.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_01_55_25_net10.0.trx",
+      "Passed": 157,
+      "NewCases": 4,
+      "Sha256": "9A9A8956169CE6BC5F5B506FB1D08CBD9EAD2871F2F9D828E70736DCC148F017"
+    },
+    {
+      "Path": "work/telemetry-results/metadata-replacement4-final/Strands.Agents.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_01_55_17_net8.0.trx",
+      "Passed": 157,
+      "NewCases": 4,
+      "Sha256": "061E752F97E6F436D1AEA2F66502AA7B7F59BE6E7E65A06250664BB4546AC4CC"
+    },
+    {
+      "Path": "work/telemetry-results/metadata-replacement4-final/Strands.Compatibility.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_01_56_05_net10.0.trx",
+      "Passed": 157,
+      "NewCases": 4,
+      "Sha256": "A6B697603EC45FEF6513D5DD2332B8E2577474D78984D2A53D14E9BDCEC86185"
+    },
+    {
+      "Path": "work/telemetry-results/metadata-replacement4-final/Strands.Compatibility.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_01_55_44_net8.0.trx",
+      "Passed": 157,
+      "NewCases": 4,
+      "Sha256": "7FD40B86B768D7BDC5E3F08C2CC85A9EB8B340DD526F5B58FDCE1178CE3FF56A"
+    }
+  ],
+  "RuntimeRed": {
+    "Passed": 2,
+    "Sha256": "CB1290AD869D098AFF69E7CC6CCA833F07651EF138E83277BF8165E251CE3D68",
+    "Path": "work/telemetry-results/metadata-replacement4-red/18126_DESKTOP-47NGAFF_2026-10-21_01_53_05_net10.0.trx",
+    "Failed": 2
+  },
+  "ObservedDefects": [
+    "A model decorator replacing unknown usage with nonzero counters was rejected as unreported",
+    "Replacing unknown usage with measured zero retained the previous context estimate instead of recording zero"
+  ],
+  "Behavior": "Assigning Usage marks the replacement reported. Performance-only copies preserve absence. An explicit later false flag still rejects nonzero usage before assistant commit. Original caller-owned metadata remains unchanged.",
+  "PublicApi": "Existing positional constructor, record copying and generated deconstruction retained; no additional public members",
+  "RelationToUpstream": "Native model-adapter composition contract, following the separately captured missing-versus-measured-zero semantics; not a claim of additional upstream API coverage",
+  "Formatting": "Both owned CSharp files positively selected and verified clean",
+  "Compatibility": "Actual Framework Release534296 x64/x86 with independent pointer-size validator; not a clean4.8-only host",
+  "PeerReview": "Independent read-only bounded review passed: positional record constructor/init/get/deconstruction retained, replacement only mutates clone and reports zero/nonzero, performance-only copies preserve absence, explicit invalid nonzero absence rejected before assistant commit; tests cover caller-owned source and metrics/span effects.",
+  "Remaining": [
+    "Combined immutable checkpoint and package/crossOS gates",
+    "Exhaustive provider wire-level absence detection",
+    "Current macOS and clean4.8-only execution"
+  ]
+}

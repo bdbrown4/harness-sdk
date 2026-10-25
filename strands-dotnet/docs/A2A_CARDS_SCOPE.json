@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Consolidated native A2A client/server/tool/task-store/stable-pause recovery plus configurable public and authenticated discovery cards",
+  "status": "implemented_subset",
+  "supersedesRuntimeHashesOf": [
+    "A2A_SCOPE.json",
+    "A2A_SERVER_SCOPE.json",
+    "A2A_TOOL_SCOPE.json",
+    "A2A_TASK_STORE_SCOPE.json",
+    "A2A_RECOVERY_SCOPE.json"
+  ],
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AAgent.cs",
+      "sha256": "ed2d9dea29a46ee83bb327967a1059ac65a212114c4d2fffd11c0e2bfb1686ce"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AAgentOptions.cs",
+      "sha256": "3c19bfa87b32e4e574f8d60e22c13902e6b18af093001690f92f37aa688916db"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AAgentSkill.cs",
+      "sha256": "173fe3facb4fefdac612178d578100aba1aeb4c31a0505cfcd0436e65e0a79a6"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ACardFormat.cs",
+      "sha256": "64c9664833c88c053b9032a28b43ced9c26ae5003f0c2180d51f242f153c0e97"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ACardJson.cs",
+      "sha256": "5a61e32ea0c883fcb64178f1ba8793ff8f27b528c0b1b18628ea2ec6ca8ca66c"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.cs",
+      "sha256": "da6b7325467046ec61a9479a1bd9631a72f39fcf9595365ea6411a17fc8761cd"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.Rpc.cs",
+      "sha256": "2a704bec490ff79085aa20231a06ed60822b770bdbccea4087ba94f692f8ee99"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.Streaming.cs",
+      "sha256": "97f3af639f7020b2a0b432fe70f38b4d0a38125bc1e76a47dd8476e3c10edffb"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.Tasks.cs",
+      "sha256": "c3d26c2ad94e1073bddec5784cbdd57f978459c47a83c59758740fc14a84fe72"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClientOptions.cs",
+      "sha256": "2b677a462c2c22067f779e4875d67c2ad1bdfaba4123ca24c23b1ad89a90a21c"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClientTool.cs",
+      "sha256": "6575bf3ed3e4a776ac524563ca1e2ff7d972bc79c99e29da6a2e918b6f268201"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AContentNegotiation.cs",
+      "sha256": "03697edbe71a37751bf67919e9fb5392bf301b72614de8ebac28b37669171c4a"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AContextPool.cs",
+      "sha256": "ab7784e6e0a473af9cca0cbf0804b2ad604e581a74e5f339a2e53e93d1b84802"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AEventBuffer.cs",
+      "sha256": "6165c1bc1ea641b28f003cb7b68d6d44e422eb41fb1aab1827422bf7e6bde395"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AEvents.cs",
+      "sha256": "d831cef1d986010bea121fa9d1daef0ff420fab51b1df348f6cf652f456f4757"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExceptions.cs",
+      "sha256": "288976ec4bcee84c6c6f2195ec809a6d4f89a1ebf8affe7b989eba9ff83a08f8"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExecutor.cs",
+      "sha256": "130bd33b4cdf80c6d983771d697f913bb78cf6739c69c96e34e3256cd0092f22"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExecutor.Interrupts.cs",
+      "sha256": "3e95c0eb3ae46d766306baa7bc098b98c6889ba3de700c37f5cb5afa9333a876"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExecutor.Recovery.cs",
+      "sha256": "c4d082c6e6c723d31a746f0d2a749c24c4a0efd3748534287d1245c238bb7a56"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExecutorOptions.cs",
+      "sha256": "663bbf1fd56496fa1d8c1119d98f439a197d47c31e571a3e31b44b846606f039"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AHostedTask.cs",
+      "sha256": "06d893518d3d0018b0d3fd6767ee01f864b728cba212d7506e8520ac0a5f9647"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AHttp.cs",
+      "sha256": "eaf33fe7f69df8af7c76c481199e32dd9f2b0e7462cbb93cb7dabd373289a27f"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AParts.cs",
+      "sha256": "71dde3e328e56f96e10de0b167976a051725bfb8c1290dad140950aecbf9a49b"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ARequestContext.cs",
+      "sha256": "6a6c2dce4478da3763e615abee52e9b067b5f36f8e6b66e8df2cf968fb8ba387"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AResultAccumulator.cs",
+      "sha256": "c1796b69bf58203fbcc08a4c2ada2d083a499d16d72e815fcee94a10f81c50be"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServer.Card.cs",
+      "sha256": "4034fd75ff21230943239ce8dc5cde63bb1611c78f014b14677e55614de0cf37"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServer.Card.Metadata.cs",
+      "sha256": "91cd2a62b0bb2fe8bd1865c5b4dd1042cc671ee8be84d49dac844773f4b3af4d"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServer.Card.Validation.cs",
+      "sha256": "801daf9709a52ba459b4bc586a3980c1869efdaf42e847f49eba08462806b01a"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServer.cs",
+      "sha256": "4655179f9c186966b6f32369a183bcca22329c19571dfbef8815eef79fadda04"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServer.ExtendedCard.cs",
+      "sha256": "60a79dc8491022e80f975b7b179e3d961dd32f225cc182fa89d8aa6f3b3cc0e7"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServer.Persistence.cs",
+      "sha256": "ced8f39dad54ede5f60298f0d663184971f926ecc44c5da512198cfc3801c237"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServer.Recovery.cs",
+      "sha256": "29c5a2888233705c7651b853510066e83aef9f86fef0ec61cb172dcf3dd71d8f"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AServerOptions.cs",
+      "sha256": "19564c44d948e31bba07effc21558f79b88bde2f5a74f1aa1df4da342003cdac"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ASseContent.cs",
+      "sha256": "50e3851189ce99a856af234b15692880c96956c8b85528a169db3f975b644d11"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2ATaskRecord.cs",
+      "sha256": "4bd3d56b1f7d1048f3bcce5e6cb9b4b6bd8efa74dfa9f93634ca904ed00cc0a5"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/IA2ATaskStore.cs",
+      "sha256": "7a42b6fe46f6b6f32eb7a6f38d929e195a7d65fa76c0707caa4ea509850223d2"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/InMemoryA2ATaskStore.cs",
+      "sha256": "00dac10fb758471c7387be4950c5fecb69150afa27c032cb3f1ad54cf461f349"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/StorageA2ATaskStore.cs",
+      "sha256": "23cc7d8fb09bace0b7699d51c70cc027777553a79961758de40e0d747045cd02"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Agent.AbortInterrupts.cs",
+      "sha256": "7afe457fbcc98c5cbfa33b8a65e3cffebf4eb5c3b0493ebe3fb0301319587fe4"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AAgentSkillTests.cs",
+      "sha256": "887585996179e8d937b7233d9cdbf95b76dad8f6e560c3dfdc0c1e77a2a64a3d"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AAgentTests.cs",
+      "sha256": "5ca64ab83c76303fdff2be9f6e0ec09829471d0ccb6a75b248e7c0530837619c"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ACardMetadataValidationTests.cs",
+      "sha256": "8c833d6e5e93a62177dd142ed6dc8ef0d11a4dc989be61140e04dbebdaa96ff0"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AClientTests.cs",
+      "sha256": "1aba5a583d0534b08cfa3cdca9e737821a845b477353f18f8677c8f3d8d13ea8"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AClientToolTests.cs",
+      "sha256": "12eb481c6b43115cc32ccb61bf678503b6b800b77b057bbea1e707a807d288a7"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AContextPoolTests.cs",
+      "sha256": "aae1cb358d2221cc49202829cf7118ff797925b1c917ccaa8e84908c7f101f4b"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ADiscoveryTests.cs",
+      "sha256": "6a3cbb299d61eee2501a334c6e0b6ca9e62fad3fc2d0454cd0c8e79c2f3c9392"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AErrorTests.cs",
+      "sha256": "9bdc283326596869e8210263ffda6374248c60bd2e4ad37a525ea946d3cd03e8"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AExecutorInterruptTests.cs",
+      "sha256": "3823b74e55ffe0684af430a86c6bf30cfc8359aafb7c6237a311b50b46bc557d"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AExecutorTests.cs",
+      "sha256": "d87b85165e9c1bbb884f353b5f1a4229d188572a3ada04cf32eaf27389f90c77"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AExtendedCardLifetimeTests.cs",
+      "sha256": "1dcea3164c6e9eabdec7733d79df9da9b6440566dc339b59db605a3949231a2d"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AExtendedCardTests.cs",
+      "sha256": "64269e4326bc05d0116a0c9593be316eb9ad1fc1fe1471644cec1a6e1511b3ed"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ALifetimeTests.cs",
+      "sha256": "ac7f358c0c6144c52b0501ad0bc51d018a9fd35c98ac9e30276b593ea463d723"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AMediaTests.cs",
+      "sha256": "2a716f721e0e338324cdbe8527625fbf6f43abd7f37b17091205b57d60eafccb"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ARecoveryTests.cs",
+      "sha256": "bfce46c8fb4751fdbff0d27ae60a43b467c58c12adac65e701e0b54d65d48f81"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerBoundsTests.cs",
+      "sha256": "85a1deb67440101ead02994f8ba1cd27201fc7119fea7a6adb20c6abc76fb97a"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerCardTests.cs",
+      "sha256": "0902fea924369196afc80d1837c72ed97be7d2dab00f83409f5214e1924609ba"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerInterruptTests.cs",
+      "sha256": "4abaa3f76f7b387c85dbb1f4d83db631e7e100078e53836f43bc5a4cba344cf3"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerLifetimeTests.cs",
+      "sha256": "7c6f9ac1696041ecb824b749d60b603b6ca06cfcec8e895803f4332289a53668"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerProjectionTests.cs",
+      "sha256": "e9002ed044a08d6a4190d9a477f878a732e7fa8421698399e4955735b03a8f91"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerProtocolTests.cs",
+      "sha256": "b6737bf789cfca8c5e7e5c51534ac60235a6f22f651385f2f4afee39a611700d"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerTaskStoreTests.cs",
+      "sha256": "391504aa61fa6c2fedf5e3463ab6047168503d7d1fd6aa09dae3db844d367fd1"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerTcpFixture.cs",
+      "sha256": "5cccfa09f4efbdc034b389f069cbceb959b254dfa1b785d37c7d47b380c5f5f2"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerTests.cs",
+      "sha256": "21628f3cf576a5ef83848eed8a96de540b376e459dab959e0e5b0da0ba2265fc"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AServerWireTests.cs",
+      "sha256": "dbe8550d6377fe42f73f59200f94ab0f7b33fe18907887c827596058bd4bcded"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ATaskStoreTests.cs",
+      "sha256": "4304364b36b00d1a805f848248da68d426b47811561835c28bea82246acb234b"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ATaskTests.cs",
+      "sha256": "c089b975cfffe6ea0bf8e41ebe4266f4c442b811df0a7569f18fc58f290aad12"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ATestServer.cs",
+      "sha256": "7d7e3ec15a51a1b2bfa779ed2d9af977232486be70f6ec7b23afbef443a9e72f"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AWireTests.cs",
+      "sha256": "82c124e3998ab78b4a0fb9cdab7e20dec30ea6924d1f2772a8e48ef5d03b1e7d"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/AbortInterruptTests.cs",
+      "sha256": "72667b6af86e550adb809f335f521990dda8cbb43b46d9780c7f0f78ab4c1a30"
+    }
+  ],
+  "documentation": [
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A.md",
+      "sha256": "e6956819a110e322315258857e35bba06ad8545d1b207df6da27bb99280162ae"
+    },
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_SERVER.md",
+      "sha256": "0432e408e4b63eba1061ea6a4513100332c3c5e4e35295aa7a6e15d0fc5dd510"
+    },
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_TOOL.md",
+      "sha256": "5fc5b59cfdaa293e192b36a9a74dad4df88f849e630c48a4a99329ecdfe74db6"
+    },
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_TASK_STORE.md",
+      "sha256": "dfecabc712b9dcfd02da2da12b715ba5670e9ec778467bdd4a077b33df7e1711"
+    },
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_RECOVERY.md",
+      "sha256": "a3c2b15a0242d1baad25aafbb329852fe69d8e45a3b16d7dc1a733b2b8c882cd"
+    },
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_CARDS.md",
+      "sha256": "8358da131153641e7b5926a37ca20af23719c35ac9a53eb945102a71d604ca58"
+    }
+  ],
+  "sourceReferences": [
+    "strands-ts/src/a2a/server.ts",
+    "strands-py/src/strands/multiagent/a2a/server.py",
+    "https://raw.githubusercontent.com/a2aproject/a2a-js/v0.3.10/src/types.ts",
+    "https://raw.githubusercontent.com/a2aproject/a2a-python/v0.3.0/src/a2a/types.py",
+    "https://a2a-protocol.org/v0.3.0/specification/"
+  ],
+  "contracts": [
+    "Detached raw skill declarations preserve examples, tags, security, modes and extensions; explicit FromTool conversion matches Python metadata mapping.",
+    "Card discovery does not invoke a hidden agent factory; explicit skill omission uses the TypeScript empty list.",
+    "Application version0.0.1; Native protocol0.3/configured modes, explicit TypeScript protocol0.2/textplain and Python protocol0.3/legacytext profiles. Profiles affect discovery defaults only.",
+    "Atomic detached public card replacement validates required shape, duplicate fields/skill IDs, runtime capabilities, configured MIME support and supported JSONRPC interfaces.",
+    "Optional provider/security/OAuth/extensions/signatures retain wire casing with structural validation; security enforcement and signature cryptographic verification remain host responsibilities.",
+    "Public/private cards charge bounded raw and serialized UTF8 including escaped Unicode; invalid updates retain the previous card.",
+    "Private card and explicit authorization callback must pair; false returns403, missing private card returns32007, valid no-params JSONRPC requests preserve correlation.",
+    "Authorization reads preserve caller cancellation, are canceled/drained on shutdown and reject self-disposal/recursive-read cycles; borrowed callbacks are not disposed.",
+    "Unknown JSONRPC methods without params correctly return32601; backend failures are sanitized32603.",
+    "All prior task-store durability and stable native-pause recovery contracts remain covered by the consolidated family tests."
+  ],
+  "validation": {
+    "a2aAndAbortCases": 276,
+    "newCardCases": 58,
+    "scopedExecutions": 1380,
+    "coreRegressions": {
+      "filter": "FullyQualifiedName!~.Telemetry. (independent concurrent Telemetry WIP excluded)",
+      "net10": 1601,
+      "net8": 1601
+    },
+    "proofs": [
+      {
+        "file": "core-net8.0.trx",
+        "total": 276,
+        "passed": 276,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "file": "core-net10.0.trx",
+        "total": 276,
+        "passed": 276,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "file": "portable-net48.trx",
+        "total": 276,
+        "passed": 276,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "file": "portable-net8.0.trx",
+        "total": 276,
+        "passed": 276,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "file": "portable-net10.0.trx",
+        "total": 276,
+        "passed": 276,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "file": "all-core-net8.0.trx",
+        "total": 1601,
+        "passed": 1601,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "file": "all-core-net10.0.trx",
+        "total": 1601,
+        "passed": 1601,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 0,
+    "localFrameworkRuntime": "net48 target on installed Framework4.8.1 Release534296; clean4.8 CI pending for this card increment",
+    "proofDirectory": "work/a2a-cards-final",
+    "format": [
+      "Project-cwd-relative explicit paths calibrated with intentional indentation only: formatter selected and repaired A2ACardFormat.cs (1/625) and A2AServerCardTests.cs (1/272).",
+      "Final project-relative verification of all38 A2A source files and all30 A2A test files: no changes. Earlier historical absolute-path analyzer selections are not relied on as coverage evidence."
+    ],
+    "observedRedThenGreen": [
+      "Detached skill construction and grouped malformed skill contracts.",
+      "Explicit tool-to-skill metadata conversion after correcting an invalid test fixture.",
+      "Pinned discovery version/copied skills, optional card fields and atomic card update scaffold.",
+      "Grouped malformed/unsupported cards, byte bounds including serialized Unicode, missing MIME arrays and malformed wildcard-allowed MIME.",
+      "Authenticated extended-card allowed/denied requests without params.",
+      "Grouped optional metadata/security/OAuth/extension/signature shapes and scalar signature classification.",
+      "Unknown method without params returned wrong JSONRPC code.",
+      "Explicit TypeScript/Python profiles initially retained native discovery defaults."
+    ],
+    "process": "Each listed runtime RED was observed before its corresponding behavior fix. Remaining card/lifetime/conformance cases passed on first execution and are regression evidence. An authorization-header forwarding failure was a wire-test fixture defect, not a production RED. Earlier all-core net10 failure in intentional ToolRetry WIP is retained separately and is not passing evidence; both final broad runs pass.",
+    "review": "Independent bounded lifecycle/auth/schema review PASS, followed by narrow CardFormat recheck PASS; no confirmed P1/P2 in the reviewed subset."
+  },
+  "remaining": [
+    "Remote graph-node durable interruption/snapshot integration.",
+    "Standalone/framework hosting adapters.",
+    "REST/gRPC transport and push-notification lifecycle.",
+    "Active execution crash recovery, cross-process leases and automatic divergent native/task store repair.",
+    "Generated artifact append metadata beyond identifiers/parts.",
+    "Card signature generation and cryptographic verification.",
+    "Full pinned A2A symbol/member/extension conformance beyond the explicit implemented subset."
+  ]
+}

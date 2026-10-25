@@ -1,0 +1,21 @@
+{
+  "Scope": "Explicit per-pass/public-invocation span and metrics scope20",
+  "Base": "a2c6ecde19ac41719bd1536ef905b8c40b7698a2",
+  "Default": "PublicInvocation retains existing native behavior",
+  "Alternative": "AgentPass follows accepted TS pass boundary before AfterInvocation",
+  "Cases": 20,
+  "ActualRuntimeRedCases": 3,
+  "FirstGreenConformance": 17,
+  "FeatureExecutions": 120,
+  "TotalComponentExecutions": 13588,
+  "NewOption": "InvocationTelemetryScope",
+  "Unchanged": [
+    "Limits/history/result semantics",
+    "Other language telemetry policies",
+    "Custom-trigger/flush causality"
+  ],
+  "MemoryReceipt": "Immutable recorded pass context, overwritten null per attempted pass and cleared after outer cleanup",
+  "NativeSetupCorrection": "Original two missing-worker lab failures retained separately; verified existing workers supplied without managed source/test edits",
+  "FullParity": false,
+  "ReleaseReady": false
+}

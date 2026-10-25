@@ -1,0 +1,74 @@
+[
+  {
+    "Name": "aws-c-common",
+    "Commit": "2b67a658e461520f1de20d64342b91ddcedc7ebb",
+    "URL": "https://codeload.github.com/awslabs/aws-c-common/tar.gz/2b67a658e461520f1de20d64342b91ddcedc7ebb",
+    "ArchiveBytes": 620124,
+    "ArchiveSHA256": "57A80CADBB3FC59A5E5E28F19D72F13451992DB74DDC35A8BEB2017C36546BA2",
+    "ExtractedFiles": 956,
+    "ExtractedBytes": 3215024
+  },
+  {
+    "Name": "aws-c-cal",
+    "Commit": "8703b3e5930c9fd508025b268ab837fc9df3c4fd",
+    "URL": "https://codeload.github.com/awslabs/aws-c-cal/tar.gz/8703b3e5930c9fd508025b268ab837fc9df3c4fd",
+    "ArchiveBytes": 1686512,
+    "ArchiveSHA256": "42E89B8B4605C1CA61551DA2A2E421AEF2C8F1A405838413E54EAB43D0951130",
+    "ExtractedFiles": 89,
+    "ExtractedBytes": 3646651
+  },
+  {
+    "Name": "aws-c-io",
+    "Commit": "ba5cb6de2cf12bfb154f302f6dedddf81c0ce4cd",
+    "URL": "https://codeload.github.com/awslabs/aws-c-io/tar.gz/ba5cb6de2cf12bfb154f302f6dedddf81c0ce4cd",
+    "ArchiveBytes": 751912,
+    "ArchiveSHA256": "1CFEAED4428945C8E530270CD1CB80B20C5CD4004BCCC3118B02BD9676E09F98",
+    "ExtractedFiles": 203,
+    "ExtractedBytes": 3027611
+  },
+  {
+    "Name": "aws-c-sdkutils",
+    "Commit": "f678bda9e21f7217e4bbf35e0d1ea59540687933",
+    "URL": "https://codeload.github.com/awslabs/aws-c-sdkutils/tar.gz/f678bda9e21f7217e4bbf35e0d1ea59540687933",
+    "ArchiveBytes": 80460,
+    "ArchiveSHA256": "5F4B9911353A979F49E0B5846A377DB29DF2ED2DB72D9C9E85B8201C91CD3538",
+    "ExtractedFiles": 91,
+    "ExtractedBytes": 505292
+  },
+  {
+    "Name": "aws-c-compression",
+    "Commit": "f951ab2b819fc6993b6e5e6cfef64b1a1554bfc8",
+    "URL": "https://codeload.github.com/awslabs/aws-c-compression/tar.gz/f951ab2b819fc6993b6e5e6cfef64b1a1554bfc8",
+    "ArchiveBytes": 36935,
+    "ArchiveSHA256": "4FF702F774599817061EEC17A8A92A00D9356E03189EEDE65B1F44FD3C1A1B2B",
+    "ExtractedFiles": 52,
+    "ExtractedBytes": 176610
+  },
+  {
+    "Name": "aws-c-http",
+    "Commit": "ce0d65623bff28f03204756d9d1b3366bd0b387d",
+    "URL": "https://codeload.github.com/awslabs/aws-c-http/tar.gz/ce0d65623bff28f03204756d9d1b3366bd0b387d",
+    "ArchiveBytes": 497084,
+    "ArchiveSHA256": "67BBC5D094F0EDD815F3A51B51ABDE9C430A1DF78ACC6F7B5C369BC73572D98C",
+    "ExtractedFiles": 138,
+    "ExtractedBytes": 3124463
+  },
+  {
+    "Name": "aws-c-auth",
+    "Commit": "cd9d6afcd42035d49bb2d0d3bef24b9faed57773",
+    "URL": "https://codeload.github.com/awslabs/aws-c-auth/tar.gz/cd9d6afcd42035d49bb2d0d3bef24b9faed57773",
+    "ArchiveBytes": 262598,
+    "ArchiveSHA256": "D6971E9790FA4EFE24E3A99F4E51C19A84E0778ED6C32C64FB6CD848EDD57C5B",
+    "ExtractedFiles": 985,
+    "ExtractedBytes": 1686678
+  },
+  {
+    "Name": "aws-checksums",
+    "Commit": "9978ba2c33a7a259c1a6bd0f62abe26827d03b85",
+    "URL": "https://codeload.github.com/awslabs/aws-checksums/tar.gz/9978ba2c33a7a259c1a6bd0f62abe26827d03b85",
+    "ArchiveBytes": 136458,
+    "ArchiveSHA256": "4DD52DECEBFE2A5472D4D362FEB732623FEE22F74F6E0C5852FFFB67432ED765",
+    "ExtractedFiles": 43,
+    "ExtractedBytes": 389073
+  }
+]

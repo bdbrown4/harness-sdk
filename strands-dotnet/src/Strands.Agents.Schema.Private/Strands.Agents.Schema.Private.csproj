@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <AssemblyName>Strands.Agents.Schema.Private</AssemblyName>
+    <RootNamespace>Strands.Agents.SchemaImplementation</RootNamespace>
+    <AssemblyVersion>8.0.5.0</AssemblyVersion>
+    <FileVersion>8.0.5.1</FileVersion>
+    <Version>8.0.5-strands-private.1</Version>
+    <IsPackable>false</IsPackable>
+    <SignAssembly>false</SignAssembly>
+    <LangVersion>14.0</LangVersion>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+    <NoWarn>IDE0290;CA2255</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
+    <PackageReference Include="System.Text.Json" Version="10.0.13" />
+    <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="all" />
+    <EmbeddedResource Include="Meta-Schemas/**/*.json" Link="Meta-Schemas/%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Upstream/Localization/*.resx" Link="Localization/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Collections.Immutable" Version="10.0.10" />
+  </ItemGroup>
+</Project>

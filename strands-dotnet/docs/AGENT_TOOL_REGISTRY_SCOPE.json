@@ -1,0 +1,35 @@
+{
+  "Capability": "Guarded Agent application tool mutation and explicit public-direct resolution",
+  "UpstreamCommit": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "NativeBaseline": "Exact cc167767985c7792c17d8f3ff931243c1611740c archive plus frozen standalone ToolRegistry26",
+  "Contracts": 32,
+  "ObservedRuntimeRedDistinctContracts": 11,
+  "FirstGreenConformance": 21,
+  "Owned": [
+    "strands-dotnet/src/Strands.Agents/Agent.ToolRegistry.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.DirectTools.cs",
+    "strands-dotnet/src/Strands.Agents/AgentOptions.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.BackgroundTasks.cs",
+    "strands-dotnet/src/Strands.Agents/Agent.ScopedTools.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/ToolRegistry/AgentToolRegistryTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/ToolRegistry/AgentToolRegistrySafetyTests.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/ToolRegistry/AgentToolRegistryConformanceTests.cs",
+    "strands-dotnet/docs/AGENT_TOOL_REGISTRY.md",
+    "strands-dotnet/docs/AGENT_TOOL_REGISTRY_SCOPE.json"
+  ],
+  "RequiredCompatibilityAdditionOnly": "<Compile Include=\"../Strands.Agents.Tests/ToolRegistry/**/*.cs\" Link=\"ToolRegistry/%(RecursiveDir)%(Filename)%(Extension)\" />",
+  "Defaults": { "AgentConflictPolicy": "ExactOnly", "PublicDirectResolution": "Exact", "ModelAndBidiResolution": "Exact" },
+  "SharedHunks": {
+    "Agent.cs": ["Policy enum validation", "Initial/plugin/generated normalized checks", "AddTools delegates to atomic application mutation", "Structured-output normalized preflight"],
+    "Agent.DirectTools.cs": ["Public-only canonical resolution inside the existing direct admission try/finally"],
+    "AgentOptions.cs": ["Two additive optional policies"],
+    "Agent.BackgroundTasks.cs": ["One manage-tool normalized conflict preflight"],
+    "Agent.ScopedTools.cs": ["One ephemeral normalized conflict preflight"]
+  },
+  "Preserved": ["Cancellation signal/admission fields", "Classic conversation state and gates", "Abort/session/snapshot behavior", "Tool middleware and execution correlation", "Filter-before-Spec authority", "Borrowed resource lifetime", "Model and Bidi exact lookup"],
+  "Remaining": ["Full provider/plugin-origin registry mutation authority", "Generic provider refresh leases", "Module discovery or hot reload"],
+  "MainOrPrivateMutations": false,
+  "FullParity": false,
+  "ReleaseReady": false
+}

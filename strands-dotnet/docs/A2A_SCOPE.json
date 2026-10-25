@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Portable A2A v0.3 client and remote-agent adapter; executor/server/hosting/vended tool remain separate acceptance work",
+  "status": "implemented_subset",
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AAgent.cs",
+      "sha256": "ed2d9dea29a46ee83bb327967a1059ac65a212114c4d2fffd11c0e2bfb1686ce"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AAgentOptions.cs",
+      "sha256": "3c19bfa87b32e4e574f8d60e22c13902e6b18af093001690f92f37aa688916db"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.cs",
+      "sha256": "da6b7325467046ec61a9479a1bd9631a72f39fcf9595365ea6411a17fc8761cd"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.Rpc.cs",
+      "sha256": "2a704bec490ff79085aa20231a06ed60822b770bdbccea4087ba94f692f8ee99"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.Streaming.cs",
+      "sha256": "97f3af639f7020b2a0b432fe70f38b4d0a38125bc1e76a47dd8476e3c10edffb"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClient.Tasks.cs",
+      "sha256": "c3d26c2ad94e1073bddec5784cbdd57f978459c47a83c59758740fc14a84fe72"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClientOptions.cs",
+      "sha256": "2b677a462c2c22067f779e4875d67c2ad1bdfaba4123ca24c23b1ad89a90a21c"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AEvents.cs",
+      "sha256": "d831cef1d986010bea121fa9d1daef0ff420fab51b1df348f6cf652f456f4757"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AExceptions.cs",
+      "sha256": "288976ec4bcee84c6c6f2195ec809a6d4f89a1ebf8affe7b989eba9ff83a08f8"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AHttp.cs",
+      "sha256": "873714a66d509a9c7b0ebba550723b523518396d706242e1931a9303905d9778"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AParts.cs",
+      "sha256": "71dde3e328e56f96e10de0b167976a051725bfb8c1290dad140950aecbf9a49b"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AResultAccumulator.cs",
+      "sha256": "c1796b69bf58203fbcc08a4c2ada2d083a499d16d72e815fcee94a10f81c50be"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AAgentTests.cs",
+      "sha256": "5ca64ab83c76303fdff2be9f6e0ec09829471d0ccb6a75b248e7c0530837619c"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AClientTests.cs",
+      "sha256": "1aba5a583d0534b08cfa3cdca9e737821a845b477353f18f8677c8f3d8d13ea8"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ADiscoveryTests.cs",
+      "sha256": "6a3cbb299d61eee2501a334c6e0b6ca9e62fad3fc2d0454cd0c8e79c2f3c9392"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AErrorTests.cs",
+      "sha256": "9bdc283326596869e8210263ffda6374248c60bd2e4ad37a525ea946d3cd03e8"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ALifetimeTests.cs",
+      "sha256": "ac7f358c0c6144c52b0501ad0bc51d018a9fd35c98ac9e30276b593ea463d723"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AMediaTests.cs",
+      "sha256": "2a716f721e0e338324cdbe8527625fbf6f43abd7f37b17091205b57d60eafccb"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ATaskTests.cs",
+      "sha256": "c089b975cfffe6ea0bf8e41ebe4266f4c442b811df0a7569f18fc58f290aad12"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2ATestServer.cs",
+      "sha256": "7d7e3ec15a51a1b2bfa779ed2d9af977232486be70f6ec7b23afbef443a9e72f"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AWireTests.cs",
+      "sha256": "82c124e3998ab78b4a0fb9cdab7e20dec30ea6924d1f2772a8e48ef5d03b1e7d"
+    }
+  ],
+  "verification": {
+    "core": {
+      "net8": 76,
+      "net10": 76
+    },
+    "compatibility": {
+      "net10": 76,
+      "net8": 76,
+      "net48": 76
+    },
+    "warnings": 0,
+    "skipped": 0,
+    "localFrameworkRuntime": "4.8.1, net48 target",
+    "cleanFramework48CloudForThisSource": "pending",
+    "formats": [
+      "whitespace: 0 of 21 selected client files",
+      "source analyzers: 0 of 544 project files, absolute client includes",
+      "test analyzers: 0 of 228 project files, absolute client includes"
+    ],
+    "testProcess": "Initial behavioral increments and concrete defects recorded runnable RED then GREEN. Additional conformance cases passing on first run are regression evidence.",
+    "independentReview": "Root bounded review identified terminal-cancellation and requested-continuation correlation defects; three runnable REDs then fixes, plus send/stream and cleanup regressions. Client-only scope now passes all five target/project variants."
+  },
+  "contracts": [
+    "caller-owned HttpClient; response and stream disposal",
+    "cached card discovery and authenticated extended-card replacement",
+    "JSONRPC advertised interface selection and explicit URL override",
+    "request ID correlation and raw wire field preservation",
+    "bounded multiline SSE and incremental strict UTF-8 decoding",
+    "artifact append/replacement and bounded retained bookkeeping",
+    "tasks/get, tasks/cancel and tasks/resubscribe",
+    "rich data/media/resource references; HTTP image URL and byte video",
+    "explicit S3 and guard-content rejection; no URI auto-download",
+    "Python task stop mapping and TypeScript text-only/end-turn options",
+    "local-only caller invocation state",
+    "input-required structured-answer continuation over real TCP HTTP",
+    "primary failure identity with nested cleanup failures",
+    "final status-message precedence matching pinned TS and Python; complete Task artifact precedence",
+    "stream requests retain correlated immediate JSON-RPC errors returned as application/json; non-streamed JSON success remains invalid"
+  ],
+  "remaining": [
+    "native executor/server/context ownership/task stores",
+    "standalone and hosted server transports",
+    "permitted-endpoint vended A2A client tool",
+    "remote-agent graph node and durable remote interruption bridge",
+    "gRPC and REST/HTTP+JSON transports",
+    "push-delivery hosting and subscription lifecycle",
+    "authenticated transport handlers are caller-provided; no credential service integration",
+    "full foreign SDK symbol/member/extension conformance"
+  ],
+  "primarySources": [
+    "https://a2a-protocol.org/v0.3.0/specification/",
+    "https://github.com/a2aproject/a2a-dotnet/blob/main/src/A2A.V0_3/A2A.V0_3.csproj"
+  ],
+  "design": "MULTIAGENT_A2A.md",
+  "excludedInProgress": [
+    "A2AExecutor.cs",
+    "A2AExecutor.Interrupts.cs",
+    "A2AExecutorOptions.cs",
+    "A2ARequestContext.cs",
+    "A2AContextPool.cs",
+    "A2AExecutorTests.cs",
+    "A2AExecutorInterruptTests.cs",
+    "A2AContextPoolTests.cs"
+  ]
+}

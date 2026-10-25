@@ -1,0 +1,137 @@
+{
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "Scope": "Optional native OpenTelemetry provider/resource/exporter configuration; manual core telemetry only",
+  "BehavioralContracts": 25,
+  "ObservedRuntimeRedToGreen": 16,
+  "ImmediatelyGreenConformance": 9,
+  "ManagedExecutions": 102,
+  "Failed": 0,
+  "Skipped": 0,
+  "LocalFrameworkRelease": 534296,
+  "LocalFrameworkIsClean48": false,
+  "NativeDependencyVersion": "1.20.1",
+  "Formatting": "Positive exact project-relative namespace probe for all5 owned C# files followed by clean verification",
+  "Review": "Independent read-only review found per-signal env defect; real wire RED→GREEN fixed it. Independent reader options then exposed by executable RED→GREEN.",
+  "Interoperability": [
+    "Real TCP collector with native HTTP/protobuf trace+metric export",
+    "Signal-specific env overrides, gzip payload decompression and callback precedence",
+    "Invalid signal settings fail during setup",
+    "Caller-disposal flushes queued spans",
+    "Collector500 and withheld response preserve application operation and bounded shutdown",
+    "Console and OTLP metrics use independently configured native readers"
+  ],
+  "RedEvidence": [
+    "telemetry-results/otel-setup-runtime-red3",
+    "telemetry-results/otel-console-baggage-red3",
+    "telemetry-results/otel-http-runtime-red2",
+    "telemetry-results/otel-resource-red1",
+    "telemetry-results/otel-signal-env-runtime-red2",
+    "telemetry-results/otel-invalid-signal-runtime-red4",
+    "telemetry-results/otel-readers-gzip-green25 (24pass/1failure; filename retained)"
+  ],
+  "CompileOnlyAttemptsNotCounted": [
+    "otel-setup-red3",
+    "otel-http-red2",
+    "verify-otel13 std2 nullable compilation",
+    "verify-otel13-compat test-only IsExternalInit compilation"
+  ],
+  "PendingGates": [
+    "Frozen combined source package/API validation and fresh NuGet-only consumers",
+    "Latest Linux/macOS and clean Framework4.8-only execution",
+    "Automatic agent/model/tool/result telemetry",
+    "Harness telemetry and structured SDK logs",
+    "Remaining SDK/harness parity"
+  ],
+  "Files": [
+    {
+      "Path": ".github/workflows/dotnet-framework48.yml",
+      "Sha256": "E9FE56340AFF831C4F91C6862520C6149CD0E65D8B7CD46A1B01BF138AC71CBE"
+    },
+    {
+      "Path": ".github/workflows/dotnet-test-lint.yml",
+      "Sha256": "7BFF4C11D5D62E38931EC1AB6BDB5963B1655CE475E0DA9950F6E0DE1CEFACDD"
+    },
+    {
+      "Path": "strands-dotnet/docs/TELEMETRY.md",
+      "Sha256": "249E291B8770F2585E2D8B0115AC3DF8373FB50D900EE4982322D39742FFDEA8"
+    },
+    {
+      "Path": "strands-dotnet/scripts/Test-Framework48.ps1",
+      "Sha256": "BA35953C15F5D3E7611E6FA585548C7BA03C9F4CC34B16A68189EAC4E47CCDEC"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.OpenTelemetry/BaggageSpanProcessor.cs",
+      "Sha256": "FC0D9CC0995D832433888078F40EFAB2CB16EA61FA773673E9D301A4FE7148B3"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.OpenTelemetry/README.md",
+      "Sha256": "547DEA7FE77154A74BBE69DBA8DC8CDD9161FE851D1456961A849BFC21738B65"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.OpenTelemetry/Strands.Agents.OpenTelemetry.csproj",
+      "Sha256": "19FBD82C2921887B598C8AB91D210847D0B832FD4C0132308ACDF63C461BF626"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.OpenTelemetry/StrandsTelemetryExtensions.cs",
+      "Sha256": "BF216862E97E2CC235C2228237C52E01DD21685DF6A25C718D96AEE213604EAC"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.OpenTelemetry/StrandsTelemetryOptions.cs",
+      "Sha256": "B7A26506BB45E1036AD6A6BA73DC98BC1036FAE8B0B8F09BBE62D627B99AF064"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.OpenTelemetry/validation/Consumer.csproj.template",
+      "Sha256": "E6B8F7C33616FC227CA91D81B7A6C3CBA0F539C4C256E73C7907DBDA7E601CF1"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.OpenTelemetry/validation/Program.cs.template",
+      "Sha256": "FD3BED51DA9CE2FA7D1045FE04BF20CE90CABA76A5DADB0A964BE9FF79398197"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents.OpenTelemetry/validation/Test-Package.ps1",
+      "Sha256": "849B2330E77CC140633EC1ABE4D13EE29126768A8B1BAAAF414EF1915450098F"
+    },
+    {
+      "Path": "strands-dotnet/Strands.slnx",
+      "Sha256": "F1555C0287CEC1CED286A8CB803890A7BE1B7FDEBC91C0D5F0A6B200B5740094"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.OpenTelemetry.Tests/OtlpLoopback.cs",
+      "Sha256": "9380B92D46A447751C78D3CC60BD45D8744765191AE0D6551E09D68E60CC04B8"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.OpenTelemetry.Tests/Strands.OpenTelemetry.Tests.csproj",
+      "Sha256": "A4504BD8B8150E82F9795F14FE740890A76DBEED5843DCDB5ADD0BBEC7A672C4"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.OpenTelemetry.Tests/TelemetrySetupTests.cs",
+      "Sha256": "AB0913FF1ACB50D9D127DE730A0C20AE50179A5530D5512634B67C12BF59EB44"
+    }
+  ],
+  "FinalRuns": [
+    {
+      "Target": "net8.0",
+      "Total": 25,
+      "Path": "telemetry-results\\otel25-compatible-final\\net8.0\\18126_DESKTOP-47NGAFF_2026-10-20_23_31_47_net8.0.trx",
+      "Sha256": "8E92F11999CDC02D245CBEFD2FC7FEFE35DB43C5B31820D231D26BA19F130F30"
+    },
+    {
+      "Target": "net10.0",
+      "Total": 25,
+      "Path": "telemetry-results\\otel25-compatible-final\\net10.0\\18126_DESKTOP-47NGAFF_2026-10-20_23_31_53_net10.0.trx",
+      "Sha256": "3DE6C931FC9DDF3974E808F8B378F41F0B4F644C56DFCC7C960BC514B2CD369D"
+    },
+    {
+      "Target": "net48-x64",
+      "Total": 26,
+      "Path": "telemetry-results\\otel25-compatible-final\\net48-x64\\18126_DESKTOP-47NGAFF_2026-10-20_23_32_02_net48.trx",
+      "Sha256": "286C88DC3F90B42BC93E800C2534082179DCB999B21AAF6B1F272F366437578C"
+    },
+    {
+      "Target": "net48-x86",
+      "Total": 26,
+      "Path": "telemetry-results\\otel25-compatible-final\\net48-x86\\18126_DESKTOP-47NGAFF_2026-10-20_23_32_12_net48.trx",
+      "Sha256": "FA4449BD7237E0CB44E6221A67E8355C628D8432EA6E0E1E8E8C7BA02BF888CC"
+    }
+  ]
+}

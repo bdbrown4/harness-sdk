@@ -1,0 +1,9 @@
+# Optional Sleep tool
+
+`Strands.Agents.VendedTools.Sleep.Create` creates an optional tool; `SleepOptions` selects its name, description, and maximum duration. The original compile-ready scaffold and its actual runtime failures are retained separately from the minimum passing implementation.
+
+The intended tool accepts required numeric `duration` seconds, including zero, up to `MaximumDuration` (default sixty seconds). Factory construction does not start a timer. Invalid types, nonfinite numbers, negative values and values above the configured limit must fail before waiting. Native `TimeSpan` configuration cannot represent infinity or NaN; zero and negative maximums are invalid.
+
+The implementation uses managed `Task.Delay`, with bounded portable timer chunks for custom limits beyond the Framework timer range. It honors both the operation token and the execution signal already captured by `ToolContext`, disposes any linked token source, and reports an attributable original token. If both original tokens are already requested when a linked wait is observed as canceled, the operation token takes precedence. It never reads a later Agent cancellation scope. Output uses invariant .NET numeric rendering (`Slept for … seconds`), rather than promising byte-identical JavaScript/Python floating-point formatting. Timer precision follows the selected runtime; submillisecond requests may complete at its timer granularity. A successful result that wins a concurrent cancellation race is retained.
+
+Pinned provenance: `3bd98e618320f0f286acbfb2252f72388030421b`, TypeScript `src/vended-tools/sleep/make-sleep.ts` and `types.ts`, Python `src/strands/vended_tools/sleep/sleep.py`. Both factories default to a sixty-second maximum. TypeScript directly observes its captured cancel signal; Python underlying coroutine cancellation and decorated tool-error conversion are distinct layers. Existing native Agent tool cancellation/result policy remains unchanged.

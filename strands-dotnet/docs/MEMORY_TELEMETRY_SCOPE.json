@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Automatic MemoryManager memory.search and memory.add activities only",
+  "status": "implemented_subset",
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryManager.cs",
+      "sha256": "d3fa86a07284ff97b23ce83afef424a957619a3e667df85fbaa0a07cb52aaefd"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryManager.Tools.cs",
+      "sha256": "ba2a60753f56b46e569e0598ae53300956a8757a722cedc7ff3d4e687171cd31"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryManagerOptions.cs",
+      "sha256": "f6b254fd8b24d3b6395248680b90bb99dec4688cfeb3b42a90fd9f4b3483c70b"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryTelemetry.cs",
+      "sha256": "4502eaafa82b464dffaaa7a5d0b295dde3d7facdd5694fd60dabbb7c1efc0a11"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Memory/MemoryTelemetryOptions.cs",
+      "sha256": "70021166921c7bb6124d8b13bbcbfe8a56ab305065fd6a2568d80bb964337fe2"
+    },
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Telemetry/TraceSpan.cs",
+      "sha256": "45408fb7b8270f41db2bc701adb97901d655566b9c59b39fd9b6bdc46c6af292"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/Memory/MemoryTelemetryTests.cs",
+      "sha256": "58597e97727bd1ba55fae9269c20922c4fd97f841d89a60682f010d35f87be16"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "strands-dotnet/docs/MEMORY_TELEMETRY.md",
+      "sha256": "aec00b353947ed646d67675de31ac7379fa36170443ee1eaa8278aa282c7254f"
+    }
+  ],
+  "sharedIntegrationRequirements": [
+    {
+      "addition": "<Compile Include=\"../Strands.Agents.Tests/Memory/MemoryTelemetryTests.cs\" Link=\"Memory/MemoryTelemetryTests.cs\" />",
+      "path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj",
+      "note": "Root-owned exact link is already present; do not replace the project with this capture."
+    }
+  ],
+  "upstreamSources": [
+    {
+      "lines": [
+        664,
+        729
+      ],
+      "path": "strands-ts/src/telemetry/tracer.ts"
+    },
+    {
+      "lines": [
+        451,
+        527
+      ],
+      "path": "strands-ts/src/memory/memory-manager.ts"
+    },
+    {
+      "lines": [
+        997,
+        1083
+      ],
+      "path": "strands-py/src/strands/telemetry/tracer.py"
+    },
+    {
+      "lines": [
+        296,
+        364
+      ],
+      "path": "strands-py/src/strands/memory/memory_manager.py"
+    }
+  ],
+  "defaults": {
+    "callerCancellation": "Admitted span error; mismatched backend OCE token normalized only if actual caller requested, retaining original inner cause",
+    "detachedAdd": "Root span; Python activates it around backend, TypeScript preserves backend ambient",
+    "profile": "TypeScript",
+    "partialSearch": "Success including all-store failure, with failed-store count",
+    "payloads": "Raw memory events, unaffected by model-content allowlist",
+    "customAttributes": "Explicit native option only, copied; canonical operation attributes authoritative"
+  },
+  "validation": {
+    "passingExecutions": 520,
+    "cleanFramework48": false,
+    "summarySha256": "BBC2491C99357571D3CABD1CC114CAB8CBCB47D1C9DBB4CD57A6F862AE49CC10",
+    "actualFrameworkRelease": 534296,
+    "observedRuntimeRedCases": 8,
+    "trxCount": 6,
+    "independentReviews": [
+      "harness_parity: full bounded review plus cancellation fix recheck PASS",
+      "repo_standards: concurrency, context, raw payloads and observational helper PASS"
+    ],
+    "cases": 30,
+    "firstGreenCases": 22,
+    "format": "All6source include paths positively probed, original bytes restored; source/test final verification clean",
+    "featureExecutions": 180,
+    "summary": "work/memory-telemetry/final-reviewed/summary.json"
+  },
+  "remaining": [
+    "Public manual memory tracer start/end helpers",
+    "Automatic memory.inject and memory.extract",
+    "Graph/swarm spans",
+    "Exporter and live-service validation",
+    "Clean Framework4.8 and exact-source Linux/macOS CI for this increment"
+  ],
+  "fullParity": false,
+  "releaseReady": false
+}

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <PackageId>Strands.Agents.BedrockKnowledgeBase</PackageId>
+    <Description>Amazon Bedrock Knowledge Base retrieval and optional CUSTOM/S3 document ingestion for Strands memory.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../CompilerTypeForwarders.cs" Link="CompilerTypeForwarders.cs" />
+    <InternalsVisibleTo Include="Strands.BedrockKnowledgeBase.Tests" />
+    <ProjectReference Include="../Strands.Agents/Strands.Agents.csproj" />
+    <PackageReference Include="AWSSDK.BedrockAgent" Version="4.0.105.1" />
+    <PackageReference Include="AWSSDK.BedrockAgentRuntime" Version="4.0.104.1" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.104.5" />
+    <PackageReference Include="AWSSDK.Core" Version="4.0.102.13" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../NOTICE" Pack="true" PackagePath="/" />
+    <None Include="../../../LICENSE.APACHE" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Compile Include="../../CompilerCompatibility.cs" Link="CompilerCompatibility.cs" />
+  </ItemGroup>
+</Project>

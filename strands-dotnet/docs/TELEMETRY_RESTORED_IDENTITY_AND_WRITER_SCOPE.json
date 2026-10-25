@@ -1,0 +1,86 @@
+{
+  "Scope": "Retag committed restored identity on existing invocation activity and distinguish Writer absent-usage placeholder from reported zero",
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "ParentCapture": "usage-presence9-captured",
+  "ParentManifestSha256": "56F5F81C119682A9CD96B17EEBF1CF5F62DCF76170D542157B8E0CB628F8519C",
+  "Contracts": 5,
+  "RuntimeRedToGreen": 3,
+  "FirstGreenConformance": 2,
+  "PassingExecutions": 884,
+  "NewPassingExecutions": 30,
+  "TrxFiles": 6,
+  "Failed": 0,
+  "Skipped": 0,
+  "Runs": [
+    {
+      "Path": "work/telemetry-results/identity-writer5-final/net48-x64/18126_DESKTOP-47NGAFF_2026-10-21_01_11_56_net48.trx",
+      "Total": 148,
+      "Passed": 148,
+      "Failed": 0,
+      "NotExecuted": 0,
+      "NewCases": 5,
+      "Sha256": "8421BD11898AFFC5D4A0B9DFB752F69782186B84F544088058E894C0B58C4105"
+    },
+    {
+      "Path": "work/telemetry-results/identity-writer5-final/net48-x86/18126_DESKTOP-47NGAFF_2026-10-21_01_12_10_net48.trx",
+      "Total": 148,
+      "Passed": 148,
+      "Failed": 0,
+      "NotExecuted": 0,
+      "NewCases": 5,
+      "Sha256": "E7229B751C0B2CF6EA50D2D6137FE557858CE0E4EA352EC1EAA6573999AC64D7"
+    },
+    {
+      "Path": "work/telemetry-results/identity-writer5-final/Strands.Agents.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_01_10_45_net10.0.trx",
+      "Total": 147,
+      "Passed": 147,
+      "Failed": 0,
+      "NotExecuted": 0,
+      "NewCases": 5,
+      "Sha256": "EEEC092FBCBAE5BEAA9A99F3CF29CF8BE04E9BBBF8F7F3B4883550680A8B94CE"
+    },
+    {
+      "Path": "work/telemetry-results/identity-writer5-final/Strands.Agents.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_01_10_35_net8.0.trx",
+      "Total": 147,
+      "Passed": 147,
+      "Failed": 0,
+      "NotExecuted": 0,
+      "NewCases": 5,
+      "Sha256": "BB0E26757A580D9E81CBD0741B3DD7406EE20E977691B2EA0B121034B340B8AC"
+    },
+    {
+      "Path": "work/telemetry-results/identity-writer5-final/Strands.Compatibility.Tests-net10.0/18126_DESKTOP-47NGAFF_2026-10-21_01_11_42_net10.0.trx",
+      "Total": 147,
+      "Passed": 147,
+      "Failed": 0,
+      "NotExecuted": 0,
+      "NewCases": 5,
+      "Sha256": "048C764D77030A091BC7804EFAD7E5E1ABDF8EEB3FC13389430C2419BD18193D"
+    },
+    {
+      "Path": "work/telemetry-results/identity-writer5-final/Strands.Compatibility.Tests-net8.0/18126_DESKTOP-47NGAFF_2026-10-21_01_11_22_net8.0.trx",
+      "Total": 147,
+      "Passed": 147,
+      "Failed": 0,
+      "NotExecuted": 0,
+      "NewCases": 5,
+      "Sha256": "811D68A5C4BA06CEC8EE47AE1B13DB6F521DA6559CBB7ACE2E09FE3BE19E25B2"
+    }
+  ],
+  "RuntimeRed": "work/telemetry-results/identity-writer5-red",
+  "Formatting": "All three owned CSharp files positively selected then scoped verify clean",
+  "Compatibility": "Actual installed Framework534296 x64/x86, pure pointer-size validator passed; not clean4.8-only",
+  "PeerReview": "repo_standards bounded read-only PASS, no actionableP1/P2",
+  "SourceFiles": [
+    "strands-dotnet/src/Strands.Agents/Agent.cs",
+    "strands-dotnet/src/Strands.Agents/Models/WriterModel.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/RestoredIdentityAndWriterUsageTests.cs",
+    "strands-dotnet/docs/TELEMETRY_RESTORED_IDENTITY_AND_WRITER.md"
+  ],
+  "Remaining": [
+    "Separate combined integration/package/crossOS gates",
+    "Invocation activity creation retains its current initialization ordering",
+    "Every other provider usage detection and specialized telemetry",
+    "Current macOS/clean4.8-only execution"
+  ]
+}

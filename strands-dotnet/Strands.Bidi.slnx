@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="src/Strands.Agents/Strands.Agents.csproj" />
+  <Project Path="src/Strands.Agents.Bidi/Strands.Agents.Bidi.csproj" />
+  <Project Path="src/Strands.Agents.Bidi.Audio/Strands.Agents.Bidi.Audio.csproj" />
+  <Project Path="tests/Strands.Bidi.Audio.Tests/Strands.Bidi.Audio.Tests.csproj" />
+  <Project Path="tests/Strands.Bidi.Tests/Strands.Bidi.Tests.csproj" />
+</Solution>

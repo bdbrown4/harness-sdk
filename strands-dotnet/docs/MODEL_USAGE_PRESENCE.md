@@ -1,0 +1,15 @@
+# Model usage presence
+
+An absent usage measurement and an explicitly reported zero have different meanings. `ModelMetadataEvent.UsageReported` and `InvokeModelResult.UsageReported` retain that distinction without changing their existing constructors or replacing the non-null `Usage` API. Existing callers that construct an ordinary metadata or middleware result continue to report their supplied counters by default.
+
+Timing-only metadata sets `UsageReported = false` and supplies a zero placeholder. The stream accumulator retains any earlier actual measurement. If no measurement was reported, the agent does not invent provider token attributes or replace its last reported context estimate with zero. Timing still contributes to local performance metrics. An explicitly reported zero replaces the previous context estimate with zero and emits the corresponding measured-zero attributes.
+
+Message-only middleware transformations and after-model hooks preserve usage presence. Replacing `InvokeModelResult.Usage` or `ModelMetadataEvent.Usage`, including with zero counters, explicitly reports the replacement. This preserves `result with { Usage = replacement }` for middleware and native model decorators. Applications can set `UsageReported = false` after assigning a zero placeholder; a false flag with nonzero counters is rejected before accepting model history or local metrics. Copying only performance metadata preserves the original absence flag and does not change the caller-owned event.
+
+Provider activities retain the original provider accounting. Accepted cycle metrics use the authoritative middleware result. Consequently, a middleware-supplied estimate does not fabricate usage on the original provider activity.
+
+Nine focused contracts cover missing metadata, timing-only and zero reports, trailing timing, message-only transformations, after hooks, invalid combinations and explicit zero/nonzero middleware overrides. Six cases have recorded runtime red-to-green evidence; three were first-pass conformance checks. The existing middleware usage-override regression was also reproduced and corrected. Compile-only fixture/import failures are excluded from runtime-red counts.
+
+A separate four-contract follow-up covers model decorators that replace unknown usage with measured zero or nonzero counters, performance-only copies and an explicit invalid absence override. Two cases have recorded runtime red-to-green evidence; two were first-pass conformance checks. This follow-up preserves the positional metadata constructor, record copying and deconstruction. Its scope and source identity are recorded separately in `METADATA_USAGE_REPLACEMENT_SCOPE.json`.
+
+This increment depends on the separately captured model-event/accumulator presence contract. It verifies propagation through ordinary agent calls and middleware. It does not certify every provider's wire-level detection of absent usage, specialized telemetry families, current macOS execution or execution on a clean 4.8-only host.

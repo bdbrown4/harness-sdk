@@ -1,0 +1,43 @@
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using Strands.Agents.Bidi;
+
+// This verification-only assembly uses the existing test friend name to load the
+// real private native binding without starting capture/playback or exposing diagnostics API.
+internal static class Program
+{
+    private static async Task<int> Main(string[] args)
+    {
+        if (args.Length != 1 || !int.TryParse(args[0], out var pointer) || pointer != IntPtr.Size)
+            throw new InvalidOperationException("Unexpected physical consumer architecture.");
+#if NETFRAMEWORK
+        const string expected = ".NETStandard,Version=v2.0", target = "netstandard2.0";
+#elif NET8_0
+        const string expected = ".NETCoreApp,Version=v8.0", target = "net8.0";
+#else
+        const string expected = ".NETCoreApp,Version=v10.0", target = "net10.0";
+#endif
+        if (typeof(BidiAudioIO).Assembly.GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName != expected)
+            throw new InvalidOperationException("The consumer must select its ordinary packaged managed asset.");
+        var version = PortAudioDeviceBackend.Version;
+        if (!version.StartsWith("PortAudio", StringComparison.Ordinal)) throw new InvalidOperationException("The genuine PortAudio library did not load.");
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            foreach (var rid in new[] { "win-x64", "win-x86" })
+                if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "runtimes", rid, "native", "portaudio.dll")))
+                    throw new InvalidOperationException("Both packaged Windows architectures must be available: " + rid);
+        var model = new BorrowedModel();
+        await using (var audio = new BidiAudioIO(model, new() { Processing = new() })) { }
+        if (model.Disposals != 0) throw new InvalidOperationException("The helper disposed its borrowed model.");
+        Console.WriteLine("Audio native version: " + version);
+        Console.WriteLine($"Audio runtime: {RuntimeInformation.FrameworkDescription}; architecture={RuntimeInformation.ProcessArchitecture}");
+        Console.WriteLine($"Audio package: native=ok; borrowed=true; pointer={pointer}; asset={target}; hardware=false");
+        return 0;
+    }
+    private sealed class BorrowedModel : IAudioBidiModel, IAsyncDisposable
+    {
+        internal int Disposals;
+        public BidiAudioConfig Audio => new(new(16000, 1, "pcm"), new(24000, 1, "pcm"));
+        public ValueTask DisposeAsync() { Disposals++; return default; }
+    }
+}

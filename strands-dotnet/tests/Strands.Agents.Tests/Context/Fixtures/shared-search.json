@@ -1,0 +1,88 @@
+[
+  {
+    "text": "one\ntwo\nthree\nfour",
+    "maxChars": 5000,
+    "name": "range",
+    "input": {
+      "line_range": {
+        "end": 3,
+        "start": 2
+      },
+      "context_lines": 5
+    },
+    "expected": "[Lines 2-3 of 4]\n\n  2| two\n  3| three"
+  },
+  {
+    "text": "first\nERROR one\nmiddle\nERROR two\nlast",
+    "maxChars": 5000,
+    "name": "pattern-gaps",
+    "input": {
+      "context_lines": 0,
+      "pattern": "ERROR"
+    },
+    "expected": "[2 matches for /ERROR/]\n\n> 2| ERROR one\n---\n> 4| ERROR two"
+  },
+  {
+    "text": "café\n☕ coffee\ncafé",
+    "maxChars": 5000,
+    "name": "unicode",
+    "input": {
+      "context_lines": 0,
+      "pattern": "café"
+    },
+    "expected": "[2 matches for /café/]\n\n> 1| café\n---\n> 3| café"
+  },
+  {
+    "text": "first\n(thing\nlast",
+    "maxChars": 5000,
+    "name": "invalid-regex-literal",
+    "input": {
+      "context_lines": 0,
+      "pattern": "("
+    },
+    "expected": "[1 match for /(/]\n\n> 2| (thing"
+  },
+  {
+    "text": "(a+)+\naaaa\nlast",
+    "maxChars": 5000,
+    "name": "nested-quantifier-literal",
+    "input": {
+      "context_lines": 0,
+      "pattern": "(a+)+"
+    },
+    "expected": "[1 match for /(a+)+/]\n\n> 1| (a+)+"
+  },
+  {
+    "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nother",
+    "maxChars": 5000,
+    "name": "pattern-cap",
+    "input": {
+      "context_lines": 0,
+      "pattern": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "expected": "[1 match for /aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/]\n\n> 1| aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  {
+    "text": "",
+    "maxChars": 5000,
+    "name": "empty",
+    "input": {
+      "context_lines": 5,
+      "line_range": {
+        "start": 1,
+        "end": 1
+      }
+    },
+    "expected": "Content is empty (0 lines)."
+  },
+  {
+    "text": "one\ntwo",
+    "maxChars": 5000,
+    "name": "missing-pattern",
+    "input": {
+      "context_lines": 5,
+      "pattern": "ERROR"
+    },
+    "expected": "No matches found for pattern 'ERROR' (searched 2 lines)."
+  }
+]

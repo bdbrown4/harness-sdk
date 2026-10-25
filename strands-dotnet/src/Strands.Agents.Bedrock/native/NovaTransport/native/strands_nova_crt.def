@@ -1,0 +1,11 @@
+EXPORTS
+    strands_crt_abi_version
+    strands_crt_error_name
+    strands_crt_sign_event
+    strands_crt_sign_request
+    strands_crt_http_open
+    strands_crt_http_write
+    strands_crt_http_update_window
+    strands_crt_http_cancel
+    strands_crt_http_pending_writes
+    strands_crt_http_join_and_destroy

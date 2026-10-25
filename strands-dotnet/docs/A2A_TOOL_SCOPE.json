@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Stateless native A2A discover/send_message rich tool with explicit endpoint bindings",
+  "status": "implemented_subset",
+  "sourceReferences": [
+    "strands-ts/src/vended-tools/a2a-client/a2a-client.ts",
+    "strands-py/src/strands/vended_tools/a2a_client/a2a_client.py"
+  ],
+  "dependencies": [
+    {
+      "path": "strands-dotnet/docs/A2A_SCOPE.json",
+      "sha256": "58e65c05cba4630793d4d64d5aab8d9fe1b1600d326a14ea8fec85d22b250f8a"
+    },
+    {
+      "path": "strands-dotnet/docs/A2A_SERVER_SCOPE.json",
+      "sha256": "4521be803166ab9b3fb1ca5426b08545e0417fc949655566fe695817cd438a46"
+    }
+  ],
+  "runtimeFiles": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/A2A/A2AClientTool.cs",
+      "sha256": "6575bf3ed3e4a776ac524563ca1e2ff7d972bc79c99e29da6a2e918b6f268201"
+    }
+  ],
+  "testFiles": [
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/A2A/A2AClientToolTests.cs",
+      "sha256": "12eb481c6b43115cc32ccb61bf678503b6b800b77b057bbea1e707a807d288a7"
+    }
+  ],
+  "documentation": [
+    {
+      "path": "strands-dotnet/docs/MULTIAGENT_A2A_TOOL.md",
+      "sha256": "5fc5b59cfdaa293e192b36a9a74dad4df88f849e630c48a4a99329ecdfe74db6"
+    }
+  ],
+  "acceptance": [
+    "exact ordinal endpoint denial before network access",
+    "copied endpoint bindings and custom metadata preserve authority",
+    "independent borrowed authentication configuration per endpoint",
+    "native rich discovery retains card extensions",
+    "real TCP repeated sends create independent remote tasks and contexts",
+    "all noncompleted remote task states fail the tool call",
+    "typed JSON content survives native result serialization",
+    "malformed input rejected before network access",
+    "caller cancellation before admission and during blocked response retains token",
+    "protocol failure retains original cause and secondary response cleanup diagnostics"
+  ],
+  "defaultPolicy": {
+    "name": "a2a_client",
+    "transport": "borrowed configured A2AClient per exact endpoint key",
+    "ownership": "caller retains every configured client and HttpClient",
+    "taskState": "fresh A2AAgent without task/context continuation per send",
+    "discovery": "validated cache belongs to the borrowed client",
+    "output": "native camel-case ContentBlock JSON in a role/content-only assistant message",
+    "authority": "exact tool-selection key only; configured client controls advertised URL, redirects and credentials"
+  },
+  "validation": {
+    "toolCases": 25,
+    "coreFrameworks": [
+      "net8.0",
+      "net10.0"
+    ],
+    "linkedCompatibilityFrameworks": [
+      "net48",
+      "net8.0",
+      "net10.0"
+    ],
+    "focusedExecutions": 125,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 0,
+    "regressionSubset": "162 A2A+abort cases passed each5combinations before added discovery-cleanup cancellation regression; prior client/server runtime+test hashes unchanged",
+    "localFrameworkRuntime": "4.8.1 Release534296; clean 4.8 CI pending",
+    "format": "verify0/2 selected files; project analysis0/556source and0/240tests",
+    "tdd": "Three scaffold runtime RED scenarios then GREEN; independent-review discovery-cleanup cancellation runtime RED then GREEN; remaining cases are immediately passing regression evidence",
+    "independentReview": "Root and repo_standards bounded reviews PASS after discovery cancellation correction"
+  },
+  "remaining": [
+    "Inherited A2A transport limitations: no REST/gRPC/push delivery",
+    "Stateless tool intentionally rejects pauses; use A2AAgent for continuation",
+    "No complete A2A-family parity claim: custom/durable task store and process-restart reattachment remain pending"
+  ]
+}

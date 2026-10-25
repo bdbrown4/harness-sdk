@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../../strands-dotnet/tests/Shared/TestPaths.cs" Link="Shared/TestPaths.cs" />
+    <Compile Include="../../../strands-dotnet/tests/Strands.Agents.Tests/Mcp/OAuthLoopbackServer.cs" Link="Testing/OAuthLoopbackServer.cs" />
+    <Compile Include="../../../strands-dotnet/tests/Strands.OpenTelemetry.Tests/OtlpLoopback.cs" Link="Testing/OtlpLoopback.cs" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.13" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" PrivateAssets="all" />
+    <PackageReference Include="coverlet.collector" Version="6.0.4" PrivateAssets="all" />
+    <ProjectReference Include="../../src/Strands.Harness/Strands.Harness.csproj" />
+    <ProjectReference Include="../Strands.Harness.ModuleFixture/Strands.Harness.ModuleFixture.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../Strands.Harness.ModuleConflictFixture/Strands.Harness.ModuleConflictFixture.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../../../strands-dotnet/tests/Strands.Agents.Tests/Mcp/StdioServer/Strands.Mcp.StdioServer.csproj" ReferenceOutputAssembly="false" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+  <Import Project="../HarnessModuleFixture.targets" />
+  <Target Name="CopyMcpStdioFixture" AfterTargets="Build" Condition="'$(TargetFramework)' != ''">
+    <MSBuild Projects="$(MSBuildProjectDirectory)/../../../strands-dotnet/tests/Strands.Agents.Tests/Mcp/StdioServer/Strands.Mcp.StdioServer.csproj" Targets="GetStdioFixtureFiles" Properties="TargetFramework=net8.0;Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="_McpStdioFixtureAssets" />
+    </MSBuild>
+    <Copy SourceFiles="@(_McpStdioFixtureAssets)" DestinationFolder="$(OutDir)McpStdioFixture" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

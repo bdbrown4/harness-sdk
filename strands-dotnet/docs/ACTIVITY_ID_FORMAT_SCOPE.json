@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Portable per-operation W3C activity identities prerequisite",
+  "sourceParent": "f343cb11b8d4409010ba0f9c83aa562c7d05a164",
+  "status": "implemented_subset",
+  "files": [
+    {
+      "path": "strands-dotnet/src/Strands.Agents/Telemetry/Tracer.cs",
+      "sha256": "A14FB3F307F650B1CAF1B6101F2769461BFB7AE244A5E9931DD45E365A56C3D0"
+    },
+    {
+      "path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/ActivityIdFormatTests.cs",
+      "sha256": "AF43F7406B2B928264EED9ED5B40CE1009C8D5ED405AD0862AAEBD03BAF19653"
+    },
+    {
+      "path": "strands-dotnet/docs/TELEMETRY_ACTIVITY_IDS.md",
+      "sha256": "7F3D370F815BEF3BFB77C9A9C36CA2F2EF923E53BE18DBF500B35DFEEF96C1CF"
+    }
+  ],
+  "validation": {
+    "newContracts": 6,
+    "observedRuntimeRed": 2,
+    "firstGreen": 4,
+    "passingExecutions": 310,
+    "featureExecutions": 36,
+    "trx": 6,
+    "failed": 0,
+    "skipped": 0,
+    "frameworkRelease": 534296,
+    "cleanFramework48": false,
+    "proof": "work/activity-id-format/final-exact/summary.json"
+  },
+  "scopeExclusions": [
+    "Active Graph/Swarm Tracer.StartOperationSpan/kind-forwarding changes",
+    "Global Activity.DefaultIdFormat or ForceDefaultIdFormat changes",
+    "Automatic memory lifecycle feature capture"
+  ]
+}

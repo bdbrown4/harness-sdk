@@ -1,0 +1,518 @@
+{
+  "schema_version": "1.0",
+  "upstream_commit": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "scope": "Native Graph, Swarm and invocation-local borrowed-tool seam; this is not closure of the full multi-agent export family.",
+  "native_status": "implemented_subset",
+  "documentation": "strands-dotnet/docs/MULTIAGENT_SWARM.md",
+  "upstream_sources": [
+    {
+      "source": "strands-ts/src/multiagent/swarm.ts",
+      "sha256": "b09f04050599fde57b408ca99a9b1e1fda93db4b2db16b77f60451b9e3378802"
+    },
+    {
+      "source": "strands-ts/src/multiagent/graph.ts",
+      "sha256": "2b81e803ef269d25d3cace359ed40f06fb6f8a0729c2271c0ccb85b6687c9cd8"
+    },
+    {
+      "source": "strands-ts/src/multiagent/nodes.ts",
+      "sha256": "25bb6af90830522c161abe930ba084abb3c19ccea65b605362c297eaca33da64"
+    },
+    {
+      "source": "strands-ts/src/multiagent/events.ts",
+      "sha256": "9dedf5b3e4a109aaa5329bcc2d622c6999822aa93fb2eaf038434701843bad3d"
+    },
+    {
+      "source": "strands-ts/src/multiagent/state.ts",
+      "sha256": "204b1a3669cf976c0a91c65635cc130cd2203c71073683a519cc9d72d52c0cd8"
+    },
+    {
+      "source": "strands-ts/src/multiagent/snapshot.ts",
+      "sha256": "3bcb3320b519e3ee8a49f29c179e43f8cd380586dee57c01aab3f0c868c44039"
+    },
+    {
+      "source": "strands-ts/src/multiagent/multiagent.ts",
+      "sha256": "7875c9d041ef15aa5ed4c7d6f6904212ba9589c29df1518731aa6ba128e85855"
+    },
+    {
+      "source": "strands-ts/src/multiagent/plugins.ts",
+      "sha256": "29f883b04fb50bd8f2f0ad8f6e3d582a394a93eba3d31240e70d505c8c357686"
+    },
+    {
+      "source": "strands-py/src/strands/multiagent/swarm.py",
+      "sha256": "0ad08e2f61aae01161270bc05b2a1cd70da096f36de98a71e02359ea76369ff4"
+    },
+    {
+      "source": "strands-py/src/strands/multiagent/graph.py",
+      "sha256": "11cc485d6319ddc3fc3db59c1354dd39f2844f2ef0bf2cde405ae422e254ebb6"
+    },
+    {
+      "source": "strands-py/src/strands/multiagent/base.py",
+      "sha256": "438a1a1fab8faba393605e9651884f4169d1842b51a2ac2926b1a35cc68d99d9"
+    },
+    {
+      "source": "strands-py/src/strands/multiagent/_snapshot.py",
+      "sha256": "f192427fd93334ee5ca23db5922012fc61aab43d547403686def48fc7796124f"
+    }
+  ],
+  "native_source_hashes": [
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/AgentNode.cs",
+      "sha256": "ac8fc1a86c5056308bf9cb0bdf333114b03362cebbdb0f057aa308ed1c9ed49a"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Contracts.cs",
+      "sha256": "5b086aa498e2f953c36941de2647500add2aaa0c95d449752e39380ced90dc94"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Events.cs",
+      "sha256": "f146befb2b6636160ec3f45f05ffa42946cdfa32fc2c597928fe0f02a71dd0ef"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.CheckpointJournal.cs",
+      "sha256": "e20a9ef6f8b17f86b9430e991c9749a279f5c003f457b917d452c2d9c161b4d4"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.cs",
+      "sha256": "042136852b0fcc2f84feb6a36d236d9bfb4d727eae45835327c6b91e07f229f8"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.Execution.cs",
+      "sha256": "742dba7196460937dc46a72e670ab1dea2cfb8daf979e649575dce3497509f21"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.Initialization.cs",
+      "sha256": "7a744b27a27555275b63c355204f477d8a95454d4c90ca56d1d9d5ab68975752"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.Interrupts.cs",
+      "sha256": "0c2ce0739cae618ccdde0458ca87aa1fc54ea4fadc7a08b6e07fa2f793fd5cc3"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Graph.Snapshots.cs",
+      "sha256": "3a71ffe21d322c52e0db7d7b4721f88a13785b561befbadc40fc0fb176db8448"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/GraphBuilder.cs",
+      "sha256": "2e58b01b5b33cb85c3acf09eb94423babe934917723fcd02317a49c9abc02797"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/GraphLimitException.cs",
+      "sha256": "b3050f1a7d66c7a789e899b0d96d419c20a850a0400207c9aa63fac1cd29b008"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/GraphOptions.cs",
+      "sha256": "8b17445f449bf2150caee06dd035dde2d742e910307026a89c90524971fc299c"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/MultiAgentCheckpointCodec.cs",
+      "sha256": "6762b4dfa3871e75b706ee86e307ff449e5c14cf024ded5aeb051314ff36f43d"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/MultiAgentHookRegistry.cs",
+      "sha256": "3f3721cdd49173990cca2c651963b95e25346aa3891657289c69c01d74fb77f6"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/MultiAgentNode.cs",
+      "sha256": "f83c3682feb316f95580084db131222a3068e4c81ca973c2e8a8d06159403fec"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/MultiAgentSessionStore.cs",
+      "sha256": "a21a083b301d7ce2a615d883ee7fe0d201f10dec0c3b35dc00458d630d35ad25"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/MultiAgentSnapshot.cs",
+      "sha256": "9abc0f55d1769164b403c087380106ec8fb1b84da91e254e58bde7145336386d"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Node.cs",
+      "sha256": "837e591f3049e824803bc465a2dd05a1dbee07d63ab0669791a2e38be48a328b"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/NodeHookPause.cs",
+      "sha256": "de6b34a3e2dbe6eca2ed698ecae1cd1be81c182747fa45d9e6851bc6aeb3dc63"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/SharedContext.cs",
+      "sha256": "fc5acb9492d8e47895a6c1ed5cb138c88692a50585b3414787eed974b9753f60"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Swarm.cs",
+      "sha256": "4d1d499dc57f3de404f2dc3c35231ba5f67b9a267f276d5eab7c47a1880f0022"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Swarm.Execution.cs",
+      "sha256": "b858a63209d75a5fb44a15a02cbab58d55b5ce3a6cd727f057b869ea23e776b0"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Swarm.Interrupts.cs",
+      "sha256": "4e3ee9bdda28e1f5a0ae26fc385baf78ea3f5931beeed1353478299b2352794b"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Swarm.Sessions.cs",
+      "sha256": "4ab6f6c721e23ff2b3da88f394e65f11e34435bf49069a8759a550974622433d"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Swarm.Snapshots.cs",
+      "sha256": "00354b57c9174a82ca32aa36e1c0e50db26111b11ee6dc873a67a559eba2755d"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Swarm.ToolRouting.cs",
+      "sha256": "d205d859b87d269bae1a110221d58fb59373b8b9c9a01b9aea1b0fe7f38ab8b3"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/Swarm.ToolTurn.cs",
+      "sha256": "898e74ae0a5bf539eb65c8e95e7c7595e4e15135b1b1a845c9ea70c16eb4e825"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/SwarmLimitException.cs",
+      "sha256": "e0ae1fe918f65499570c622b765a65d8d3f6ac905e75c86b89e48dbfa29a0926"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/MultiAgent/SwarmOptions.cs",
+      "sha256": "a465130e1b97a64fceae58f373855ca4d01f043bd19014cbacb2201a4a3b0aa5"
+    },
+    {
+      "source": "strands-dotnet/src/Strands.Agents/Agent.ScopedTools.cs",
+      "sha256": "21982b3370e0534600474d22cd4341e8df2e45553065a6cb143a76564806818f"
+    }
+  ],
+  "test_source_hashes": [
+    {
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/GraphCheckpointTests.cs",
+      "sha256": "f4a6abf611f1a24d3a1633e025958c271b1d9735f4f4f1a05961713cc433cd99"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/GraphContractTests.cs",
+      "sha256": "b4938d168a7bb55bec9dd70f442d6efa1d5b8fe5a65692d167360203e8d5155e"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/GraphInterruptTests.cs",
+      "sha256": "366a60b428a2ce3077f4cdd413e194ac9d720234123bcf12e6392f8adc5e95fa"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/GraphLifetimeTests.cs",
+      "sha256": "0cf9959c366ad67e2ae4c3e34d3f3668966f76eaeaed3a57043e762c25f30895"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/GraphSnapshotTests.cs",
+      "sha256": "6cd487f4243b314621f389c979004aeef4208368f0a024b8a5a7813b36889643"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/GraphTests.cs",
+      "sha256": "15c4a0efa17ac5e56dc3b8609c8ae2abb48de77c9a2f58f3d1df5ab522ff8d6e"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "sha256": "9c4eb39e93e74406d1bd66d71f668e8f8d9596f0688171c419153a15137751a5"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/AgentScopedToolsTests.cs",
+      "sha256": "2d02ba00d8e102036a5d8b49e2463de76c751c47ff34a7badf657bfecbdfe0ee"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Compatibility.Tests/GraphCompatibilityTests.cs",
+      "sha256": "b703b321785c89e67e71723c5099de311846c11f69ba8390eda94d1c82f9ec09"
+    },
+    {
+      "source": "strands-dotnet/tests/Strands.Compatibility.Tests/GraphPersistenceCompatibilityTests.cs",
+      "sha256": "6fdd0d9b2a838d9954098266c1fe7d2dc6adfe0aeb0c32385c8b23fc192fddf0"
+    }
+  ],
+  "validation": {
+    "configuration": "Debug; isolated work/sdk-build outputs; no solution build, pack or live provider calls by this worker",
+    "core_full": [
+      {
+        "framework": "net8.0",
+        "passed": 1119,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "framework": "net10.0",
+        "passed": 1119,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "core_full_observation": "Completed before the concurrent OllamaStructuredOutputTests addition. This is not a claim that later unrelated source was rerun by this worker.",
+    "multiagent_core_cases": {
+      "graph": 73,
+      "swarm": 46
+    },
+    "portable": [
+      {
+        "framework": "net48",
+        "passed": 91,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "framework": "net8.0",
+        "passed": 91,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "framework": "net10.0",
+        "passed": 91,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "portable_case_scope": {
+      "graph": 34,
+      "swarm": 46,
+      "invocation_local_tools": 11
+    },
+    "framework_runtime": "Local net48 target on installed .NET Framework4.8.1, Release534296. Clean4.8 and Linux/macOS require exact-source immutable CI evidence from the parent gate.",
+    "build_warnings": 0,
+    "format": {
+      "folder": "0 changes /36 selected files",
+      "core_workspace": "0 changes /445 files",
+      "test_workspace": "0 changes /186 files"
+    },
+    "independent_review": "repo_standards reviewed batch correlation, primary cleanup retention and persistent visit budgets; follow-up bounded recheck passed. No independent runtime builds by reviewer."
+  },
+  "defaults": {
+    "typescript": {
+      "routing": "Structured",
+      "agent_context": "RestoreAfterExecution",
+      "failure": "Throw",
+      "limit_outcome": "Throw",
+      "max_steps": null,
+      "max_handoffs": null,
+      "timeout": null,
+      "node_timeout": null,
+      "repetition_scope": "Invocation",
+      "timeout_scope": "Invocation",
+      "context_commit": "CompletedVisit"
+    },
+    "python": {
+      "factory": "Swarm.CreateAsync(SwarmOptions.Python)",
+      "id": "default_swarm",
+      "routing": "Tool",
+      "agent_context": "ResetOnRevisit",
+      "failure": "FailedResult",
+      "limit_outcome": "FailedResult",
+      "max_steps": 20,
+      "max_handoffs": 20,
+      "timeout_seconds": 900,
+      "node_timeout_seconds": 300,
+      "repetition_scope": "Execution",
+      "timeout_scope": "Execution",
+      "context_commit": "AcceptedResults"
+    }
+  },
+  "implemented_acceptance": [
+    "Native AgentNode visits use real structured routing or invocation-local handoff_to_agent; no persistent registry mutation or inherited closure.",
+    "Typed media/JSON input and rich final citation/media output preserve ordering and detached JSON lifetimes.",
+    "Reset baselines, borrowed restoration, caller InvocationState identity, sequential admission and independent budgets are explicit.",
+    "Opaque node and agent interruption scopes resume through native snapshots, selected storage and nested Graph->Swarm.",
+    "Completed bodies persist before handoff callbacks; accepted answers persist before invocation callbacks; cancelled current visits retry without keeping a cancelled aggregate row.",
+    "Opaque per-batch tool receipts preserve normalized result authority through duplicate message/call identifiers and context reduction.",
+    "Early disposal and cancellation drain admitted iterators; first failures retain identity and later cleanup errors attach under Strands.CleanupErrors."
+  ],
+  "honest_tdd_process": "Behavioral RED->GREEN increments were run for missing routing, budgets, deadlines, reset baselines, node approval, snapshots, session frontier, authority/cleanup defects, repetition/timeout resume modes and citation projection. Additional passing lifetime, media, save-policy and nesting cases are regression evidence, not claimed as individually RED first.",
+  "swarm_test_references": [
+    {
+      "name": "PythonCommitsAcceptedKnowledgeAtAPauseAndNeverReappliesItAfterAnExternalUpdate",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 11
+    },
+    {
+      "name": "OrdinaryFailurePolicyPreservesTheOriginalModelErrorAndBorrowedAgent",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 32
+    },
+    {
+      "name": "CallerCancellationAlwaysPropagatesEvenWithPythonFailedResultPolicies",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 53
+    },
+    {
+      "name": "ANewSwarmNeverAdoptsAnUnrelatedPauseFromItsBorrowedAgent",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 69
+    },
+    {
+      "name": "AGraphCanCheckpointAndResumeANestedSwarmWithoutChangingItsHookIdentity",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 83
+    },
+    {
+      "name": "ParallelHandoffsCommitInAssistantCallOrderDespiteReverseCompletion",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 104
+    },
+    {
+      "name": "RestoredResetModeCannotSilentlyRecaptureAMissingConstructionBaseline",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 125
+    },
+    {
+      "name": "MalformedCommittedHandoffIsRejectedBeforeAnyRestoredStateChanges",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 147
+    },
+    {
+      "name": "ToolModePreservesTypedInputAndRichFinalOutputIncludingCitationDisplayText",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 168
+    },
+    {
+      "name": "NormalCheckpointWritesUseCallerCancellationAndFinalCleanupSavesTheCommittedFrontier",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 188
+    },
+    {
+      "name": "SessionWriteFrequencyMatchesTheSelectedLatestPolicy",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 208
+    },
+    {
+      "name": "CheckpointFailurePreservesItsIdentityWhenTheFinalSaveAlsoFails",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 221
+    },
+    {
+      "name": "CrashFrontierRetriesAnAbortedVisitWithoutKeepingItsCancelledResult",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 238
+    },
+    {
+      "name": "RestoredTimeoutBudgetCanMatchEitherUpstreamBoundary",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 263
+    },
+    {
+      "name": "InvalidSharedContextKeysBecomeToolErrorsWithoutCommittingAHandoff",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 287
+    },
+    {
+      "name": "RestoredStructuredHandoffKeepsItsCommittedMessageAndContext",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 306
+    },
+    {
+      "name": "HandoffRecoveryDoesNotRequireUniqueTrackingIdsOrUnreducedHistoricalMessages",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 327
+    },
+    {
+      "name": "AsyncConstructionGuardsSnapshotAccessFromInitializedCallbacks",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 353
+    },
+    {
+      "name": "RepetitionHistoryCanMatchEitherUpstreamResumeBoundary",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 368
+    },
+    {
+      "name": "SessionPersistsAcceptedHumanAnswersBeforeInvocationCallbacks",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 390
+    },
+    {
+      "name": "SessionLoadFailureNeverOverwritesUnreadHistory",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 415
+    },
+    {
+      "name": "CompletedVisitBudgetSurvivesDirectAndFreshInstanceHumanResume",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 431
+    },
+    {
+      "name": "EarlyDisposalPreservesTheFirstCleanupFailureAndAttachesOuterCleanup",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 453
+    },
+    {
+      "name": "SnapshotCannotPromoteAHandoffRejectedByTheAuthoritativeToolResult",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 476
+    },
+    {
+      "name": "SessionCheckpointCommitsTheSourceBeforeAHandoffCallbackCanFail",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 506
+    },
+    {
+      "name": "ANewSwarmRestoresThePausedBatchAndItsUncommittedHandoffFromJson",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 529
+    },
+    {
+      "name": "ToolHandoffSurvivesAHumanPauseWithoutReplayingCompletedSiblingEffects",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 558
+    },
+    {
+      "name": "NodeApprovalPausesBeforeTheBodyAndResumesTheOriginalTask",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 584
+    },
+    {
+      "name": "PythonProfileReportsAnExhaustedBudgetAsAFailedResult",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 608
+    },
+    {
+      "name": "ResetModeUsesTheConstructionBaselineOnEveryInvocation",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 626
+    },
+    {
+      "name": "ToolRoutingUsesABorrowedCoordinationToolAndPassesSharedKnowledgeToTheTarget",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 649
+    },
+    {
+      "name": "AwaitedInvocationCallbackObservesTheExactEventPublishedToTheConsumer",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 673
+    },
+    {
+      "name": "CooperativeDeadlinesClassifyTheBudgetAndDrainEveryModelThatStarted",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 691
+    },
+    {
+      "name": "FinalAnswerOnTheLastAllowedVisitSucceeds",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 712
+    },
+    {
+      "name": "RepetitiveHandoffsReturnAFailedResultBeforeReenteringTheLoop",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 726
+    },
+    {
+      "name": "StepLimitStopsAPendingHandoffBeforeAnotherModelCallAndRetainsThePartialResult",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 752
+    },
+    {
+      "name": "StructuredHandoffPassesTheChosenMessageAndContextThenReturnsTheFinalAnswer",
+      "source": "strands-dotnet/tests/Strands.Agents.Tests/MultiAgent/SwarmTests.cs",
+      "line": 772
+    }
+  ],
+  "remaining_capabilities": [
+    "Generic multi-agent plugin lifecycle/export/member conformance remains open; native hook callbacks alone do not close the plugin contract.",
+    "Multi-agent OpenTelemetry spans, trace attributes and tracer-specific acceptance tests remain open.",
+    "Python vended swarm tool and the A2A/bidirectional agent families are separate work.",
+    "Native snapshot JSON is not the foreign TS/Python wire format; migration/import conformance is separate.",
+    "Per-symbol signatures and all members remain subject to EXPORT_SYMBOL_INVENTORY conformance; related names do not establish full parity."
+  ],
+  "explicit_native_differences": [
+    "Pending visit continuation consumes no additional logical MaxSteps visit; TypeScript increments its loop counter for resume attempts.",
+    "Multiple tool handoffs use normalized accepted success and assistant call order, rather than timing-dependent body mutations.",
+    "AfterNode cleanup callbacks run for paused visits; Python suppresses this callback while interrupted.",
+    "Synchronous construction defers reset snapshot capture until initialization; CreateAsync captures before returning.",
+    "Finite portable deadlines are validated within Int32 milliseconds; null represents an unbounded deadline.",
+    "Caller cancellation cooperatively drains owned iterators and propagates even under failed-result policies."
+  ]
+}

@@ -1,0 +1,387 @@
+name: ".NET: Test, Format, and Pack"
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: true
+        type: string
+      native-assets-ready:
+        type: boolean
+        default: false
+      portaudio-assets-ready:
+        type: boolean
+        default: false
+      nova-assets-ready:
+        type: boolean
+        default: false
+      windows-runner:
+        type: string
+        default: strands-agents_windows-latest_4-core
+      linux-runner:
+        type: string
+        default: strands-agents_ubuntu-latest_4-core
+
+jobs:
+  native:
+    if: ${{ !inputs.native-assets-ready }}
+    uses: ./.github/workflows/dotnet-monty.yml
+    permissions:
+      contents: read
+    with:
+      ref: ${{ inputs.ref }}
+      windows-runner: ${{ inputs.windows-runner }}
+      linux-runner: ${{ inputs.linux-runner }}
+
+  native-portaudio:
+    if: ${{ !inputs.portaudio-assets-ready }}
+    uses: ./.github/workflows/dotnet-portaudio.yml
+    with:
+      ref: ${{ inputs.ref }}
+      windows-runner: ${{ inputs.windows-runner }}
+
+  native-nova:
+    if: ${{ !inputs.nova-assets-ready }}
+    uses: ./.github/workflows/dotnet-nova.yml
+    with:
+      ref: ${{ inputs.ref }}
+      windows-runner: ${{ inputs.windows-runner }}
+
+  test-lint-pack:
+    needs: [native, native-portaudio, native-nova]
+    if: ${{ !cancelled() && (needs.native.result == 'success' || needs.native.result == 'skipped') && (needs.native-portaudio.result == 'success' || needs.native-portaudio.result == 'skipped') && (needs.native-nova.result == 'success' || needs.native-nova.result == 'skipped') }}
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: '${{ inputs.linux-runner }}', name: 'Test, Format, and Pack' }
+          - { os: '${{ inputs.windows-runner }}', name: 'Test, Format, and Pack (Windows)' }
+          - { os: macos-latest, name: 'Test, Format, and Pack (macOS)' }
+    defaults:
+      run:
+        working-directory: strands-dotnet
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+      NativeNovaAssetsPath: ${{ github.workspace }}/strands-dotnet/artifacts/nova-native
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+
+      - name: Set up .NET SDKs and runtimes
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Install Linux audio runtime prerequisites without accessing devices
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt-get update
+          alsa_package=libasound2
+          if apt-cache show libasound2t64 >/dev/null 2>&1; then alsa_package=libasound2t64; fi
+          sudo apt-get install --yes --no-install-recommends "$alsa_package" libjack-jackd2-0
+
+      - name: Set up the offline source-audit interpreter
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Select the configured Python interpreter for local sandbox tests
+        shell: pwsh
+        run: |
+          $selectedPythonLauncher = (Get-Command python -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
+          if (-not [IO.Path]::IsPathRooted($selectedPythonLauncher) -or -not (Test-Path -LiteralPath $selectedPythonLauncher -PathType Leaf)) { throw 'setup-python did not select an absolute Python executable.' }
+          # A macOS framework launcher can re-exec a different binary. Pin that binary
+          # before testing exact interpreter identity through the configured PATH.
+          $pythonIdentityCode = 'import hashlib,json,os,sys; p=os.path.realpath(sys.executable); print(json.dumps({"Executable":p,"SHA256":hashlib.sha256(open(p,"rb").read()).hexdigest(),"Bytes":os.stat(p).st_size}))'
+          $launcherReport = @(& $selectedPythonLauncher -c $pythonIdentityCode)
+          if ($LASTEXITCODE -ne 0) { throw 'The setup-selected Python launcher could not report its interpreter.' }
+          $launcherIdentity = ($launcherReport -join [Environment]::NewLine) | ConvertFrom-Json
+          $selectedPython = [string] $launcherIdentity.Executable
+          if (-not [IO.Path]::IsPathRooted($selectedPython) -or -not (Test-Path -LiteralPath $selectedPython -PathType Leaf)) { throw 'The selected Python launcher did not report an existing absolute interpreter.' }
+          $binaryReport = @(& $selectedPython -c $pythonIdentityCode)
+          if ($LASTEXITCODE -ne 0) { throw 'The selected Python interpreter could not execute directly.' }
+          $binaryIdentity = ($binaryReport -join [Environment]::NewLine) | ConvertFrom-Json
+          if ($binaryIdentity.Executable -cne $selectedPython -or $binaryIdentity.SHA256 -cne $launcherIdentity.SHA256 -or $binaryIdentity.Bytes -ne $launcherIdentity.Bytes) { throw 'The selected Python launcher and direct interpreter identities differ.' }
+          "STRANDS_PYTHON_EXECUTABLE=$selectedPython" | Out-File -LiteralPath $env:GITHUB_ENV -Encoding utf8 -Append
+          (Split-Path -Parent $selectedPython) | Out-File -LiteralPath $env:GITHUB_PATH -Encoding utf8 -Append
+          [pscustomobject]@{ Launcher=$selectedPythonLauncher; Interpreter=$selectedPython; SHA256=$binaryIdentity.SHA256; Bytes=$binaryIdentity.Bytes } | ConvertTo-Json
+
+      - name: Select native Bash for shell feature tests
+        shell: pwsh
+        run: |
+          if ([Environment]::OSVersion.Platform -eq [PlatformID]::Win32NT) {
+            $selectedBash = Join-Path $env:ProgramFiles 'Git/bin/bash.exe'
+          } else { $selectedBash = (Get-Command bash -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source }
+          if (-not [IO.Path]::IsPathRooted($selectedBash) -or -not (Test-Path -LiteralPath $selectedBash -PathType Leaf)) { throw 'An existing native Bash executable is required; Windows uses Git Bash, not WSL.' }
+          "STRANDS_BASH_TEST_EXECUTABLE=$selectedBash" | Out-File -LiteralPath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Verify pinned private schema source
+        run: python src/Strands.Agents.Schema.Private/provenance/verify.py
+
+      - name: Verify package identity selection with Bidi and Audio together
+        shell: pwsh
+        run: ./scripts/tests/Test-BidiPackageSelection.Contract.Tests.ps1 -ProductionScript ./src/Strands.Agents.Bidi/validation/Test-Package.ps1 -EvidenceDirectory artifacts/test-results/bidi-package-selection
+
+      - name: Verify native artifact transfer and packaged-input routing
+        shell: pwsh
+        run: ./scripts/tests/Test-DotNetCI.Contract.Tests.ps1 -RepositoryRoot .. -EvidenceDirectory artifacts/test-results/ci-contracts
+
+      - name: Restore
+        run: dotnet restore Strands.slnx
+
+      - name: Download all verified native Monty workers
+        uses: actions/download-artifact@v8.0.1
+        with:
+          pattern: monty-native-*
+          path: strands-dotnet/artifacts/monty-native-archives
+          merge-multiple: true
+      - name: Expand the verified native Monty tar carriers
+        shell: pwsh
+        working-directory: strands-dotnet
+        run: ./src/Strands.Agents.Monty/native/Expand-NativeArtifacts.ps1 -ArchiveDirectory artifacts/monty-native-archives -DestinationDirectory artifacts/monty-native
+
+      - name: Download the verified PortAudio Windows native assets
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: portaudio-native-windows
+          path: strands-dotnet/artifacts/portaudio-native
+
+      - name: Download the verified Nova Windows transport assets
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: nova-native-windows
+          path: strands-dotnet/artifacts/nova-native
+
+      - name: Build all target frameworks
+        run: dotnet build Strands.slnx --configuration Release --no-restore
+
+      - name: Check formatting and analyzers
+        run: dotnet format Strands.slnx --verify-no-changes --no-restore --exclude src/Strands.Agents.Schema.Private/Upstream src/Strands.Agents.Schema.Private/PointerUpstream src/Strands.Agents.Schema.Private/MoreUpstream
+
+      - name: Test .NET 8
+        run: dotnet test Strands.slnx --configuration Release --framework net8.0 --no-build --no-restore --logger "console;verbosity=normal" --logger trx --results-directory artifacts/test-results/net8 --blame-hang-timeout 120s --blame-hang-dump-type mini -- RunConfiguration.TreatNoTestsAsError=true
+
+      - name: Test .NET 10
+        run: dotnet test Strands.slnx --configuration Release --framework net10.0 --no-build --no-restore --logger "console;verbosity=normal" --logger trx --results-directory artifacts/test-results/net10 --blame-hang-timeout 120s --blame-hang-dump-type mini -- RunConfiguration.TreatNoTestsAsError=true
+
+      - name: Test compatibility on .NET Framework 4.8
+        if: runner.os == 'Windows'
+        run: dotnet test tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj --configuration Release --framework net48 --no-build --no-restore --logger trx --results-directory artifacts/test-results/net48 -- RunConfiguration.TreatNoTestsAsError=true
+
+      - name: Test bidirectional SDK on .NET Framework 4.8
+        if: runner.os == 'Windows'
+        run: dotnet test tests/Strands.Bidi.Tests/Strands.Bidi.Tests.csproj --configuration Release --framework net48 --no-build --no-restore --logger trx --results-directory artifacts/test-results/bidi-net48 -- RunConfiguration.TreatNoTestsAsError=true
+
+      - name: Test optional audio on .NET Framework 4.8 without device access
+        if: runner.os == 'Windows'
+        env:
+          STRANDS_TEST_PROCESS_ARCHITECTURE: x64
+        run: dotnet test tests/Strands.Bidi.Audio.Tests/Strands.Bidi.Audio.Tests.csproj --configuration Release --framework net48 --no-build --no-restore --logger trx --results-directory artifacts/test-results/audio-net48 -- RunConfiguration.TreatNoTestsAsError=true RunConfiguration.TargetPlatform=x64
+
+      - name: Test S3 storage on .NET Framework 4.8
+        if: runner.os == 'Windows'
+        env:
+          STRANDS_TEST_PROCESS_ARCHITECTURE: x64
+        run: dotnet test tests/Strands.S3.Tests/Strands.S3.Tests.csproj --configuration Release --framework net48 --no-build --no-restore --logger trx --results-directory artifacts/test-results/s3-net48 -- RunConfiguration.TreatNoTestsAsError=true RunConfiguration.TargetPlatform=x64
+
+      - name: Test SQLite storage on .NET Framework 4.8
+        if: runner.os == 'Windows'
+        env:
+          STRANDS_TEST_PROCESS_ARCHITECTURE: x64
+        run: dotnet test tests/Strands.Sqlite.Tests/Strands.Sqlite.Tests.csproj --configuration Release --framework net48 --no-build --no-restore --logger trx --results-directory artifacts/test-results/sqlite-net48 -- RunConfiguration.TreatNoTestsAsError=true RunConfiguration.TargetPlatform=x64
+
+      - name: Test Knowledge Base retrieval on .NET Framework 4.8
+        if: runner.os == 'Windows'
+        env:
+          STRANDS_TEST_PROCESS_ARCHITECTURE: x64
+        run: dotnet test tests/Strands.BedrockKnowledgeBase.Tests/Strands.BedrockKnowledgeBase.Tests.csproj --configuration Release --framework net48 --no-build --no-restore --logger trx --results-directory artifacts/test-results/knowledge-base-net48 -- RunConfiguration.TreatNoTestsAsError=true RunConfiguration.TargetPlatform=x64
+
+      - name: Test Google credentials on .NET Framework 4.8
+        if: runner.os == 'Windows'
+        env:
+          STRANDS_TEST_PROCESS_ARCHITECTURE: x64
+        run: dotnet test tests/Strands.GoogleAuth.Tests/Strands.GoogleAuth.Tests.csproj --configuration Release --framework net48 --no-build --no-restore --logger trx --results-directory artifacts/test-results/google-auth-net48 -- RunConfiguration.TreatNoTestsAsError=true RunConfiguration.TargetPlatform=x64
+
+      - name: Run offline getting-started example
+        run: dotnet run --project examples/GettingStarted/GettingStarted.csproj --configuration Release --framework net10.0 --no-build --no-restore -- --demo
+
+      - name: Test OpenTelemetry SDK on .NET Framework 4.8
+        if: runner.os == 'Windows'
+        run: dotnet test tests/Strands.OpenTelemetry.Tests/Strands.OpenTelemetry.Tests.csproj --configuration Release --framework net48 --no-build --no-restore --logger trx --results-directory artifacts/test-results/opentelemetry-net48 -- RunConfiguration.TreatNoTestsAsError=true
+
+      - name: Run offline getting-started example on .NET Framework 4.8
+        if: runner.os == 'Windows'
+        run: dotnet run --project examples/GettingStarted/GettingStarted.csproj --configuration Release --framework net48 --no-build --no-restore -- --demo
+
+      - name: Validate NuGet packages
+        run: dotnet pack Strands.slnx --configuration Release --no-restore --output artifacts/packages
+
+      - name: Test consuming packed NuGet packages
+        shell: pwsh
+        run: ./scripts/Test-Packages.ps1
+
+      - name: Test fresh Core and GoogleAuth NuGet consumers on .NET 8 and 10
+        shell: pwsh
+        run: ./scripts/Test-ManagedPackages.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-managed-package')
+
+      - name: Retain Core and GoogleAuth package diagnostics
+        if: always()
+        shell: pwsh
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-managed-package'
+          if (Test-Path -LiteralPath $scratch) {
+            Get-ChildItem -LiteralPath $scratch -Recurse -File | Where-Object { $_.Name -eq 'summary.json' -or ($_.FullName.StartsWith((Join-Path $scratch 'consumers'), [StringComparison]::OrdinalIgnoreCase) -and ($_.Extension -eq '.log' -or $_.Name -eq 'project.assets.json')) } | ForEach-Object {
+              $relative = $_.FullName.Substring($scratch.Length).TrimStart([IO.Path]::DirectorySeparatorChar)
+              $destination = Join-Path 'artifacts/test-results/managed-package' $relative
+              New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
+              Copy-Item -LiteralPath $_.FullName -Destination $destination
+            }
+          }
+
+      - name: Test consuming the Bedrock NuGet package
+        shell: pwsh
+        run: ./src/Strands.Agents.Bedrock/validation/Test-Package.ps1 -PackageDirectory artifacts/packages
+
+      - name: Test consuming the SageMaker NuGet package
+        shell: pwsh
+        run: ./src/Strands.Agents.SageMaker/validation/Test-Package.ps1 -PackageDirectory artifacts/packages
+
+      - name: Test consuming the bidirectional NuGet package
+        shell: pwsh
+        run: ./src/Strands.Agents.Bidi/validation/Test-Package.ps1 -PackageDirectory artifacts/packages
+
+      - name: Test the Framework Nova package native ABI without opening a connection
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./src/Strands.Agents.Bedrock/validation/Test-Framework48NovaPackage.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-nova-package')
+
+      - name: Retain Framework Nova native ABI package diagnostics
+        if: always() && runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-nova-package'
+          if (Test-Path -LiteralPath $scratch) {
+            Get-ChildItem -LiteralPath $scratch -Recurse -File | Where-Object { $_.Name -eq 'summary.json' -or $_.Extension -eq '.log' } | ForEach-Object {
+              $relative = $_.FullName.Substring($scratch.Length).TrimStart([IO.Path]::DirectorySeparatorChar)
+              $destination = Join-Path 'artifacts/test-results/nova-package' $relative
+              New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
+              Copy-Item -LiteralPath $_.FullName -Destination $destination
+            }
+          }
+
+      - name: Test consuming and publishing the optional Audio NuGet package
+        shell: pwsh
+        run: ./src/Strands.Agents.Bidi.Audio/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-audio-package')
+
+      - name: Retain optional Audio package diagnostics
+        if: always()
+        shell: pwsh
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-audio-package'
+          if (Test-Path -LiteralPath $scratch) {
+            New-Item -ItemType Directory -Path artifacts/test-results/audio-package -Force | Out-Null
+            Get-ChildItem -LiteralPath $scratch -Recurse -File | Where-Object { $_.Name -match '(summary|package-assets)\.json$|\.log$' } | ForEach-Object {
+              $relative = $_.FullName.Substring($scratch.Length).TrimStart([IO.Path]::DirectorySeparatorChar)
+              $target = Join-Path 'artifacts/test-results/audio-package' $relative
+              New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+              Copy-Item -LiteralPath $_.FullName -Destination $target
+            }
+          }
+
+      - name: Test consuming the OpenTelemetry NuGet package
+        shell: pwsh
+        run: ./src/Strands.Agents.OpenTelemetry/validation/Test-Package.ps1 -PackageDirectory artifacts/packages
+
+      - name: Test consuming the S3 NuGet package
+        shell: pwsh
+        run: ./src/Strands.Agents.S3/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-s3-package')
+
+      - name: Retain S3 package consumer diagnostics
+        if: always()
+        shell: pwsh
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-s3-package'
+          $evidence = 'artifacts/test-results/s3-package'
+          New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+          if (Test-Path -LiteralPath (Join-Path $scratch 'summary.json')) { Copy-Item -LiteralPath (Join-Path $scratch 'summary.json') -Destination $evidence }
+          foreach ($variant in @('net8.0', 'net10.0', 'framework-x64', 'framework-x86')) {
+            foreach ($name in @('restore.log', 'build.log', 'consumer.log')) {
+              $log = Join-Path (Join-Path $scratch $variant) $name
+              if (Test-Path -LiteralPath $log) {
+                $destination = Join-Path $evidence $variant
+                New-Item -ItemType Directory -Path $destination -Force | Out-Null
+                Copy-Item -LiteralPath $log -Destination $destination
+              }
+            }
+          }
+
+      - name: Test consuming the SQLite NuGet package
+        shell: pwsh
+        run: ./src/Strands.Agents.Sqlite/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-sqlite-package')
+
+      - name: Retain SQLite package consumer diagnostics
+        if: always()
+        shell: pwsh
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-sqlite-package'
+          $evidence = 'artifacts/test-results/sqlite-package'
+          New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+          if (Test-Path -LiteralPath (Join-Path $scratch 'summary.json')) { Copy-Item -LiteralPath (Join-Path $scratch 'summary.json') -Destination $evidence }
+          foreach ($variant in @('net8.0', 'net10.0', 'framework-x64', 'framework-x86')) {
+            foreach ($name in @('restore.log', 'build.log', 'write.log', 'read.log')) {
+              foreach ($suffix in @('', '.stdout.bin', '.stderr.bin')) {
+                $log = Join-Path (Join-Path $scratch $variant) ($name + $suffix)
+                if (Test-Path -LiteralPath $log) {
+                  $destination = Join-Path $evidence $variant
+                  New-Item -ItemType Directory -Path $destination -Force | Out-Null
+                  Copy-Item -LiteralPath $log -Destination $destination
+                }
+              }
+            }
+          }
+
+      - name: Test consuming the Knowledge Base NuGet package
+        shell: pwsh
+        run: ./src/Strands.Agents.BedrockKnowledgeBase/validation/Test-Package.ps1 -PackageDirectory artifacts/packages -ScratchDirectory (Join-Path $env:RUNNER_TEMP 'strands-knowledge-base-package')
+
+      - name: Retain Knowledge Base package consumer diagnostics
+        if: always()
+        shell: pwsh
+        run: |
+          $scratch = Join-Path $env:RUNNER_TEMP 'strands-knowledge-base-package'
+          $evidence = 'artifacts/test-results/knowledge-base-package'
+          New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+          if (Test-Path -LiteralPath (Join-Path $scratch 'summary.json')) { Copy-Item -LiteralPath (Join-Path $scratch 'summary.json') -Destination $evidence }
+          foreach ($variant in @('net8.0', 'net10.0', 'framework-x64', 'framework-x86')) {
+            foreach ($name in @('restore.log', 'build.log', 'consumer.log', 'consumer-receipt.json')) {
+              foreach ($suffix in @('', '.stdout.bin', '.stderr.bin')) {
+                $log = Join-Path (Join-Path $scratch $variant) ($name + $suffix)
+                if (Test-Path -LiteralPath $log) {
+                  $destination = Join-Path $evidence $variant
+                  New-Item -ItemType Directory -Path $destination -Force | Out-Null
+                  Copy-Item -LiteralPath $log -Destination $destination
+                }
+              }
+            }
+          }
+
+      - name: Retain test results and hang diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: strands-dotnet-${{ runner.os }}-test-results
+          path: strands-dotnet/artifacts/test-results/
+          retention-days: 7
+          if-no-files-found: warn

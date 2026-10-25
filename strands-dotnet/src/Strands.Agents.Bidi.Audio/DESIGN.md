@@ -1,0 +1,7 @@
+# Design notes
+
+The public helper composes the existing `IBidiInputStream`, `IBidiOutputStream` and `BidiAgent.RunAsync` lifetime. One private device boundary substitutes deterministic callbacks for real PortAudio in tests. It separates native ownership from managed queues/DSP without adding a public transport framework. Device callbacks never await provider I/O; capture processing runs on the managed input pump. Native callback failures signal the active read and remain inside the unmanaged boundary, then normal Run cleanup joins both streams.
+
+This follows the readability check already recorded in [VALIDATION.md](../../docs/VALIDATION.md): [Scott Hanselman's discussion of discoverable APIs and unnecessary indirection](https://www.hanselman.com/blog/im-just-a-caveman-the-hanselman-corollary-to-the-clarkewheeler-laws). The abstraction exists to isolate an actual device responsibility and testing seam. This is our design choice, not an endorsement.
+
+PortAudio bindings explicitly use Cdecl. C `unsigned long` is 32 bits on Windows (including x64), and pointer-sized on the supported Unix ABIs. Callbacks and the native module stay rooted through physical stream closure. A failed native close retains its callback rather than risk use-after-free; the close error is reported. A conservative adaptive echo filter, spectral floor estimate and gain control provide native .NET feature outcomes without reproducing another SDK's implementation internals. Offline quality thresholds were established in tests before implementation and are retained when fixing defects.

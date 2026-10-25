@@ -1,0 +1,107 @@
+{
+  "UpstreamBaseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "Scope": "Standalone local traces, native activities, explicit sync/async context activation, legacy/latest content conventions and sensitive-attribute policy. Agent/multi-agent/memory integration, latest-invocation token selection, metrics and exporter setup remain pending.",
+  "BehaviorCases": 46,
+  "ObservedRuntimeRedToGreen": 35,
+  "ImmediatelyGreen": 11,
+  "PassingManagedExecutions": 186,
+  "Failed": 0,
+  "Skipped": 0,
+  "LocalFrameworkIsClean48": false,
+  "SourceFiles": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/TraceConventions.cs",
+      "Sha256": "9DB71963785242A24DC0AFDE5BD737D524DD3DE2EC72FE96BA490E2C0642BBD9"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/TraceContent.cs",
+      "Sha256": "7B1C5CA04AC4C11BDBE43B2C991F74180DB0FAC462EC3602CB3F4DBAD5891AC2"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/TelemetryContentTests.cs",
+      "Sha256": "6474FE05DEB1F0F84B73DE1D9F483A0E214EFBCFF5394639957362D97FE21167"
+    },
+    {
+      "Path": "strands-dotnet/docs/TELEMETRY_LOCAL_SCOPE.json",
+      "Sha256": "B631DAB65358A7C4512457E4F3437817BB16E647CF2DD1253B9FD005800EC8D5"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/AgentTrace.cs",
+      "Sha256": "AC199E49A167BE158166092F73FC361B67A5E671ECEBE7B51EF1BAA66934FED5"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/Tracer.cs",
+      "Sha256": "F4C4243996FD773AECF080F7ED7CE04B10A47AE90461A2C353A035F689C73E06"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/TraceSpan.cs",
+      "Sha256": "689F2E79AE7C86E3728CCFE6B2D22F8F6BF10BDC3506ADE670D269062CB4FBF2"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/AgentTraceTests.cs",
+      "Sha256": "A1300C3D02950E2233F101780648628A7417ABDDBE217483A343BC270044ABAE"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/TracerTests.cs",
+      "Sha256": "145E80E6B95F70E10789F46906234D8C7871EE8774846C0D8A659B4F4BAA9B3D"
+    },
+    {
+      "Path": "strands-dotnet/docs/TELEMETRY.md",
+      "Sha256": "DFAC6A1199780E63A81606AE1C0D61A03FF74A0B7E46F1349FB1180BED1837DB"
+    }
+  ],
+  "ObservedSharedDependencies": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Strands.Agents.csproj",
+      "Sha256": "6CED110D429A2A3E00E265B75F61E5407C06226F3205E86FEADD12703609BD9A"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Messages.cs",
+      "Sha256": "B032ACAF7EF7F838953C90D7C4D9E3CCB7D4B9604EFBF98E8EFCB5DD400ED0B7"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Compatibility.Tests/Strands.Compatibility.Tests.csproj",
+      "Sha256": "F724CEB4DB120E0197C940C37A2FB0AB70F1B85B2D1F14C87BD87C6EFBCCE5F7"
+    }
+  ],
+  "Tests": [
+    {
+      "Path": "work/telemetry-results/content46-final/core-net8.0/18126_DESKTOP-47NGAFF_2026-10-20_22_21_30_net8.0.trx",
+      "Target": "core-net8.0",
+      "Passed": 46,
+      "Sha256": "E4051AE7F2DB28223AAF9FF9D9A71C2FD834CD2CB9C979E2654A986FF82E3A42"
+    },
+    {
+      "Path": "work/telemetry-results/content46-final/core-net10.0/18126_DESKTOP-47NGAFF_2026-10-20_22_21_36_net10.0.trx",
+      "Target": "core-net10.0",
+      "Passed": 46,
+      "Sha256": "DEDF8CB73B26AC51216139AC37CAF0876E96D5F4579D9638EAFA773C0452FFC6"
+    },
+    {
+      "Path": "work/telemetry-results/content46-final/net48-x64/18126_DESKTOP-47NGAFF_2026-10-20_22_21_48_net48.trx",
+      "Target": "net48-x64",
+      "Passed": 47,
+      "Sha256": "B065E410FA7254806D1681D14E6CDA059791AECCFAB0F9EA7E3385246377236D"
+    },
+    {
+      "Path": "work/telemetry-results/content46-final/net48-x86/18126_DESKTOP-47NGAFF_2026-10-20_22_21_57_net48.trx",
+      "Target": "net48-x86",
+      "Passed": 47,
+      "Sha256": "D6C7079C70CE2DA9A1A3FB7E9E80FCE38556898225EBB839B9239E2A79F72CFB"
+    }
+  ],
+  "RedEvidence": [
+    "work/telemetry-results/local-red",
+    "work/telemetry-results/tracer-runtime-red",
+    "work/telemetry-results/observer-red",
+    "work/telemetry-results/usage-red",
+    "work/telemetry-results/content-red",
+    "work/telemetry-results/tool-content-red",
+    "work/telemetry-results/context-activation-red",
+    "work/telemetry-results/provider-text-red",
+    "work/telemetry-results/python-status-red"
+  ],
+  "Formatting": "Eight owned source/test documents selected with exact project-relative paths; deliberate leading-whitespace probes normalized in all eight, then zero-change verification. Directory-only and absolute include attempts selected zero documents and are not proof.",
+  "PeerReview": "Independent read-only review passed for content/context and explicit Python tool-result-status profile, including original-exception precedence and empty-text source semantics.",
+  "Packaging": "This component has not yet undergone frozen combined NuGet/API validation; later integration must include its explicit DiagnosticSource10.0.10 dependency."
+}

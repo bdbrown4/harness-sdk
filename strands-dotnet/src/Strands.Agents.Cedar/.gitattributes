@@ -1,0 +1,2 @@
+native/license-overrides/** -text -whitespace
+native/**/*.sh text eol=lf

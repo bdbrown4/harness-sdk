@@ -1,0 +1,12 @@
+<Project>
+  <!-- Framework has no runtime native-asset resolver. The adapter selects the
+       architecture-specific folder, including in an AnyCPU application. -->
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <Content Include="$(MSBuildThisFileDirectory)../runtimes/**/*.dll">
+      <Link>runtimes/%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <TargetPath>runtimes/%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

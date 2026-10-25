@@ -1,0 +1,109 @@
+{
+  "Baseline": "3bd98e618320f0f286acbfb2252f72388030421b",
+  "Scope": "Standalone local metric collection and native System.Diagnostics.Metrics emission; explicit manual integration only",
+  "RuntimeFiles": 4,
+  "TestFiles": 2,
+  "DocumentationFiles": 2,
+  "NewMetricContracts": 27,
+  "ObservedRuntimeRedToGreen": 10,
+  "ImmediatelyGreenConformance": 17,
+  "TelemetryContractsPerModernTarget": 73,
+  "TelemetryContractsPerFrameworkArchitecture": 74,
+  "ManagedExecutions": 294,
+  "NewMetricExecutions": 108,
+  "Failed": 0,
+  "Skipped": 0,
+  "LocalFrameworkRelease": 534296,
+  "LocalFrameworkIsClean48": false,
+  "Build": "Core all three assets and compatibility targets; zero warnings/errors",
+  "Formatting": "Positive namespace-whitespace probe proves exact project-relative coverage for all six owned C# files; subsequent verification is clean",
+  "Review": "Independent SDK peer review PASS for ownership, snapshots, checked arithmetic, native conventions and callback isolation",
+  "Dependency": "System.Diagnostics.DiagnosticSource10.0.10, already referenced by the tracing increment",
+  "PendingGates": [
+    "Combined immutable integration and package/API consumers",
+    "Latest-source macOS and clean Framework4.8-only execution",
+    "Automatic Agent metrics/result integration",
+    "Exporter setup and live interoperability",
+    "Remaining SDK/harness parity"
+  ],
+  "Files": [
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/Metrics/AgentCycle.cs",
+      "Sha256": "C5CF2F992CD8CF3AF2AEB93D54E2DB8C8A0AA587E0C297E74C75FD409B941685"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/Metrics/AgentMeter.cs",
+      "Sha256": "8A201984C86191C3FB155A2D0C84A1AC9A15B6C755C9F266CEF23DD4DB9BA4CD"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/Metrics/AgentMetrics.cs",
+      "Sha256": "220C69BE3B7FC90F886842DFD39C280E6EB7AF3039E64164CFF55AAB8BF4B309"
+    },
+    {
+      "Path": "strands-dotnet/src/Strands.Agents/Telemetry/Metrics/MetricEmitter.cs",
+      "Sha256": "9D144A9B0B7ACD05C814BAB3D596EAEF87EA5CFC78FED7C4E7087506E5E68AA5"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/Metrics/AgentMeterTests.cs",
+      "Sha256": "21E850C228A30D7BD4A78CECFB4ED88313B0FF39A796E74983FA012BCFACE318"
+    },
+    {
+      "Path": "strands-dotnet/tests/Strands.Agents.Tests/Telemetry/Metrics/NativeMetricTests.cs",
+      "Sha256": "3BE00BEC206B6EB3B39893D356C644021066367EE8C695FD0D1A8D5C2CE7A291"
+    },
+    {
+      "Path": "strands-dotnet/docs/TELEMETRY.md",
+      "Sha256": "3555E98A7A3C63AC96A66BD6E631C372759215CEDEE921D5AA1E99142287337A"
+    },
+    {
+      "Path": "strands-dotnet/docs/TELEMETRY_METRICS.md",
+      "Sha256": "E41A006D88137BD852B305779C46FB054C2836929C983D46084E016D13AFD4BB"
+    }
+  ],
+  "FinalRuns": [
+    {
+      "Path": "telemetry-results\\metrics27-normalized-final\\core-net10.0\\18126_DESKTOP-47NGAFF_2026-10-20_22_47_00_net10.0.trx",
+      "Total": 73,
+      "MetricCases": 27,
+      "Sha256": "111E0F6220D6D797D3A5A0FA9E4485FAB34D6CC987DABCD0898195F7C4B583A4"
+    },
+    {
+      "Path": "telemetry-results\\metrics27-normalized-final\\core-net8.0\\18126_DESKTOP-47NGAFF_2026-10-20_22_46_52_net8.0.trx",
+      "Total": 73,
+      "MetricCases": 27,
+      "Sha256": "ED9D2508F72EFBCE82B1869A65F475F9CB299537844B1ACA7E5033E606AA20DF"
+    },
+    {
+      "Path": "telemetry-results\\metrics27-normalized-final\\net48-x64\\18126_DESKTOP-47NGAFF_2026-10-20_22_47_15_net48.trx",
+      "Total": 74,
+      "MetricCases": 27,
+      "Sha256": "E39112D66A8A46CD30BD40B0C65BDC261F67C77781E1F3312B8DB0C16F3415A4"
+    },
+    {
+      "Path": "telemetry-results\\metrics27-normalized-final\\net48-x86\\18126_DESKTOP-47NGAFF_2026-10-20_22_47_28_net48.trx",
+      "Total": 74,
+      "MetricCases": 27,
+      "Sha256": "1140821283B661D30E8AF0F88C9D9F39C7ABE9851A50297E4B632B83478C8EF6"
+    }
+  ],
+  "RuntimeRedEvidence": [
+    {
+      "Path": "telemetry-results\\metrics-red3\\18126_DESKTOP-47NGAFF_2026-10-20_22_33_36_net10.0.trx",
+      "Failed": 3,
+      "Passed": 0,
+      "Sha256": "AE1398BEDB8002EB01107F336BBA867FCC57B462AE5D50CB3B05370C3C111460"
+    },
+    {
+      "Path": "telemetry-results\\metrics-emission-red2\\18126_DESKTOP-47NGAFF_2026-10-20_22_37_31_net10.0.trx",
+      "Failed": 5,
+      "Passed": 15,
+      "Sha256": "197DB1C631A8566D5BCB89634E5F3C0A35E5B70E81C2102EFA0A0B6372E70D2C"
+    },
+    {
+      "Path": "telemetry-results\\metrics-injection-red2\\18126_DESKTOP-47NGAFF_2026-10-20_22_41_12_net10.0.trx",
+      "Failed": 2,
+      "Passed": 0,
+      "Sha256": "97173C582834D0487C913BCEBC7C7E2EEBE4BFC65FCBDB7C402852FE94AE565F"
+    }
+  ]
+}

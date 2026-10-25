@@ -1,0 +1,1 @@
+Original MIT license from pydantic/monty tag v0.0.23, commit 302e0f27ec8516689ba90793cd0381149e5f4076. The monty, monty-types and monty-alloc 0.0.23 crate archives identify this commit in .cargo_vcs_info.json but omit the repository-level LICENSE. Source: https://github.com/pydantic/monty/blob/302e0f27ec8516689ba90793cd0381149e5f4076/LICENSE

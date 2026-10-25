@@ -1,0 +1,25 @@
+{
+  "Capability": "FileSessionStore extended absolute Windows path handling",
+  "BaselineCommit": "3441cabeed60990e298f251155c96aa565b5710d",
+  "BaselineArchive": "outputs/tested-source-3441cab.zip",
+  "BaselineArchiveSha256": "484968D93868F45492582128F3819558D8A06D6E99C3EB3AE6E8E15BAF11D9C3",
+  "Owned": [
+    "strands-dotnet/src/Strands.Agents/FileSessionStore.cs",
+    "strands-dotnet/tests/Strands.Agents.Tests/Sessions/FileSessionPathTests.cs",
+    "strands-dotnet/docs/FILE_SESSION_PATHS.md",
+    "strands-dotnet/docs/FILE_SESSION_PATHS_SCOPE.json"
+  ],
+  "RuntimeContracts": 26,
+  "DistinctObservedRuntimeRed": 2,
+  "FirstGreenConformance": 24,
+  "SharedHunk": "Constructor root normalization only; no snapshot, replacement, cancellation, cleanup or generic storage algorithm change",
+  "SeparateUnfixedCharacterization": "24 unleased same-session writers can throw File.Replace IOException; application lease remains required",
+  "Excluded": [
+    "Main or private integration mutations",
+    "Process or host long-path settings",
+    "Unleased same-key multiwriter success guarantees",
+    "Live UNC share proof",
+    "Clean Framework4.8 guest or fresh Linux execution of this increment",
+    "Generic storage, Agent, session managers or indexed repositories"
+  ]
+}

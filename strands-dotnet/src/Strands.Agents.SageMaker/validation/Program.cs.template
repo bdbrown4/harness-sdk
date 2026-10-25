@@ -1,0 +1,53 @@
+using System.Text;
+using System.Text.Json;
+using Amazon;
+using Amazon.Runtime;
+using Amazon.SageMakerRuntime;
+using Amazon.SageMakerRuntime.Model;
+using Strands.Agents;
+using Strands.Agents.SageMaker;
+
+if (args.Length != 0)
+{
+    if (args.Length != 1 || !int.TryParse(args[0], out var expectedPointer) || expectedPointer is not (4 or 8) || IntPtr.Size != expectedPointer)
+        throw new InvalidOperationException("The package consumer has the wrong process architecture.");
+    var asset = (System.Runtime.Versioning.TargetFrameworkAttribute?)Attribute.GetCustomAttribute(typeof(SageMakerAIModel).Assembly, typeof(System.Runtime.Versioning.TargetFrameworkAttribute));
+    if (asset?.FrameworkName != ".NETStandard,Version=v2.0") throw new InvalidOperationException("Framework consumption must select the normal .NET Standard 2.0 asset.");
+    Console.WriteLine($"SageMaker package architecture: pointer={IntPtr.Size}; asset=netstandard2.0");
+}
+
+using var client = new OfflineClient();
+using var model = new SageMakerAIModel(client, new()
+{
+    EndpointName = "offline-package-proof",
+    Payload = new() { Stream = false }
+});
+await using (var agent = new Agent(new() { Model = model }))
+{
+    var result = await agent.InvokeAsync("hello");
+    if (result.Message?.Text != "ok" || result.StopReason != StopReasons.EndTurn)
+        throw new InvalidOperationException("The packed model did not complete an agent turn.");
+}
+var number = await model.InvokeStructuredAsync(new ModelRequest([]), new StructuredOutputOptions<int>
+{
+    Schema = JsonSerializer.SerializeToElement(new { type = "integer" })
+});
+if (number != 7 || client.RequestCount != 2 || client.WasDisposed)
+    throw new InvalidOperationException("Packed structured output or borrowed ownership failed.");
+Console.WriteLine("SageMaker package: agent=ok; structured=7; calls=2; borrowed=true");
+
+sealed class OfflineClient() : AmazonSageMakerRuntimeClient(new AnonymousAWSCredentials(), RegionEndpoint.USEast1)
+{
+    public int RequestCount { get; private set; }
+    public bool WasDisposed { get; private set; }
+    public override Task<InvokeEndpointResponse> InvokeEndpointAsync(InvokeEndpointRequest request, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var content = ++RequestCount == 1 ? "ok" : "7";
+        return Task.FromResult(new InvokeEndpointResponse
+        {
+            Body = new MemoryStream(Encoding.UTF8.GetBytes("{\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"" + content + "\"},\"finish_reason\":\"stop\"}]}"))
+        });
+    }
+    protected override void Dispose(bool disposing) { WasDisposed = true; base.Dispose(disposing); }
+}

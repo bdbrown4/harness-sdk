@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../Shared/TestPaths.cs" Link="Shared/TestPaths.cs" />
+    <EmbeddedResource Include="Context/Fixtures/shared-search.json" />
+    <Compile Remove="Mcp/StdioServer/**/*.cs" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" PrivateAssets="all" />
+    <PackageReference Include="coverlet.collector" Version="6.0.4" PrivateAssets="all" />
+    <ProjectReference Include="../../src/Strands.Agents/Strands.Agents.csproj" />
+    <ProjectReference Include="../../src/Strands.Agents.Schema.Private/Strands.Agents.Schema.Private.csproj" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+  <Import Project="../McpStdioFixture.targets" />
+  <Import Project="../SandboxProcessFixture.targets" />
+  <Import Project="../BinaryPipeFixture.targets" />
+</Project>

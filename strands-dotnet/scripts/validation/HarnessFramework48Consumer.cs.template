@@ -1,0 +1,77 @@
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
+using System.Text.Json;
+using Microsoft.Win32;
+using Strands.Agents;
+using Strands.Harness;
+
+if (args.Length != 1 || !int.TryParse(args[0], NumberStyles.None, CultureInfo.InvariantCulture, out var expectedPointer)
+    || expectedPointer is not (4 or 8) || IntPtr.Size != expectedPointer)
+    throw new InvalidOperationException("The full Harness consumer did not use the requested process architecture.");
+foreach (var assembly in new[] { typeof(Harness).Assembly, typeof(Agent).Assembly })
+{
+    var target = (TargetFrameworkAttribute?)Attribute.GetCustomAttribute(assembly, typeof(TargetFrameworkAttribute));
+    if (target?.FrameworkName != ".NETStandard,Version=v2.0")
+        throw new InvalidOperationException("The full Harness consumer must load the normal .NET Standard 2.0 package assets.");
+}
+foreach (var view in new[] { RegistryView.Registry64, RegistryView.Registry32 })
+{
+    using var machine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
+    using var framework = machine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full");
+    if (framework?.GetValue("Release") is not int release || release < 528040 || release >= 533320)
+        throw new InvalidOperationException("An isolated .NET Framework 4.8 runtime is required in both registry views.");
+}
+
+var schema = JsonSerializer.SerializeToElement(new
+{
+    type = "object",
+    properties = new { x = new { type = "number" }, y = new { type = "number" } },
+    required = new[] { "x", "y" },
+    additionalProperties = false
+});
+var toolCalls = 0;
+var add = new FunctionTool(new ToolSpec("add", "Add two numbers.", schema), (input, _, token) =>
+{
+    token.ThrowIfCancellationRequested();
+    Interlocked.Increment(ref toolCalls);
+    return new ValueTask<string>((input.GetProperty("x").GetDouble() + input.GetProperty("y").GetDouble()).ToString(CultureInfo.InvariantCulture));
+});
+await using var agent = await Harness.CreateAsync(new HarnessOptions
+{
+    Model = new DemoModel(),
+    Instructions = "Use the add tool for addition, then explain the answer briefly.",
+    BuiltinTools = [],
+    Tools = [add],
+    Session = new SessionOptions { Enabled = false }
+}).ConfigureAwait(false);
+var result = await agent.InvokeAsync("What is 2 + 3? Use add.").ConfigureAwait(false);
+if (result.ToString() != "2 + 3 = 5." || result.StopReason != StopReasons.EndTurn || result.Turns != 2 || toolCalls != 1)
+    throw new InvalidOperationException("The full Harness consumer did not complete its real model/tool cycle.");
+Console.WriteLine(result);
+Console.WriteLine($"Stop: {result.StopReason}; model turns: {result.Turns}");
+Console.WriteLine($"Harness package: agent=complete; tool=5; turns=2; pointer={IntPtr.Size}; asset=netstandard2.0; framework=4.8");
+
+internal sealed class DemoModel : IModel
+{
+    public async IAsyncEnumerable<ModelStreamEvent> StreamAsync(ModelRequest request,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        yield return new ModelMessageStartEvent();
+        if (request.Messages[request.Messages.Count - 1].Content.OfType<ToolResultBlock>().FirstOrDefault() is { } toolResult)
+        {
+            yield return new ModelContentBlockStartEvent(0);
+            yield return new ModelContentBlockDeltaEvent(0, Text: $"2 + 3 = {toolResult.Content}.");
+            yield return new ModelContentBlockStopEvent(0);
+            yield return new ModelMessageStopEvent(StopReasons.EndTurn);
+        }
+        else
+        {
+            yield return new ModelContentBlockStartEvent(0, new("demo-add", "add", JsonSerializer.SerializeToElement(new { x = 2, y = 3 })));
+            yield return new ModelContentBlockStopEvent(0);
+            yield return new ModelMessageStopEvent(StopReasons.ToolUse);
+        }
+        await Task.CompletedTask.ConfigureAwait(false);
+    }
+}
